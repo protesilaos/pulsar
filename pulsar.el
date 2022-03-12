@@ -268,17 +268,17 @@ The symbol is NAME, DOC for the doc string, and ARG is passed to
 (declare-function outline-show-entry "outline")
 
 (defun pulsar-reveal-entry ()
-  "Reveal Org or Outline entry and pulse line."
+  "Reveal Org or Outline entry.
+Use this in combination with `pulsar-recenter-top' or
+`pulsar-recenter-middle'."
   (cond
    ((and (eq major-mode 'org-mode)
          (org-at-heading-p))
-    (org-show-entry)
-    (pulsar-pulse-line))
+    (org-show-entry))
    ((and (or (eq major-mode 'outline-mode)
              (bound-and-true-p outline-minor-mode))
          (outline-on-heading-p))
-    (outline-show-entry)
-    (pulsar-pulse-line))))
+    (outline-show-entry))))
 
 (provide 'pulsar)
 ;;; pulsar.el ends here
