@@ -133,23 +133,34 @@ Remember to read the doc string of each of these variables.
 #+begin_src emacs-lisp
 (require 'pulsar)
 
-(customize-set-variable 
+(customize-set-variable
  'pulsar-pulse-functions ; Read the doc string for why not `setq'
  '(recenter-top-bottom
    move-to-window-line-top-bottom
    reposition-window
    bookmark-jump
    other-window
+   delete-window
+   delete-other-windows
    forward-page
    backward-page
    scroll-up-command
    scroll-down-command
+   windmove-right
+   windmove-left
+   windmove-up
+   windmove-down
+   windmove-swap-states-right
+   windmove-swap-states-left
+   windmove-swap-states-up
+   windmove-swap-states-down
+   tab-new
+   tab-close
+   tab-next
    org-next-visible-heading
    org-previous-visible-heading
    org-forward-heading-same-level
    org-backward-heading-same-level
-   org-tree-slide-move-next-tree
-   org-tree-slide-move-previous-tree
    outline-backward-same-level
    outline-forward-same-level
    outline-next-visible-heading
