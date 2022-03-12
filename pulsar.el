@@ -256,11 +256,6 @@ The symbol is NAME, DOC for the doc string, and ARG is passed to
   0)
 
 (pulsar-recenter
-  pulsar-recenter-bottom
-  "Reposition point at the bottom of the window and pulse line."
-  -1)
-
-(pulsar-recenter
   pulsar-recenter-middle
   "Reposition point at the center of the window and pulse line."
   nil)
