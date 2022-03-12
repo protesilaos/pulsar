@@ -71,6 +71,14 @@ in the user option ~pulsar-pulse-functions~.  What Pulsar does is set up
 an advice so that those functions run a hook after they are called.  The
 pulse effect is added there (~pulsar-after-function-hook~).
 
+#+findex: pulsar-setup
+To remove the advice and disable Pulsar altogether, evaluate this form:
+~(pulsar-setup 'reverse)~.  The ~pulsar-setup~ function can be used
+manually to install the advice on the relevant functions, though it is
+strongly encouraged to use ~customize-set-variable~ for the user option
+~pulsar-pulse-functions~ and let Emacs set up everything correctly (that
+user option has a special custom setter function).
+
 #+vindex: pulsar-delay
 #+vindex: pulsar-face
 The duration of the highlight is determined by ~pulsar-delay~.  While
