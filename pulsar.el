@@ -6,6 +6,7 @@
 ;; URL: https://protesilaos.com/emacs/pulsar
 ;; Version: 0.1.0
 ;; Package-Requires: ((emacs "27.1"))
+;; Keywords: convenience, pulse, highlight
 
 ;; This file is NOT part of GNU Emacs.
 
