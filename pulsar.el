@@ -237,5 +237,33 @@ sets up the aforementioned hook."
       (advice-add fn :after #'pulsar--add-hook))
     (add-hook 'pulsar-after-function-hook #'pulsar-pulse-line))))
 
+;;;; Recentering commands
+
+(defmacro pulsar-recenter (name doc arg)
+  "Produce command to pulse and recenter.
+The symbol is NAME, DOC for the doc string, and ARG is passed to
+`recenter'."
+  (declare (indent defun))
+  `(defun ,name ()
+     ,doc
+     (interactive)
+     (recenter ,arg)
+     (pulsar-pulse-line)))
+
+(pulsar-recenter
+  pulsar-recenter-top
+  "Reposition point at the top of the window and pulse line."
+  0)
+
+(pulsar-recenter
+  pulsar-recenter-bottom
+  "Reposition point at the bottom of the window and pulse line."
+  -1)
+
+(pulsar-recenter
+  pulsar-recenter-middle
+  "Reposition point at the center of the window and pulse line."
+  nil)
+
 (provide 'pulsar)
 ;;; pulsar.el ends here
