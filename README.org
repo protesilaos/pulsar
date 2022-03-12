@@ -77,7 +77,8 @@ The duration of the highlight is determined by ~pulsar-delay~.  While
 the applicable face is specified in ~pulsar-face~.
 
 #+findex: pulsar-pulse-line
-To highlight the current line on demand, use ~pulsar-pulse-line~.
+To highlight the current line on demand, use the ~pulsar-pulse-line~
+command.
 
 Pulsar depends on the built-in ~pulse.el~ library.
 
