@@ -277,12 +277,13 @@ The symbol is NAME, DOC for the doc string, and ARG is passed to
   (cond
    ((and (eq major-mode 'org-mode)
          (org-at-heading-p))
-    (org-show-entry))
+    (org-show-entry)
+    (pulsar-pulse-line))
    ((and (or (eq major-mode 'outline-mode)
              (bound-and-true-p outline-minor-mode))
          (outline-on-heading-p))
-    (outline-show-entry)))
-  (pulsar-pulse-line))
+    (outline-show-entry)
+    (pulsar-pulse-line))))
 
 (provide 'pulsar)
 ;;; pulsar.el ends here
