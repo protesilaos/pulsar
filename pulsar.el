@@ -265,5 +265,24 @@ The symbol is NAME, DOC for the doc string, and ARG is passed to
   "Reposition point at the center of the window and pulse line."
   nil)
 
+;;;; Reveal contents of Org or Outline headings
+
+(declare-function org-at-heading-p "org" (&optional _))
+(declare-function org-show-entry "org")
+(declare-function outline-on-heading-p "outline" (&optional invisible-ok))
+(declare-function outline-show-entry "outline")
+
+(defun pulsar-reveal-entry ()
+  "Reveal Org or Outline entry and pulse line."
+  (cond
+   ((and (eq major-mode 'org-mode)
+         (org-at-heading-p))
+    (org-show-entry))
+   ((and (or (eq major-mode 'outline-mode)
+             (bound-and-true-p outline-minor-mode))
+         (outline-on-heading-p))
+    (outline-show-entry)))
+  (pulsar-pulse-line))
+
 (provide 'pulsar)
 ;;; pulsar.el ends here
