@@ -172,6 +172,37 @@ Remember to read the doc string of each of these variables.
 (setq pulsar-delay 0.055)
 #+end_src
 
+* Integration with other packages
+:PROPERTIES:
+:CUSTOM_ID: h:b884f2ac-82f3-48c0-bee5-6709d6647b1d
+:END:
+#+cindex: Helper functions for integration with other packages
+
+Beside ~pulsar-pulse-line~, Pulsar defines a few functions that can be
+added to hooks that are provided by other packages.
+
+#+findex: pulsar-recenter-top
+#+findex: pulsar-recenter-middle
+There are two functions to recenter and then pulse the current line:
+~pulsar-recenter-top~ and ~pulsar-recenter-middle~.
+
+#+findex: pulsar-reveal-entry
+There also exists ~pulsar-reveal-entry~ which displays the hidden
+contents of an Org or Outline heading.  It can be used in tandem with
+the aforementioned recentering functions.
+
+Example use-cases:
+
+#+begin_src emacs-lisp
+;; integration with the `consult' package:
+(add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
+(add-hook 'consult-after-jump-hook #'pulsar-reveal-entry)
+
+;; integration with the built-in `imenu':
+(add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
+(add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry)
+#+end_src
+
 * GNU Free Documentation License
 :PROPERTIES:
 :APPENDIX: t
