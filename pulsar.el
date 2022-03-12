@@ -49,7 +49,7 @@
   "Extensions for `pulse.el'."
   :group 'editing)
 
-;;;; User options and faces
+;;;; User options
 
 (defcustom pulsar-pulse-functions
   '(recenter-top-bottom
@@ -107,6 +107,8 @@ that has a background attribute."
   "Duration in seconds of the active pulse highlight."
   :type 'number
   :group 'pulsar)
+
+;;;; Faces
 
 (defgroup pulsar-faces ()
   "Faces for `pulsar.el'."
@@ -172,7 +174,7 @@ that has a background attribute."
   "Alternative cyan face for `pulsar-face'."
   :group 'pulsar-faces)
 
-;;;; Functions and commands
+;;;; Pulse functions
 
 (defun pulsar--indentation-only-line-p ()
   "Return non-nil if current line has only indentation."
@@ -206,6 +208,8 @@ that has a background attribute."
   (interactive)
   (let ((pulse-delay pulsar-delay))
     (pulse-momentary-highlight-region (pulsar--start) (pulsar--end) pulsar-face)))
+
+;;;; Advice setup
 
 (defvar pulsar-after-function-hook nil
   "Hook that runs after any function in `pulsar-pulse-functions'.")
