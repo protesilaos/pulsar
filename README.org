@@ -142,6 +142,8 @@ Remember to read the doc string of each of these variables.
 #+begin_src emacs-lisp
 (require 'pulsar)
 
+(pulsar-setup)
+
 (customize-set-variable
  'pulsar-pulse-functions ; Read the doc string for why not `setq'
  '(recenter-top-bottom
