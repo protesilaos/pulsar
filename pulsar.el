@@ -117,8 +117,20 @@ that has a background attribute."
                 (face :tag "Other face (must have a background)"))
   :group 'pulsar)
 
+(defcustom pulsar-pulse t
+  "When non-nil enable pulsing.
+Otherwise the highlight stays on the current line until another
+command is invoked."
+  :type 'boolean
+  :group 'pulsar)
+
 (defcustom pulsar-delay 0.05
   "Duration in seconds of the active pulse highlight."
+  :type 'number
+  :group 'pulsar)
+
+(defcustom pulsar-iterations pulse-iterations
+  "Number of iterations in a pulse highlight."
   :type 'number
   :group 'pulsar)
 
@@ -220,7 +232,9 @@ that has a background attribute."
 (defun pulsar-pulse-line ()
   "Temporarily highlight the current line with optional FACE."
   (interactive)
-  (let ((pulse-delay pulsar-delay))
+  (let ((pulse-flag pulsar-pulse)
+        (pulse-delay pulsar-delay)
+        (pulse-iterations pulsar-iterations))
     (pulse-momentary-highlight-region (pulsar--start) (pulsar--end) pulsar-face)))
 
 ;;;; Advice setup

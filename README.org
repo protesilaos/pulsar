@@ -80,9 +80,16 @@ strongly encouraged to use ~customize-set-variable~ for the user option
 user option has a special custom setter function).
 
 #+vindex: pulsar-delay
+#+vindex: pulsar-iterations
 #+vindex: pulsar-face
-The duration of the highlight is determined by ~pulsar-delay~.  While
-the applicable face is specified in ~pulsar-face~.
+The duration of the highlight is determined by ~pulsar-delay~.  How
+smooth the effect is depends on ~pulsar-iterations~.  While the
+applicable face is specified in ~pulsar-face~.
+
+#+vindex: pulsar-pulse
+To disable the pulse but keep the highlight, set ~pulsar-pulse~ to nil.
+The current line will remain highlighted until another command is
+invoked.
 
 #+findex: pulsar-pulse-line
 To highlight the current line on demand, use the ~pulsar-pulse-line~
@@ -178,8 +185,10 @@ Remember to read the doc string of each of these variables.
    outline-previous-visible-heading
    outline-up-heading))
 
-(setq pulsar-face 'pulsar-magenta)
+(setq pulsar-pulse t)
 (setq pulsar-delay 0.055)
+(setq pulsar-iterations 10)
+(setq pulsar-face 'pulsar-magenta)
 #+end_src
 
 * Integration with other packages
@@ -212,6 +221,18 @@ Example use-cases:
 (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
 (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry)
 #+end_src
+
+* Acknowledgements
+:PROPERTIES:
+:CUSTOM_ID: h:56577df6-49df-4204-bd85-d0c569b8edc0
+:END:
+#+cindex: Contributors
+
+Pulsar is meant to be a collective effort.  Every bit of help matters.
+
++ Author/maintainer :: Protesilaos Stavrou.
+
++ Ideas and user feedback :: Mark Barton, Petter Storvik, and user kb.
 
 * GNU Free Documentation License
 :PROPERTIES:
