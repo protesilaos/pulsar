@@ -234,14 +234,37 @@ command is invoked."
       (line-beginning-position 1)
     (line-beginning-position 2)))
 
+(defun pulsar--pulse (&optional no-pulse face)
+  "Highlight the current line.
+With optional NO-PULSE keep the highlight until another command
+is invoked.  Otherwise use whatever `pulsar-pulse' entails.
+
+With optiona FACE, use it instead of `pulsar-face'."
+  (let ((pulse-flag (if no-pulse nil pulsar-pulse))
+        (pulse-delay pulsar-delay)
+        (pulse-iterations pulsar-iterations)
+        (f (if (facep face) face pulsar-face)))
+    (pulse-momentary-highlight-region (pulsar--start) (pulsar--end) f)))
+
 ;;;###autoload
 (defun pulsar-pulse-line ()
-  "Temporarily highlight the current line with optional FACE."
+  "Temporarily highlight the current line.
+When `pulsar-pulse' is non-nil (the default) make the highlight
+pulse before fading away.  The pulse effect is controlled by
+`pulsar-delay' and `pulsar-iterations'.
+
+Also see `pulsar-highlight-line' for a highlight without the
+pulse effect."
   (interactive)
-  (let ((pulse-flag pulsar-pulse)
-        (pulse-delay pulsar-delay)
-        (pulse-iterations pulsar-iterations))
-    (pulse-momentary-highlight-region (pulsar--start) (pulsar--end) pulsar-face)))
+  (pulsar--pulse))
+
+;;;###autoload
+(defun pulsar-highlight-line ()
+  "Temporarily highlight the current line.
+Unlike `pulsar-pulse-line', never pulse the current line.  Keep
+the highlight in place until another command is invoked."
+  (interactive)
+  (pulsar--pulse :no-pulse))
 
 ;;;; Advice setup
 

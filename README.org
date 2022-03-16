@@ -92,8 +92,12 @@ The current line will remain highlighted until another command is
 invoked.
 
 #+findex: pulsar-pulse-line
+#+findex: pulsar-highlight-line
 To highlight the current line on demand, use the ~pulsar-pulse-line~
-command.
+command.  When ~pulsar-pulse~ is non-nil (the default), its highlight
+will pulse before fading away.  Whereas the ~pulsar-highlight-line~
+command never pulses the line: the highlight stays in place as if
+~pulsar-pulse~ is nil.
 
 Pulsar depends on the built-in ~pulse.el~ library.
 
@@ -189,6 +193,17 @@ Remember to read the doc string of each of these variables.
 (setq pulsar-delay 0.055)
 (setq pulsar-iterations 10)
 (setq pulsar-face 'pulsar-magenta)
+
+;; pulsar does not define any key bindings.  This is just a sample that
+;; respects the key binding conventions.  Evaluate:
+;;
+;;     (info "(elisp) Key Binding Conventions")
+;;
+;; The author uses C-x l for `pulsar-pulse-line' and C-x L for
+;; `pulsar-highlight-line'.
+(let ((map global-map))
+  (define-key map (kbd "C-c h p") #'pulsar-pulse-line)
+  (define-key map (kbd "C-c h h") #'pulsar-highlight-line))
 #+end_src
 
 * Integration with other packages
