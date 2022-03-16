@@ -1,4 +1,4 @@
-#+title: pulsar.el: Pulse line after running select functions
+#+title: pulsar.el: Pulse highlight line on demand or after running select functions
 #+author: Protesilaos Stavrou
 #+email: info@protesilaos.com
 #+language: en
@@ -17,7 +17,7 @@
 #+texinfo_filename: pulsar.info
 #+texinfo_dir_category: Emacs misc features
 #+texinfo_dir_title: Pulsar: (pulsar)
-#+texinfo_dir_desc: Pulse line after running select functions
+#+texinfo_dir_desc: Pulse highlight line on demand or after running select functions
 #+texinfo_header: @set MAINTAINERSITE @uref{https://protesilaos.com,maintainer webpage}
 #+texinfo_header: @set MAINTAINER Protesilaos Stavrou
 #+texinfo_header: @set MAINTAINEREMAIL @email{info@protesilaos.com}
