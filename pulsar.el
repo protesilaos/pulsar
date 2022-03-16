@@ -126,12 +126,14 @@ command is invoked."
   :group 'pulsar)
 
 (defcustom pulsar-delay 0.05
-  "Duration in seconds of the active pulse highlight."
+  "Duration in seconds of the active pulse highlight.
+Only applies when `pulsar-pulse' is non-nil."
   :type 'number
   :group 'pulsar)
 
 (defcustom pulsar-iterations pulse-iterations
-  "Number of iterations in a pulse highlight."
+  "Number of iterations in a pulse highlight.
+Only applies when `pulsar-pulse' is non-nil."
   :type 'number
   :group 'pulsar)
 
