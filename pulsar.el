@@ -1,4 +1,4 @@
-;;; pulsar.el --- Pulse line after running select functions -*- lexical-binding: t -*-
+;;; pulsar.el --- Pulse highlight on demand or after select functions -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2022  Free Software Foundation, Inc.
 
@@ -26,15 +26,19 @@
 ;;; Commentary:
 ;;
 ;; This is a small package that temporarily highlights the current line
-;; after a given function is invoked.  The affected functions are defined
-;; in the user option `pulsar-pulse-functions'.  What Pulsar does is set up
-;; an advice so that those functions run a hook after they are called.
-;; The pulse effect is added there (`pulsar-after-function-hook').
+;; either on demand or after a given function is invoked.  The affected
+;; functions are defined in the user option `pulsar-pulse-functions'.
+;; What Pulsar does is set up an advice so that those functions run a
+;; hook after they are called.  The pulse effect is added there
+;; (`pulsar-after-function-hook').
 ;; 
-;; The duration of the highlight is determined by `pulsar-delay'.  While
-;; the applicable face is specified in `pulsar-face'.
+;; The duration of the highlight is determined by `pulsar-delay'.  The
+;; steps of the pulse effect are controlled by `pulsar-iterations'.
+;; While the applicable face is specified in `pulsar-face'.
 ;; 
-;; To highlight the current line on demand, use `pulsar-pulse-line'.
+;; To pulse highlight the current line on demand, use
+;; `pulsar-pulse-line'.  To highlight the current line without pulsing
+;; it, use `pulsar-highlight-line' instead.
 ;; 
 ;; Pulsar depends on the built-in `pulse.el' library.
 ;;
@@ -47,7 +51,8 @@
 (require 'pulse)
 
 (defgroup pulsar ()
-  "Extensions for `pulse.el'."
+  "Pulse highlight line on demand or after running select functions.
+Extension of `pulse.el'."
   :group 'editing)
 
 ;;;; User options
