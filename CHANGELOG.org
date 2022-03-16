@@ -9,10 +9,44 @@ project's main git repository: <https://gitlab.com/protesilaos/pulsar>.
 The newest release is at the top.  For further details, please consult
 the manual: <https://protesilaos.com/emacs/pulsar>.
 
+* Version 0.2.0 on 2022-03-16
+
++ Fixed an inconsistency that was present when Emacs was running in a
+  server-client model where the highlight would never pulse but instead
+  remain fixed in place until another command was invoked.  By default,
+  the pulse effect should now work for that use-case.  Thanks to Mark
+  Barton, Petter Storvik, and user kb for their feedback in issue 1:
+  <https://gitlab.com/protesilaos/pulsar/-/issues/1>.
+
++ Implemented the ~pulsar-highlight-line~ command and abstracted the
+  relevant code.  Unlike ~pulsar-pulse-line~, it never pulses the
+  current line.  Instead it keeps the highlight in place until another
+  command is invoked.  Thanks to Mark Barton for proposing this in
+  issue 1.
+
++ Introduced the user option ~pulsar-pulse~ which determines whether
+  pulsar should use a pulse effect (notwithstanding the aforementioned
+  new command).  When its value is non-nil (the default) pulsing takes
+  place.  Thanks to Petter Storvik for suggesting this approach in
+  issue 1.
+
++ Added the user option ~pulsar-iterations~ which controls how smooth or
+  abrupt the pulse effect is.  This complements the existing variable
+  ~pulsar-delay~.  Both apply only when ~pulsar-pulse~ is non-nil.
+
++ Wrote the ~pulsar-generic~ face and made it the default value of the
+  ~pulsar-face~ user option.  This is consistent with the original
+  design of a theme-agnostic presentation, though now it ensures that
+  the =:extend= attribute is used to stretch the highlight to the edge
+  of the window (without it and depending on the theme, the highlight
+  would only reach the last character on the line).
+
++ Updated the manual to reflect those changes.
+
 * Version 0.1.0 on 2022-03-14
 
 Initial release of the package.  Please read the manual.
 
 The core idea for this package was implemented in the =prot-pulse.el=
-file that is part of [[https://gitlab.com/protesilaos/dotfiles][my dotfiles]].  I was using it at least since
-December 2020.
+file that is part of [[https://gitlab.com/protesilaos/dotfiles][my dotfiles]] (now deprecated).  I was using it at
+least since December 2020.
