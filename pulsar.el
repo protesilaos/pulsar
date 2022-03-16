@@ -101,13 +101,14 @@ such as `customize-set-variable' do that automatically."
            (pulsar-setup)))
   :group 'pulsar)
 
-(defcustom pulsar-face 'pulse-highlight-start-face
+(defcustom pulsar-face 'pulsar-generic
   "Face to use for the pulse line.
-The default is `pulse-highlight-start-face', though users can
-select one among `pulsar-red', `pulsar-green', `pulsar-yellow',
-`pulsar-blue', `pulsar-magenta', `pulsar-cyan', or any other face
-that has a background attribute."
-  :type '(radio (face :tag "Standard pulse.el face" pulse-highlight-start-face)
+The default is `pulsar-generic' which reuses the standard face
+from the underlying pulse library.  Users can select one among
+`pulsar-red', `pulsar-green', `pulsar-yellow', `pulsar-blue',
+`pulsar-magenta', `pulsar-cyan', or any other face that has a
+background attribute."
+  :type '(radio (face :tag "Generic pulse.el face" pulsar-generic)
                 (face :tag "Red style" pulsar-red)
                 (face :tag "Green style" pulsar-green)
                 (face :tag "Yellow style" pulsar-yellow)
@@ -139,6 +140,11 @@ command is invoked."
 (defgroup pulsar-faces ()
   "Faces for `pulsar.el'."
   :group 'pulsar)
+
+(defface pulsar-generic
+  '((t :inherit pulse-highlight-start-face :extend t))
+  "Default value of `pulsar-face'."
+  :group 'pulsar-faces)
 
 (defface pulsar-red
   '((default :extend t)
