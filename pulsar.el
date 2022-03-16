@@ -239,7 +239,7 @@ command is invoked."
 With optional NO-PULSE keep the highlight until another command
 is invoked.  Otherwise use whatever `pulsar-pulse' entails.
 
-With optiona FACE, use it instead of `pulsar-face'."
+With optional FACE, use it instead of `pulsar-face'."
   (let ((pulse-flag (if no-pulse nil pulsar-pulse))
         (pulse-delay pulsar-delay)
         (pulse-iterations pulsar-iterations)
