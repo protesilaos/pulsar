@@ -231,13 +231,13 @@ Only applies when `pulsar-pulse' is non-nil."
 
 (defun pulsar--start ()
   "Return appropriate line start."
-  (if (pulsar--buffer-end-p)
+  (if (and (pulsar--buffer-end-p) (eq (char-before) ?\n))
       (line-beginning-position 0)
     (line-beginning-position)))
 
 (defun pulsar--end ()
   "Return appropriate line end."
-  (if (pulsar--buffer-end-p)
+  (if (and (pulsar--buffer-end-p) (eq (char-before) ?\n))
       (line-beginning-position 1)
     (line-beginning-position 2)))
 
