@@ -247,6 +247,8 @@ Pulsar is meant to be a collective effort.  Every bit of help matters.
 
 + Author/maintainer :: Protesilaos Stavrou.
 
++ Contributions to the code or manual :: JD Smith. 
+
 + Ideas and user feedback :: Mark Barton, Petter Storvik, and user kb.
 
 * GNU Free Documentation License
