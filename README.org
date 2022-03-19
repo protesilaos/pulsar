@@ -99,6 +99,12 @@ will pulse before fading away.  Whereas the ~pulsar-highlight-line~
 command never pulses the line: the highlight stays in place as if
 ~pulsar-pulse~ is nil.
 
+#+vindex: pulsar-highlight-face
+To help users differentiate between the momentary pulse and transient
+highlight effects, the user option ~pulsar-highlight-face~ controls the
+presentation of the ~pulsar-highlight-line~ command.  By default, this
+that variable is the same as ~pulsar-face~.
+
 Pulsar depends on the built-in ~pulse.el~ library.
 
 Why the name "pulsar"?  It sounds like "pulse" and is a recognisable
@@ -193,6 +199,7 @@ Remember to read the doc string of each of these variables.
 (setq pulsar-delay 0.055)
 (setq pulsar-iterations 10)
 (setq pulsar-face 'pulsar-magenta)
+(setq pulsar-highlight-face 'pulsar-yellow)
 
 ;; pulsar does not define any key bindings.  This is just a sample that
 ;; respects the key binding conventions.  Evaluate:
