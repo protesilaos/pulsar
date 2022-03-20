@@ -64,12 +64,14 @@ modify this GNU manual.”
 :END:
 
 #+vindex: pulse-pulse-functions
-#+vindex: pulse-after-function-hook
 This is a small package that temporarily highlights the current line
 after a given function is invoked.  The affected functions are defined
-in the user option ~pulsar-pulse-functions~.  What Pulsar does is set up
-an advice so that those functions run a hook after they are called.  The
-pulse effect is added there (~pulsar-after-function-hook~).
+in the user option ~pulsar-pulse-functions~.
+
+[ NOTE 2022-03-20 07:26 +0200: The ~pulse-after-function-hook~ has been
+  removed as part of {{{development-version}}}.  Pulsar no longer uses
+  the advice mechanism.  Instead, it does its work by leveraging the
+  ~post-command-hook~. ]
 
 #+findex: pulsar-setup
 To remove the advice and disable Pulsar altogether, evaluate this form:
@@ -254,7 +256,7 @@ Pulsar is meant to be a collective effort.  Every bit of help matters.
 
 + Author/maintainer :: Protesilaos Stavrou.
 
-+ Contributions to the code or manual :: JD Smith. 
++ Contributions to the code or manual :: Daniel Mendler, JD Smith.
 
 + Ideas and user feedback :: Mark Barton, Petter Storvik, and user kb.
 
