@@ -117,15 +117,26 @@ Luminates, Strictly Absent the Radiation".
 :PROPERTIES:
 :CUSTOM_ID: h:812f7616-7e0f-489f-a908-1cb759ca64ce
 :END:
-#+cindex: Installation
+#+cindex: Installation instructions
 
-Pulsar is not in any package archive for the time being, though I plan to
-submit it to GNU ELPA (as such, any non-trivial patches require
-copyright assignment to the Free Software Foundation).  Users can rely
-on ~straight.el~, ~quelpa~, or equivalent to fetch the source.  Below
-are the essentials for those who prefer the manual method.
+* GNU ELPA package
+:PROPERTIES:
+:CUSTOM_ID: h:916cf31a-8f25-472e-9328-9c47522f1dd4
+:END:
 
-Assuming your Emacs files are found in ~~/.emacs.d/~, execute the
+The package is available as =pulsar=.  Simply do:
+
+: M-x package-refresh-contents
+: M-x package-install
+
+And search for it.
+
+** Manual installation
+:PROPERTIES:
+:CUSTOM_ID: h:389e5e2f-5bb9-4be4-9a9c-0dbeeecccc54
+:END:
+
+Assuming your Emacs files are found in =~/.emacs.d/=, execute the
 following commands in a shell prompt:
 
 #+begin_src sh
@@ -141,7 +152,7 @@ cd manual-packages
 git clone https://gitlab.com/protesilaos/pulsar.git pulsar
 #+end_src
 
-Finally, in your ~init.el~ (or equivalent) evaluate this:
+Finally, in your =init.el= (or equivalent) evaluate this:
 
 #+begin_src emacs-lisp
 ;; Make Elisp files in that directory available to the user.
