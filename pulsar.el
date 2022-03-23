@@ -262,11 +262,14 @@ With optional NO-PULSE keep the highlight until another command
 is invoked.  Otherwise use whatever `pulsar-pulse' entails.
 
 With optional FACE, use it instead of `pulsar-face'."
-  (let ((pulse-flag (if no-pulse nil pulsar-pulse))
-        (pulse-delay pulsar-delay)
-        (pulse-iterations pulsar-iterations)
-        (f (if (facep face) face pulsar-face)))
-    (pulse-momentary-highlight-region (pulsar--start) (pulsar--end) f)))
+  (let* ((pulse-flag (if no-pulse nil pulsar-pulse))
+	 (pulse-delay pulsar-delay)
+	 (pulse-iterations pulsar-iterations)
+	 (f (if (facep face) face pulsar-face))
+	 (o (make-overlay (pulsar--start) (pulsar--end))))
+    (overlay-put o 'pulse-delete t)
+    (overlay-put o 'window (frame-selected-window))
+    (pulse-momentary-highlight-overlay o f)))
 
 ;;;###autoload
 (defun pulsar-pulse-line ()
