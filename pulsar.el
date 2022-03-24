@@ -60,7 +60,9 @@ Extension of `pulse.el'."
 ;;;; User options
 
 (defcustom pulsar-pulse-functions
-  '(recenter-top-bottom
+  '(isearch-repeat-forward
+    isearch-repeat-backward
+    recenter-top-bottom
     move-to-window-line-top-bottom
     reposition-window
     bookmark-jump
@@ -91,21 +93,10 @@ Extension of `pulse.el'."
     outline-next-visible-heading
     outline-previous-visible-heading
     outline-up-heading)
-  "Functions that highlight the current line after invocation.
-This only takes effect when `pulsar-setup' is invoked (e.g. while
-setting up `pulsar.el').
-
-Any update to this user option outside of Custom (e.g. with
-`setq') requires a re-run of `pulsar-setup'.  Whereas functions
-such as `customize-set-variable' do that automatically."
+  "Functions that `pulsar-pulse-line' after invocation.
+This only takes effect when `pulsar-mode' or `pulsar-global-mode'
+is enabled."
   :type '(repeat function)
-  :initialize #'custom-initialize-default
-  :set (lambda (symbol value)
-         (if (eq value (default-value symbol))
-             (set-default symbol value)
-           (pulsar-setup 'reverse)
-           (set-default symbol value)
-           (pulsar-setup)))
   :group 'pulsar)
 
 (defcustom pulsar-face 'pulsar-generic
@@ -294,20 +285,32 @@ default)."
   (interactive)
   (pulsar--pulse :no-pulse pulsar-highlight-face))
 
-;;;; Advice setup
+;;;; Mode setup
+
+(define-minor-mode pulsar-mode
+  "Set up pulsar for each function in `pulsar-pulse-functions'.
+This is a buffer-local mode.  Also check `pulsar-global-mode'."
+  :global nil
+  (if pulsar-mode
+      (add-hook 'post-command-hook #'pulsar--post-command-pulse nil 'local)
+    (remove-hook 'post-command-hook #'pulsar--post-command-pulse 'local)))
+
+(defun pulsar--on ()
+  "Enable `pulsar-mode'."
+  (unless (minibufferp)
+    (let (inhibit-quit)
+      (pulsar-mode 1))))
+
+;;;###autoload
+(define-globalized-minor-mode pulsar-global-mode pulsar-mode pulsar--on)
 
 (defun pulsar--post-command-pulse ()
   "Run `pulsar-pulse-line' for `pulsar-pulse-functions'."
-  (when (memq this-command pulsar-pulse-functions)
+  (when (and (or pulsar-mode pulsar-global-mode)
+             (memq this-command pulsar-pulse-functions))
     (pulsar-pulse-line)))
 
-;;;###autoload
-(defun pulsar-setup (&optional reverse)
-  "Set up pulsar for each function in `pulsar-pulse-functions'.
-With optional non-nil REVERSE argument, remove the effect."
-  (if reverse
-      (remove-hook 'post-command-hook #'pulsar--post-command-pulse)
-    (add-hook 'post-command-hook #'pulsar--post-command-pulse)))
+(make-obsolete 'pulsar-setup nil "0.3.0")
 
 ;;;; Recentering commands
 
