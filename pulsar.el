@@ -26,27 +26,35 @@
 ;;; Commentary:
 ;;
 ;; This is a small package that temporarily highlights the current line
-;; either on demand or after a given function is invoked.  The affected
-;; functions are defined in the user option `pulsar-pulse-functions'.
-;; 
-;; The duration of the highlight is determined by `pulsar-delay'.  The
-;; steps of the pulse effect are controlled by `pulsar-iterations'.
-;; While the applicable face is specified in `pulsar-face'.
-;; 
-;; To pulse highlight the current line on demand, use
-;; `pulsar-pulse-line'.  To highlight the current line without pulsing
-;; it, use `pulsar-highlight-line' instead.
+;; after a given function is invoked.  The affected functions are
+;; defined in the user option `pulsar-pulse-functions' and the effect
+;; takes place when either `pulsar-mode' (buffer-local) or
+;; `pulsar-global-mode' is enabled.
 ;;
-;; To help users differentiate between the momentary pulse and transient
-;; highlight effects, the user option `pulsar-highlight-face' controls
-;; the presentation of the `pulsar-highlight-line' command.  By default,
-;; this that variable is the same as `pulsar-face'.
-;; 
+;; The duration of the highlight is determined by `pulsar-delay'.  How
+;; smooth the effect is depends on `pulsar-iterations'.  While the
+;; applicable face is specified in `pulsar-face'.
+;;
+;; To disable the pulse but keep the temporary highlight, set the user
+;; option `pulsar-pulse' to nil.  The current line will remain
+;; highlighted until another command is invoked.
+;;
+;; To highlight the current line on demand, use the `pulsar-pulse-line'
+;; command.  When `pulsar-pulse' is non-nil (the default), its highlight
+;; will pulse before fading away.  Whereas the `pulsar-highlight-line'
+;; command never pulses the line: the highlight stays in place as if
+;; `pulsar-pulse' is nil.
+;;
+;; To help users differentiate between the pulse and highlight effects,
+;; the user option `pulsar-highlight-face' controls the presentation of
+;; the `pulsar-highlight-line' command.  By default, this variable is
+;; the same as `pulsar-face'.
+;;
 ;; Pulsar depends on the built-in `pulse.el' library.
 ;;
 ;; Why the name "pulsar"?  It sounds like "pulse" and is a recognisable
-;; word.  Though if you need a backronym, consider "Pulsar
-;; Unquestionably Luminates, Strictly Absent the Radiation".
+;; word.  Though if you need a backronym, consider "Pulsar Unquestionably
+;; Luminates, Strictly Absent the Radiation".
 
 ;;; Code:
 
