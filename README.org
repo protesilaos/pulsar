@@ -72,10 +72,7 @@ in the user option ~pulsar-pulse-functions~ and the effect takes place
 when either ~pulsar-mode~ (buffer-local) or ~pulsar-global-mode~ is
 enabled.
 
-[ NOTE 2022-03-20 07:26 +0200: The ~pulse-after-function-hook~ has been
-  removed as part of {{{development-version}}}.  Pulsar no longer uses
-  the advice mechanism.  Instead, it does its work by leveraging the
-  ~post-command-hook~. ]
+[ The minor modes are part of {{{development-version}}} ]
 
 #+vindex: pulsar-delay
 #+vindex: pulsar-iterations
