@@ -299,6 +299,7 @@ default)."
   "Set up pulsar for each function in `pulsar-pulse-functions'.
 This is a buffer-local mode.  Also check `pulsar-global-mode'."
   :global nil
+  :lighter " -P-"
   (if pulsar-mode
       (add-hook 'post-command-hook #'pulsar--post-command-pulse nil 'local)
     (remove-hook 'post-command-hook #'pulsar--post-command-pulse 'local)))
