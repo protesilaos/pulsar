@@ -270,7 +270,8 @@ Pulsar is meant to be a collective effort.  Every bit of help matters.
 + Contributions to the code or manual :: Aymeric Agon-Rambosson, Daniel
   Mendler, JD Smith.
 
-+ Ideas and user feedback :: Mark Barton, Petter Storvik, and user kb.
++ Ideas and user feedback :: Mark Barton, Petter Storvik, Rudolf
+  Adamkovič, Toon Claes, and user kb.
 
 * GNU Free Documentation License
 :PROPERTIES:
