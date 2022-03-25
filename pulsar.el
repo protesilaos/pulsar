@@ -68,9 +68,7 @@ Extension of `pulse.el'."
 ;;;; User options
 
 (defcustom pulsar-pulse-functions
-  '(isearch-repeat-forward
-    isearch-repeat-backward
-    recenter-top-bottom
+  '(recenter-top-bottom
     move-to-window-line-top-bottom
     reposition-window
     bookmark-jump
