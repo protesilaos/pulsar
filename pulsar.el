@@ -31,9 +31,10 @@
 ;; takes place when either `pulsar-mode' (buffer-local) or
 ;; `pulsar-global-mode' is enabled.
 ;;
-;; The duration of the highlight is determined by `pulsar-delay'.  How
-;; smooth the effect is depends on `pulsar-iterations'.  While the
-;; applicable face is specified in `pulsar-face'.
+;; The overall duration of the highlight is determined by a combination
+;; of `pulsar-delay' and `pulsar-iterations'.  The latter determines the
+;; number of blinks in a pulse, while the former sets their interval in
+;; seconds.  The applicable face is specified in `pulsar-face'.
 ;;
 ;; To disable the pulse but keep the temporary highlight, set the user
 ;; option `pulsar-pulse' to nil.  The current line will remain
@@ -143,14 +144,16 @@ command is invoked."
   :group 'pulsar)
 
 (defcustom pulsar-delay 0.05
-  "Duration in seconds of the active pulse highlight.
-Only applies when `pulsar-pulse' is non-nil."
+  "Delay between increments of a pulse.
+Together with `pulsar-iterations' control the overall duration of
+a pulse.  Only applies when `pulsar-pulse' is non-nil."
   :type 'number
   :group 'pulsar)
 
 (defcustom pulsar-iterations pulse-iterations
   "Number of iterations in a pulse highlight.
-Only applies when `pulsar-pulse' is non-nil."
+Together with `pulsar-delay' control the overall duration of a
+pulse.  Only applies when `pulsar-pulse' is non-nil."
   :type 'number
   :group 'pulsar)
 
