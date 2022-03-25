@@ -33,8 +33,9 @@
 ;;
 ;; The overall duration of the highlight is determined by a combination
 ;; of `pulsar-delay' and `pulsar-iterations'.  The latter determines the
-;; number of blinks in a pulse, while the former sets their interval in
-;; seconds.  The applicable face is specified in `pulsar-face'.
+;; number of blinks in a pulse, while the former sets their delay in
+;; seconds before they fade out.  The applicable face is specified in
+;; `pulsar-face'.
 ;;
 ;; To disable the pulse but keep the temporary highlight, set the user
 ;; option `pulsar-pulse' to nil.  The current line will remain
