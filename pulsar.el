@@ -257,17 +257,20 @@ pulse.  Only applies when `pulsar-pulse' is non-nil."
       (line-beginning-position 1)
     (line-beginning-position 2)))
 
-(defun pulsar--pulse (&optional no-pulse face)
+(defun pulsar--pulse (&optional no-pulse face start end)
   "Highlight the current line.
 With optional NO-PULSE keep the highlight until another command
 is invoked.  Otherwise use whatever `pulsar-pulse' entails.
 
-With optional FACE, use it instead of `pulsar-face'."
+With optional FACE, use it instead of `pulsar-face'.
+
+With optional START and END, highlight the region in-between
+instead of the current line."
   (let* ((pulse-flag (if no-pulse nil pulsar-pulse))
          (pulse-delay pulsar-delay)
          (pulse-iterations pulsar-iterations)
          (f (if (facep face) face pulsar-face))
-         (o (make-overlay (pulsar--start) (pulsar--end))))
+         (o (make-overlay (or start (pulsar--start)) (or end (pulsar--end)))))
     (overlay-put o 'pulse-delete t)
     (overlay-put o 'window (frame-selected-window))
     (pulse-momentary-highlight-overlay o f)))
@@ -294,6 +297,55 @@ Use `pulsar-highlight-face' (it is the same as `pulsar-face' by
 default)."
   (interactive)
   (pulsar--pulse :no-pulse pulsar-highlight-face))
+
+;;;;; Highlight region
+
+(defvar-local pulsar--rectangle-face-cookie nil
+  "Cookie of remapped rectangle region face.")
+
+(autoload 'face-remap-remove-relative "face-remap.el")
+
+(defun pulsar--remove-face-remap ()
+  "Remove `pulsar--rectangle-face-cookie'."
+  (when pulsar--rectangle-face-cookie
+    (face-remap-remove-relative pulsar--rectangle-face-cookie)))
+
+(defvar rectangle-mark-mode)
+
+;; When we highlight a region, it gets the `region' face.  The
+;; `pulsar-highlight-dwim' overlays it with `pulsar-highlight-face'
+;; using a standard pulse.el mechanism.  If the user tries to expand the
+;; region further, it gets its original face.  This function ensures
+;; that the rectangle behaves the same way (pulse.el does not handle
+;; rectangular regions).
+(defun pulsar--remove-rectangle-remap ()
+  "Remove face remap from rectangle region when appropriate."
+  (when (and rectangle-mark-mode
+             (not (eq this-command 'pulsar-highlight-dwim)))
+    (pulsar--remove-face-remap)))
+
+(defun pulsar--highlight-rectangle ()
+  "Remap `region' face and set `pulsar--remove-face-remap'."
+  (setq pulsar--rectangle-face-cookie
+        (face-remap-add-relative 'region pulsar-highlight-face))
+  (add-hook 'post-command-hook #'pulsar--remove-rectangle-remap nil t)
+  (add-hook 'deactivate-mark-hook #'pulsar--remove-face-remap nil t))
+
+;;;###autoload
+(defun pulsar-highlight-dwim (beg end)
+  "Temporarily highlight the current line or active region.
+The region is the space between the BEG and END positions.  The
+region may also be a rectangle.
+
+For lines, do the same as `pulsar-highlight-line'."
+  (interactive "r")
+  (cond
+   (rectangle-mark-mode
+    (pulsar--highlight-rectangle))
+   ((use-region-p)
+    (pulsar--pulse :no-pulse pulsar-highlight-face beg end))
+   (t
+    (pulsar--pulse :no-pulse pulsar-highlight-face))))
 
 ;;;; Mode setup
 

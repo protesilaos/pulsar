@@ -96,11 +96,19 @@ will pulse before fading away.  Whereas the ~pulsar-highlight-line~
 command never pulses the line: the highlight stays in place as if
 ~pulsar-pulse~ is nil.
 
+[ The ~pulsar-highlight-dwim~ is part of {{{development-version}}} ]
+
+#+findex: pulsar-highlight-dwim
+A do-what-I-mean command is also on offer: ~pulsar-highlight-dwim~.  It
+highlights the current line line like ~pulsar-highlight-line~.  If the
+region is active, it applies its effect there.  The region may also be a
+rectangle (internally they differ from ordinary regions).
+
 #+vindex: pulsar-highlight-face
 To help users differentiate between the pulse and highlight effects, the
 user option ~pulsar-highlight-face~ controls the presentation of the
-~pulsar-highlight-line~ command.  By default, this variable is the same
-as ~pulsar-face~.
+~pulsar-highlight-line~ and ~pulsar-highlight-dwim~ commands.  By
+default, this variable is the same as ~pulsar-face~.
 
 Pulsar depends on the built-in ~pulse.el~ library.
 
@@ -222,6 +230,9 @@ Remember to read the doc string of each of these variables.
 ;;
 ;; The author uses C-x l for `pulsar-pulse-line' and C-x L for
 ;; `pulsar-highlight-line'.
+;;
+;; You can replace `pulsar-highlight-line' with the command
+;; `pulsar-highlight-dwim'.
 (let ((map global-map))
   (define-key map (kbd "C-c h p") #'pulsar-pulse-line)
   (define-key map (kbd "C-c h h") #'pulsar-highlight-line))
