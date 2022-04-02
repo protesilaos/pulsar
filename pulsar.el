@@ -320,7 +320,7 @@ default)."
 ;; rectangular regions).
 (defun pulsar--remove-rectangle-remap ()
   "Remove face remap from rectangle region when appropriate."
-  (when (and rectangle-mark-mode
+  (when (and (bound-and-true-p rectangle-mark-mode)
              (not (eq this-command 'pulsar-highlight-dwim)))
     (pulsar--remove-face-remap)))
 
@@ -340,7 +340,7 @@ region may also be a rectangle.
 For lines, do the same as `pulsar-highlight-line'."
   (interactive "r")
   (cond
-   (rectangle-mark-mode
+   ((bound-and-true-p rectangle-mark-mode)
     (pulsar--highlight-rectangle))
    ((use-region-p)
     (pulsar--pulse :no-pulse pulsar-highlight-face beg end))
