@@ -152,7 +152,7 @@ mkdir manual-packages
 cd manual-packages
 
 # Clone this repo, naming it "pulsar"
-git clone https://gitlab.com/protesilaos/pulsar.git pulsar
+git clone https://git.sr.ht/~protesilaos/pulsar pulsar
 #+end_src
 
 Finally, in your =init.el= (or equivalent) evaluate this:
