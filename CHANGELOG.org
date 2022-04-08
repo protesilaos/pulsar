@@ -6,6 +6,52 @@
 The newest release is at the top.  For further details, please consult
 the manual: <https://protesilaos.com/emacs/pulsar>.
 
+* Version 0.3.0 on 2022-04-08
+
++ Changed the source repository from GitLab to SourceHut:
+  <https://git.sr.ht/~protesilaos/pulsar>.  Use the mailing list to
+  start a discussion, report a bug, send a patch, etc.:
+  <https://lists.sr.ht/~protesilaos/pulsar>.  The GitLab URL will serve
+  as a mirror from now on (a GitHub mirror is still available and will
+  remain that way).
+
++ Refined how Pulsar behaves in the case of the last line.  Basically,
+  when the last line cannot be highlighted we want to pulse the one
+  right above.  Thanks to JD Smith for fine-tuning this behaviour in
+  merge request 1 over at the GitLab mirror:
+  <https://gitlab.com/protesilaos/pulsar/-/merge_requests/1> (exempt
+  from the requirement to assign copyright to the Free Software
+  Foundation as it is below the threshold).
+
++ Ensured that the Pulsar effect are limited to the current window when
+  the buffer is displayed in multiple windows.  This avoids the common
+  problem of simultaneous highlights in multiple locations, which
+  confuse rather than inform the user of where the point is.  Thanks to
+  Aymeric Agon-Rambosson for the contribution in merge request 2 over at
+  the GitLab mirror:
+  <https://gitlab.com/protesilaos/pulsar/-/merge_requests/2>.  Aymeric
+  has assigned copyright to the Free Software Foundation.
+
++ Wrote a buffer-local and a global minor mode that sets up Pulsar.
+  This supersedes the old design which had a built-in assumption that
+  the "pulse line" effect should always be global.  Now the user has
+  more flexibility.  They may also disable Pulsar on demand.  Note that
+  pulsar still only triggers its effect for entries in the user option
+  ~pulsar-pulse-functions~.  Thanks to Rudolf Adamkovič for the feedback
+  in issue 9 over at the GitLab mirror:
+  <https://gitlab.com/protesilaos/pulsar/-/issues/9>.
+
++ Implement the ~pulsar-highlight-dwim~ command.  It is like the
+  ~pulsar-highlight-line~ except it also understands regions, be they
+  regular or rectangular.  Thanks to Mark Barton for the feedback in
+  issue 13 over at the GitLab mirror:
+  <https://gitlab.com/protesilaos/pulsar/-/issues/13>.
+
++ Clarified some technical points in various doc strings and the manual,
+  such as what is the ~pulsar-delay~ and the ~pulsar-iterations~.
+  Thanks to Rudolf Adamkovič for the feedback in issue 12 over at the
+  GitLab mirror: <https://gitlab.com/protesilaos/pulsar/-/issues/12>.
+
 * Version 0.2.0 on 2022-03-16
 
 + Fixed an inconsistency that was present when Emacs was running in a
