@@ -113,7 +113,7 @@ non-nil instead of specifying each of them in this list."
   :type '(repeat function)
   :group 'pulsar)
 
-(defcustom pulsar-pulse-on-window-change nil
+(defcustom pulsar-pulse-on-window-change t
   "When non-nil enable pulsing on every window change.
 This covers all commands or functions that affect the current
 window.  Users who prefer to trigger a pulse only after select
