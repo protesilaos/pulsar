@@ -114,7 +114,12 @@ non-nil instead of specifying each of them in this list."
   :group 'pulsar)
 
 (defcustom pulsar-pulse-on-window-change nil
-  "When non-nil enable pulsing on every window change."
+  "When non-nil enable pulsing on every window change.
+This covers all commands or functions that affect the current
+window.  Users who prefer to trigger a pulse only after select
+functions (e.g. only after `other-window') are advised to set
+this variable to nil and update the `pulsar-pulse-functions'
+accordingly."
   :type 'boolean
   :group 'pulsar)
 
