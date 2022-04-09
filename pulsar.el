@@ -384,9 +384,10 @@ This is a buffer-local mode.  Also check `pulsar-global-mode'."
 ;;;###autoload
 (define-globalized-minor-mode pulsar-global-mode pulsar-mode pulsar--on)
 
-  (when (or pulsar-mode pulsar-global-mode)
 (defun pulsar--pulse-on-window-change (&rest _)
   "Run `pulsar-pulse-line' on window change."
+  (when (and pulsar-pulse-on-window-change
+             (or pulsar-mode pulsar-global-mode))
     (pulsar-pulse-line)))
 
 (defun pulsar--post-command-pulse ()
