@@ -70,28 +70,30 @@ Extension of `pulse.el'."
 ;;;; User options
 
 (defcustom pulsar-pulse-functions
+  ;; NOTE 2022-04-09: The commented out functions are from before the
+  ;; introduction of `pulsar-pulse-on-window-change'.  Try that instead.
   '(recenter-top-bottom
     move-to-window-line-top-bottom
     reposition-window
-    bookmark-jump
-    other-window
-    delete-window
-    delete-other-windows
+    ;; bookmark-jump
+    ;; other-window
+    ;; delete-window
+    ;; delete-other-windows
     forward-page
     backward-page
     scroll-up-command
     scroll-down-command
-    windmove-right
-    windmove-left
-    windmove-up
-    windmove-down
-    windmove-swap-states-right
-    windmove-swap-states-left
-    windmove-swap-states-up
-    windmove-swap-states-down
-    tab-new
-    tab-close
-    tab-next
+    ;; windmove-right
+    ;; windmove-left
+    ;; windmove-up
+    ;; windmove-down
+    ;; windmove-swap-states-right
+    ;; windmove-swap-states-left
+    ;; windmove-swap-states-up
+    ;; windmove-swap-states-down
+    ;; tab-new
+    ;; tab-close
+    ;; tab-next
     org-next-visible-heading
     org-previous-visible-heading
     org-forward-heading-same-level
@@ -103,7 +105,11 @@ Extension of `pulse.el'."
     outline-up-heading)
   "Functions that `pulsar-pulse-line' after invocation.
 This only takes effect when `pulsar-mode' or `pulsar-global-mode'
-is enabled."
+is enabled.
+
+For functions/commands that change the current window, it is
+better to set the user option `pulsar-pulse-on-window-change' to
+non-nil instead of specifying each of them in this list."
   :type '(repeat function)
   :group 'pulsar)
 
