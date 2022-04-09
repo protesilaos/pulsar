@@ -72,7 +72,6 @@ in the user option ~pulsar-pulse-functions~ and the effect takes place
 when either ~pulsar-mode~ (buffer-local) or ~pulsar-global-mode~ is
 enabled.
 
-[ The minor modes are part of {{{development-version}}} ]
 
 #+vindex: pulsar-delay
 #+vindex: pulsar-iterations
@@ -95,8 +94,6 @@ command.  When ~pulsar-pulse~ is non-nil (the default), its highlight
 will pulse before fading away.  Whereas the ~pulsar-highlight-line~
 command never pulses the line: the highlight stays in place as if
 ~pulsar-pulse~ is nil.
-
-[ The ~pulsar-highlight-dwim~ is part of {{{development-version}}} ]
 
 #+findex: pulsar-highlight-dwim
 A do-what-I-mean command is also on offer: ~pulsar-highlight-dwim~.  It
