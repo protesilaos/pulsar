@@ -107,6 +107,11 @@ is enabled."
   :type '(repeat function)
   :group 'pulsar)
 
+(defcustom pulsar-pulse-on-window-change nil
+  "When non-nil enable pulsing on every window change."
+  :type 'boolean
+  :group 'pulsar)
+
 (defcustom pulsar-face 'pulsar-generic
   "Face of the regular pulse line effect (`pulsar-pulse-line').
 The default is `pulsar-generic' which reuses the standard face
@@ -353,8 +358,11 @@ For lines, do the same as `pulsar-highlight-line'."
 This is a buffer-local mode.  Also check `pulsar-global-mode'."
   :global nil
   (if pulsar-mode
-      (add-hook 'post-command-hook #'pulsar--post-command-pulse nil 'local)
-    (remove-hook 'post-command-hook #'pulsar--post-command-pulse 'local)))
+      (progn
+        (add-hook 'post-command-hook #'pulsar--post-command-pulse nil 'local)
+        (add-hook 'window-selection-change-functions #'pulsar--pulse-on-window-change nil 'local))
+    (remove-hook 'post-command-hook #'pulsar--post-command-pulse 'local)
+    (remove-hook 'window-selection-change-functions #'pulsar--pulse-on-window-change 'local)))
 
 (defun pulsar--on ()
   "Enable `pulsar-mode'."
@@ -364,6 +372,11 @@ This is a buffer-local mode.  Also check `pulsar-global-mode'."
 
 ;;;###autoload
 (define-globalized-minor-mode pulsar-global-mode pulsar-mode pulsar--on)
+
+(defun pulsar--pulse-on-window-change (arg)
+  "Run `pulsar-pulse-line' on window change, ARG is ignored."
+  (when (or pulsar-mode pulsar-global-mode)
+    (pulsar-pulse-line)))
 
 (defun pulsar--post-command-pulse ()
   "Run `pulsar-pulse-line' for `pulsar-pulse-functions'."
