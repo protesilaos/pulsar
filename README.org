@@ -124,7 +124,7 @@ Luminates, Strictly Absent the Radiation".
 :END:
 #+cindex: Installation instructions
 
-* GNU ELPA package
+** GNU ELPA package
 :PROPERTIES:
 :CUSTOM_ID: h:916cf31a-8f25-472e-9328-9c47522f1dd4
 :END:
