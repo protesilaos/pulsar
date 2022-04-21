@@ -36,6 +36,10 @@ commit, is explicitly marked as such.
 
 Current development target is {{{development-version}}}.
 
++ Homepage: https://protesilaos.com/emacs/pulsar.
++ Git repository: https://git.sr.ht/~protesilaos/pulsar.
++ Mailing list: https://lists.sr.ht/~protesilaos/pulsar.
+
 #+toc: headlines 8 insert TOC here, with eight headline levels
 
 * COPYING
