@@ -140,6 +140,11 @@ The package is available as =pulsar=.  Simply do:
 
 And search for it.
 
+GNU ELPA provides the latest stable release.  Those who prefer to follow
+the development process in order to report bugs or suggest changes, can
+use the version of the package from the GNU-devel ELPA archive.  Read:
+https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/.
+
 ** Manual installation
 :PROPERTIES:
 :CUSTOM_ID: h:389e5e2f-5bb9-4be4-9a9c-0dbeeecccc54
