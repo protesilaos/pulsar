@@ -6,6 +6,31 @@
 The newest release is at the top.  For further details, please consult
 the manual: <https://protesilaos.com/emacs/pulsar>.
 
+* Version 0.4.0 on 2022-07-19
+
++ Added the user option ~pulsar-pulse-on-window-change~.  This covers
+  all commands or functions that affect the current window, so there is
+  no need to include them individually in the ~pulsar-pulse-functions~.
+  Users who prefer to trigger a pulse only after select functions
+  (e.g. only after ~other-window~) are advised to set this user option
+  to nil and update the ~pulsar-pulse-functions~ accordingly.  Thanks to
+  Ivan Popovych for the patch (commit =b1a78dd=).
+
++ Changed the default value of ~pulsar-pulse-functions~ to omit all
+  those commands which are already covered by the aforementioned.  In
+  the interest of continuity, the old value is kept in the source code,
+  with the relevant symbols commented out.
+
++ Named the mailing list email address as the =Maintainer:= of Pulsar.
+  The package headers help the user find our primary sources and/or
+  communication channels.  This change conforms with work being done
+  upstream in package.el by Philip Kaludercic.  I was informed about it
+  here:
+  <https://lists.sr.ht/~protesilaos/general-issues/%3C875ykl84yi.fsf%40posteo.net%3E>.
+
++ Updated the documentation, where necessary and made other minor tweaks
+  to the code.
+
 * Version 0.3.0 on 2022-04-08
 
 + Changed the source repository from GitLab to SourceHut:
