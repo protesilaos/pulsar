@@ -33,6 +33,11 @@
 ;; takes place when either `pulsar-mode' (buffer-local) or
 ;; `pulsar-global-mode' is enabled.
 ;;
+;; There is no need to add all functions that affect the active window
+;; to the `pulsar-pulse-functions'.  Instead, keep the user option
+;; `pulsar-pulse-on-window-change' in its default non-nil value.  It
+;; will pulse the current line whenever the active window changes.
+;;
 ;; The overall duration of the highlight is determined by a combination
 ;; of `pulsar-delay' and `pulsar-iterations'.  The latter determines the
 ;; number of blinks in a pulse, while the former sets their delay in
