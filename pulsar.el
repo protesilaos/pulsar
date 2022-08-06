@@ -395,8 +395,14 @@ This is a buffer-local mode.  Also check `pulsar-global-mode'."
 
 (defun pulsar--pulse-on-window-change (&rest _)
   "Run `pulsar-pulse-line' on window change."
+  ;; NOTE 2022-08-06 about the `last-command': When we use M-x with a
+  ;; non-nil `pulsar-pulse-on-window-change' the current line will pulse
+  ;; in the window after we exit the minibuffer.  If we invoke a Pulsar
+  ;; command via M-x, this pulse overrides the effect of the command.
+  ;; We don't want that.
   (when (and pulsar-pulse-on-window-change
-             (or pulsar-mode pulsar-global-mode))
+             (or pulsar-mode pulsar-global-mode)
+             (not (string-prefix-p "pulsar" (symbol-name last-command))))
     (pulsar-pulse-line)))
 
 (defun pulsar--post-command-pulse ()
