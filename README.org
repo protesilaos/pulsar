@@ -75,11 +75,6 @@ in the user option ~pulsar-pulse-functions~ and the effect takes place
 when either ~pulsar-mode~ (buffer-local) or ~pulsar-global-mode~ is
 enabled.
 
-There is no need to add all functions that affect the active window to
-the ~pulsar-pulse-functions~.  Instead, keep the user option
-~pulsar-pulse-on-window-change~ in its default non-nil value.  It will
-pulse the current line whenever the active window changes.
-
 #+vindex: pulsar-delay
 #+vindex: pulsar-iterations
 #+vindex: pulsar-face
@@ -218,32 +213,30 @@ Remember to read the doc string of each of these variables.
 #+begin_src emacs-lisp
 (require 'pulsar)
 
+;; This is the default value.  Just to show how it is done.
 (setq pulsar-pulse-functions
-      ;; NOTE 2022-04-09: The commented out functions are from before
-      ;; the introduction of `pulsar-pulse-on-window-change'.  Try that
-      ;; instead.
       '(recenter-top-bottom
         move-to-window-line-top-bottom
         reposition-window
-        ;; bookmark-jump
-        ;; other-window
-        ;; delete-window
-        ;; delete-other-windows
+        bookmark-jump
+        other-window
+        delete-window
+        delete-other-windows
         forward-page
         backward-page
         scroll-up-command
         scroll-down-command
-        ;; windmove-right
-        ;; windmove-left
-        ;; windmove-up
-        ;; windmove-down
-        ;; windmove-swap-states-right
-        ;; windmove-swap-states-left
-        ;; windmove-swap-states-up
-        ;; windmove-swap-states-down
-        ;; tab-new
-        ;; tab-close
-        ;; tab-next
+        windmove-right
+        windmove-left
+        windmove-up
+        windmove-down
+        windmove-swap-states-right
+        windmove-swap-states-left
+        windmove-swap-states-up
+        windmove-swap-states-down
+        tab-new
+        tab-close
+        tab-next
         org-next-visible-heading
         org-previous-visible-heading
         org-forward-heading-same-level
@@ -254,7 +247,6 @@ Remember to read the doc string of each of these variables.
         outline-previous-visible-heading
         outline-up-heading))
 
-(setq pulsar-pulse-on-window-change t)
 (setq pulsar-pulse t)
 (setq pulsar-delay 0.055)
 (setq pulsar-iterations 10)

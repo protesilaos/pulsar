@@ -33,11 +33,6 @@
 ;; takes place when either `pulsar-mode' (buffer-local) or
 ;; `pulsar-global-mode' is enabled.
 ;;
-;; There is no need to add all functions that affect the active window
-;; to the `pulsar-pulse-functions'.  Instead, keep the user option
-;; `pulsar-pulse-on-window-change' in its default non-nil value.  It
-;; will pulse the current line whenever the active window changes.
-;;
 ;; The overall duration of the highlight is determined by a combination
 ;; of `pulsar-delay' and `pulsar-iterations'.  The latter determines the
 ;; number of blinks in a pulse, while the former sets their delay in
@@ -77,30 +72,28 @@ Extension of `pulse.el'."
 ;;;; User options
 
 (defcustom pulsar-pulse-functions
-  ;; NOTE 2022-04-09: The commented out functions are from before the
-  ;; introduction of `pulsar-pulse-on-window-change'.  Try that instead.
   '(recenter-top-bottom
     move-to-window-line-top-bottom
     reposition-window
-    ;; bookmark-jump
-    ;; other-window
-    ;; delete-window
-    ;; delete-other-windows
+    bookmark-jump
+    other-window
+    delete-window
+    delete-other-windows
     forward-page
     backward-page
     scroll-up-command
     scroll-down-command
-    ;; windmove-right
-    ;; windmove-left
-    ;; windmove-up
-    ;; windmove-down
-    ;; windmove-swap-states-right
-    ;; windmove-swap-states-left
-    ;; windmove-swap-states-up
-    ;; windmove-swap-states-down
-    ;; tab-new
-    ;; tab-close
-    ;; tab-next
+    windmove-right
+    windmove-left
+    windmove-up
+    windmove-down
+    windmove-swap-states-right
+    windmove-swap-states-left
+    windmove-swap-states-up
+    windmove-swap-states-down
+    tab-new
+    tab-close
+    tab-next
     org-next-visible-heading
     org-previous-visible-heading
     org-forward-heading-same-level
@@ -111,26 +104,12 @@ Extension of `pulse.el'."
     outline-previous-visible-heading
     outline-up-heading)
   "Functions that `pulsar-pulse-line' after invocation.
-This only takes effect when `pulsar-mode' or `pulsar-global-mode'
-is enabled.
-
-For functions/commands that change the current window, it is
-better to set the user option `pulsar-pulse-on-window-change' to
-non-nil instead of specifying each of them in this list."
+This only takes effect when `pulsar-mode' (buffer-local) or
+`pulsar-global-mode' is enabled."
   :type '(repeat function)
   :group 'pulsar)
 
-(defcustom pulsar-pulse-on-window-change t
-  "When non-nil enable pulsing on every window change.
-This covers all commands or functions that affect the current
-window.  Users who prefer to trigger a pulse only after select
-functions (e.g. only after `other-window') are advised to set
-this variable to nil and update the `pulsar-pulse-functions'
-accordingly.
-
-Internally this works with `window-selection-change-functions'."
-  :type 'boolean
-  :group 'pulsar)
+(make-obsolete 'pulsar-pulse-on-window-change nil "0.5.0")
 
 (defcustom pulsar-face 'pulsar-generic
   "Face of the regular pulse line effect (`pulsar-pulse-line').
@@ -399,11 +378,8 @@ For lines, do the same as `pulsar-highlight-line'."
 This is a buffer-local mode.  Also check `pulsar-global-mode'."
   :global nil
   (if pulsar-mode
-      (progn
-        (add-hook 'post-command-hook #'pulsar--post-command-pulse nil 'local)
-        (add-hook 'window-selection-change-functions #'pulsar--pulse-on-window-change nil 'local))
-    (remove-hook 'post-command-hook #'pulsar--post-command-pulse 'local)
-    (remove-hook 'window-selection-change-functions #'pulsar--pulse-on-window-change 'local)))
+      (add-hook 'post-command-hook #'pulsar--post-command-pulse nil 'local)
+    (remove-hook 'post-command-hook #'pulsar--post-command-pulse 'local)))
 
 (defun pulsar--on ()
   "Enable `pulsar-mode'."
@@ -413,18 +389,6 @@ This is a buffer-local mode.  Also check `pulsar-global-mode'."
 
 ;;;###autoload
 (define-globalized-minor-mode pulsar-global-mode pulsar-mode pulsar--on)
-
-(defun pulsar--pulse-on-window-change (&rest _)
-  "Run `pulsar-pulse-line' on window change."
-  ;; NOTE 2022-08-06 about the `last-command': When we use M-x with a
-  ;; non-nil `pulsar-pulse-on-window-change' the current line will pulse
-  ;; in the window after we exit the minibuffer.  If we invoke a Pulsar
-  ;; command via M-x, this pulse overrides the effect of the command.
-  ;; We don't want that.
-  (when (and pulsar-pulse-on-window-change
-             (or pulsar-mode pulsar-global-mode)
-             (not (string-match-p "pulsar" (symbol-name last-command))))
-    (pulsar-pulse-line)))
 
 (defun pulsar--post-command-pulse ()
   "Run `pulsar-pulse-line' for `pulsar-pulse-functions'."
