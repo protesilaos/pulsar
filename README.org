@@ -306,7 +306,7 @@ Pulsar is meant to be a collective effort.  Every bit of help matters.
   Mendler, Ivan Popovych, JD Smith.
 
 + Ideas and user feedback :: Mark Barton, Petter Storvik, Rudolf
-  Adamkovič, Toon Claes, and user kb.
+  Adamkovič, Toon Claes, and users djl, kb.
 
 * GNU Free Documentation License
 :PROPERTIES:
