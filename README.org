@@ -30,9 +30,14 @@ commit, is explicitly marked as such.
 
 Current development target is {{{development-version}}}.
 
-+ Homepage: https://protesilaos.com/emacs/pulsar.
-+ Git repository: https://git.sr.ht/~protesilaos/pulsar.
-+ Mailing list: https://lists.sr.ht/~protesilaos/pulsar.
++ Package name (GNU ELPA): =pulsar=
++ Official manual: <https://protesilaos.com/emacs/pulsar>
++ Change log: <https://protesilaos.com/emacs/pulsar-changelog>
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/pulsar>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/pulsar>
+    + GitLab: <https://gitlab.com/protesilaos/pulsar>
++ Mailing list: <https://lists.sr.ht/~protesilaos/pulsar>
 
 #+toc: headlines 8 insert TOC here, with eight headline levels
 
