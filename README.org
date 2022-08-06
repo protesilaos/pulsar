@@ -244,6 +244,22 @@ Remember to read the doc string of each of these variables.
   (define-key map (kbd "C-c h h") #'pulsar-highlight-line))
 #+end_src
 
+** Use pulsar with next-error
+:PROPERTIES:
+:CUSTOM_ID: h:0b055c04-fefe-4355-9951-a74689c8d1e5
+:END:
+
+By default, the =n= and =p= keys in Emacs' compilation buffers (e.g. the
+results of a ~grep~ search) produce a highlight for the locus of the
+given match.  Due to how the code is implemented, we cannot use Pulsar's
+standard mechanism to trigger a pulse after the match is highlighted.
+Instead, the user must add this to their configuration in lieu of a
+Pulsar-level solution that "just works":
+
+#+begin_src emacs-lisp
+(add-hook 'next-error-hook #'pulsar-pulse-line)
+#+end_src
+
 * Integration with other packages
 :PROPERTIES:
 :CUSTOM_ID: h:b884f2ac-82f3-48c0-bee5-6709d6647b1d
