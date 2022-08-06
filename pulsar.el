@@ -442,20 +442,13 @@ The symbol is NAME, DOC for the doc string, and ARG is passed to
 `recenter'."
   (declare (indent defun))
   `(defun ,name ()
-     ,doc
+     ,(format "Reposition point at the %s of the window and pulse line." doc)
      (interactive)
      (recenter ,arg)
      (pulsar-pulse-line)))
 
-(pulsar-recenter
-  pulsar-recenter-top
-  "Reposition point at the top of the window and pulse line."
-  0)
-
-(pulsar-recenter
-  pulsar-recenter-middle
-  "Reposition point at the center of the window and pulse line."
-  nil)
+(pulsar-recenter pulsar-recenter-top "top" 0)
+(pulsar-recenter pulsar-recenter-middle "center" nil)
 
 ;;;; Reveal contents of Org or Outline headings
 
