@@ -436,6 +436,7 @@ This is a buffer-local mode.  Also check `pulsar-global-mode'."
 
 ;;;; Recentering commands
 
+;;;###autoload
 (defmacro pulsar-recenter (name doc arg)
   "Produce command to pulse and recenter.
 The symbol is NAME, DOC for the doc string, and ARG is passed to
