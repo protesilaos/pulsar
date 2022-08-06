@@ -120,6 +120,40 @@ Why the name "pulsar"?  It sounds like "pulse" and is a recognisable
 word.  Though if you need a backronym, consider "Pulsar Unquestionably
 Luminates, Strictly Absent the Radiation".
 
+** Convenience functions
+:PROPERTIES:
+:CUSTOM_ID: h:6ca69953-1a89-4968-a46c-2fa5e57aca9b
+:END:
+
+[ Part of {{{development-version}}} ]
+
+Depending on the user's workflow, there may be a need for differently
+colored pulses.  These are meant to provide an ad-hoc deviation from the
+standard style of the command ~pulsar-pulse-line~ (which is governed by
+the user option ~pulsar-face~).  Pulsar thus provides the following for
+the user's convenience:
+
+#+findex: pulsar-pulse-line-red
+- ~pulsar-pulse-line-red~
+
+#+findex: pulsar-pulse-line-green
+- ~pulsar-pulse-line-green~
+
+#+findex: pulsar-pulse-line-yellow
+- ~pulsar-pulse-line-yellow~
+
+#+findex: pulsar-pulse-line-blue
+- ~pulsar-pulse-line-blue~
+
+#+findex: pulsar-pulse-line-magenta
+- ~pulsar-pulse-line-magenta~
+
+#+findex: pulsar-pulse-line-cyan
+- ~pulsar-pulse-line-cyan~
+
+These can be called with =M-x=, assigned to a hook and/or key binding,
+or be incorporated in custom functions.
+
 * Installation
 :PROPERTIES:
 :CUSTOM_ID: h:812f7616-7e0f-489f-a908-1cb759ca64ce

@@ -323,6 +323,27 @@ default)."
   (interactive)
   (pulsar--pulse :no-pulse pulsar-highlight-face))
 
+;;;;; Convenience functions
+
+;;;###autoload
+(defmacro pulsar-pulse-with-face (name face)
+  "Produce NAME function to `pulsar--pulse' with FACE."
+  (declare (indent function))
+  `(defun ,name ()
+     ,(format "Like `pulsar-pulse-line' but uses the `%s' face.
+The idea with this is to run it in special hooks or contexts
+where you need a different color than what Pulsar normally
+uses (per `pulsar-face')" face)
+     (interactive)
+     (pulsar--pulse nil ',face)))
+
+(pulsar-pulse-with-face pulsar-pulse-line-red pulsar-red)
+(pulsar-pulse-with-face pulsar-pulse-line-green pulsar-green)
+(pulsar-pulse-with-face pulsar-pulse-line-yellow pulsar-yellow)
+(pulsar-pulse-with-face pulsar-pulse-line-blue pulsar-blue)
+(pulsar-pulse-with-face pulsar-pulse-line-magenta pulsar-magenta)
+(pulsar-pulse-with-face pulsar-pulse-line-cyan pulsar-cyan)
+
 ;;;;; Highlight region
 
 (defvar-local pulsar--rectangle-face-cookie nil
