@@ -126,7 +126,9 @@ This covers all commands or functions that affect the current
 window.  Users who prefer to trigger a pulse only after select
 functions (e.g. only after `other-window') are advised to set
 this variable to nil and update the `pulsar-pulse-functions'
-accordingly."
+accordingly.
+
+Internally this works with `window-selection-change-functions'."
   :type 'boolean
   :group 'pulsar)
 
