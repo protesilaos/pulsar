@@ -213,39 +213,9 @@ Remember to read the doc string of each of these variables.
 #+begin_src emacs-lisp
 (require 'pulsar)
 
-;; This is the default value.  Just to show how it is done.
-(setq pulsar-pulse-functions
-      '(recenter-top-bottom
-        move-to-window-line-top-bottom
-        reposition-window
-        bookmark-jump
-        other-window
-        delete-window
-        delete-other-windows
-        forward-page
-        backward-page
-        scroll-up-command
-        scroll-down-command
-        windmove-right
-        windmove-left
-        windmove-up
-        windmove-down
-        windmove-swap-states-right
-        windmove-swap-states-left
-        windmove-swap-states-up
-        windmove-swap-states-down
-        tab-new
-        tab-close
-        tab-next
-        org-next-visible-heading
-        org-previous-visible-heading
-        org-forward-heading-same-level
-        org-backward-heading-same-level
-        outline-backward-same-level
-        outline-forward-same-level
-        outline-next-visible-heading
-        outline-previous-visible-heading
-        outline-up-heading))
+;; Check the default value of `pulsar-pulse-functions'.  That is where
+;; you add more commands that should cause a pulse after they are
+;; invoked
 
 (setq pulsar-pulse t)
 (setq pulsar-delay 0.055)
