@@ -423,7 +423,7 @@ This is a buffer-local mode.  Also check `pulsar-global-mode'."
   ;; We don't want that.
   (when (and pulsar-pulse-on-window-change
              (or pulsar-mode pulsar-global-mode)
-             (not (string-prefix-p "pulsar" (symbol-name last-command))))
+             (not (string-match-p "pulsar" (symbol-name last-command))))
     (pulsar-pulse-line)))
 
 (defun pulsar--post-command-pulse ()
