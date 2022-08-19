@@ -6,6 +6,62 @@
 The newest release is at the top.  For further details, please consult
 the manual: <https://protesilaos.com/emacs/pulsar>.
 
+* Version 0.5.0 on 2022-08-19
+
++ Added convenience functions/commands to pulse a line using one of the
+  provided faces.  These can be used interactively or via Lisp (e.g. be
+  assigned to a hook).  They are:
+
+  - ~pulsar-pulse-line-red~
+  - ~pulsar-pulse-line-green~
+  - ~pulsar-pulse-line-yellow~
+  - ~pulsar-pulse-line-blue~
+  - ~pulsar-pulse-line-magenta~
+  - ~pulsar-pulse-line-cyan~
+
++ Deprecated ~pulsar-pulse-on-window-change~ due to complications it
+  created in some edge cases.  Part of this effort was to fix a bug that
+  pertained to a duplicate pulse when the pulsar commands were invoked
+  via =M-x=.  The duplication had the effect of potentially overriding
+  the color of the pulse such as if, say, ~pulsar-pulse-line-red~ was
+  invoked while the ~pulsar-face~ was blue.
+
++ Restored several command symbols to the default value of
+  ~pulsar-pulse-functions~.  Those were disabled to support the use
+  option ~pulsar-pulse-on-window-change~, but as that is now removed we
+  revert to the old and more predictable way of handling things.
+
++ Introduced conditionality that checks for ~real-this-command~.  This
+  is necessary for commands that have to fudge ~this-command~ to provide
+  their functionality.  Such is the case with the ~evil-scroll-up~ and
+  ~evil-scroll-down~ commands which are internally reported as
+  ~previous-line~ and ~next-line~, respectively.  I discovered this
+  problem while trying to support Duy Nguyen attempts that making
+  =pulsar= work with =evil=.
+
+  Thanks to Duy Nguyen for reporting the issue on the mailing list and
+  then to Tom Dalziel who explained why =evil= does things the way it
+  does (it is a good reason):
+
+  - <https://lists.sr.ht/~protesilaos/pulsar/%3C89566F5C-25AD-4281-94CB-031FE8878119%40gmail.com%3E>
+  - <https://lists.sr.ht/~protesilaos/pulsar/%3C87pmgy3vzq.fsf%40protesilaos.com%3E>
+  - <https://github.com/emacs-evil/evil/issues/1659>
+
++ Documented how to use pulsar with the =next-error-hook=.  By default,
+  the =n= and =p= keys in Emacs' compilation buffers (e.g. the results
+  of a ~grep~ search) produce a highlight for the locus of the given
+  match.  Due to how the code is implemented, we cannot use Pulsar's
+  standard mechanism to trigger a pulse after the match is highlighted
+  (i.e. by adding the commands to ~pulsar-pulse-functions~.  Instead,
+  the user must add this to their configuration:
+
+  #+begin_src emacs-lisp
+  (add-hook 'next-error-hook #'pulsar-pulse-line)
+  #+end_src
+
++ Made other miscellaneous changes to tweak the code base and the
+  manual.
+
 * Version 0.4.0 on 2022-07-19
 
 + Added the user option ~pulsar-pulse-on-window-change~.  This covers

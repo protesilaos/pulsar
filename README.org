@@ -4,9 +4,9 @@
 #+language:              en
 #+options:               ':t toc:nil author:t email:t num:t
 #+startup:               content
-#+macro:                 stable-version 0.4.0
-#+macro:                 release-date 2022-07-19
-#+macro:                 development-version 0.5.0-dev
+#+macro:                 stable-version 0.5.0
+#+macro:                 release-date 2022-08-19
+#+macro:                 development-version 0.6.0-dev
 #+export_file_name:      pulsar.texi
 #+texinfo_filename:      pulsar.info
 #+texinfo_dir_category:  Emacs misc features
@@ -119,8 +119,6 @@ Luminates, Strictly Absent the Radiation".
 :PROPERTIES:
 :CUSTOM_ID: h:6ca69953-1a89-4968-a46c-2fa5e57aca9b
 :END:
-
-[ Part of {{{development-version}}} ]
 
 Depending on the user's workflow, there may be a need for differently
 colored pulses.  These are meant to provide an ad-hoc deviation from the
