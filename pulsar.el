@@ -238,7 +238,7 @@ pulse.  Only applies when `pulsar-pulse' is non-nil."
 (defun pulsar--indentation-only-line-p ()
   "Return non-nil if current line has only indentation."
   (save-excursion
-    (goto-char (point-at-bol))
+    (goto-char (line-beginning-position))
     (and (not (bobp))
 	     (or (beginning-of-line 1) t)
 	     (save-match-data
