@@ -83,6 +83,8 @@ Extension of `pulse.el'."
     backward-page
     scroll-up-command
     scroll-down-command
+    next-buffer
+    previous-buffer
     windmove-right
     windmove-left
     windmove-up
