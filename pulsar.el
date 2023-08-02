@@ -408,7 +408,7 @@ This is a buffer-local mode.  Also check `pulsar-global-mode'."
   "Produce command to pulse and recenter at PLACE.
 ARG has the same meaning as the one passed to `recenter'."
   (declare (indent defun))
-  `(defun ,(intern (format "pulsar-recent-%s" place)) ()
+  `(defun ,(intern (format "pulsar-recenter-%s" place)) ()
      ,(format "Reposition point at the %s of the window and pulse line." place)
      (interactive)
      (recenter ,arg)
