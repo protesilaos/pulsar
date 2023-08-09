@@ -403,19 +403,19 @@ This is a buffer-local mode.  Also check `pulsar-global-mode'."
 
 ;;;; Recentering commands
 
-;;;###autoload
-(defmacro pulsar-define-recenter (place arg)
-  "Produce command to pulse and recenter at PLACE.
-ARG has the same meaning as the one passed to `recenter'."
-  (declare (indent defun))
-  `(defun ,(intern (format "pulsar-recenter-%s" place)) ()
-     ,(format "Reposition point at the %s of the window and pulse line." place)
-     (interactive)
-     (recenter ,arg)
-     (pulsar-pulse-line)))
+(defun pulsar-recenter-top ()
+  "Reposition point at the top of the window and pulse line."
+  (interactive)
+  (recenter 0)
+  (pulsar-pulse-line))
 
-(pulsar-define-recenter "top" 0)
-(pulsar-define-recenter "center" nil)
+(defun pulsar-recenter-center ()
+  "Reposition point at the center of the window and pulse line."
+  (interactive)
+  (recenter nil)
+  (pulsar-pulse-line))
+
+(defalias 'pulsar-recenter-middle 'pulsar-recenter-center "0.6.0")
 
 ;;;; Reveal contents of Org or Outline headings
 
@@ -427,7 +427,7 @@ ARG has the same meaning as the one passed to `recenter'."
 (defun pulsar-reveal-entry ()
   "Reveal Org or Outline entry.
 Use this in combination with `pulsar-recenter-top' or
-`pulsar-recenter-middle'."
+`pulsar-recenter-center'."
   (cond
    ((and (eq major-mode 'org-mode)
          (org-at-heading-p))

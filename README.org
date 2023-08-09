@@ -269,9 +269,11 @@ Beside ~pulsar-pulse-line~, Pulsar defines a few functions that can be
 added to hooks that are provided by other packages.
 
 #+findex: pulsar-recenter-top
+#+findex: pulsar-recenter-center
 #+findex: pulsar-recenter-middle
 There are two functions to recenter and then pulse the current line:
-~pulsar-recenter-top~ and ~pulsar-recenter-middle~.
+~pulsar-recenter-top~ and ~pulsar-recenter-center~ (alias
+~pulsar-recenter-middle~).
 
 #+findex: pulsar-reveal-entry
 There also exists ~pulsar-reveal-entry~ which displays the hidden
