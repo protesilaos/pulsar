@@ -306,24 +306,37 @@ default)."
 
 ;;;;; Convenience functions
 
+(define-obsolete-function-alias
+  'pulsar-pulse-with-face
+  'pulsar-define-pulse-with-face
+  "1.0.0")
+
 ;;;###autoload
-(defmacro pulsar-pulse-with-face (name face)
-  "Produce NAME function to `pulsar--pulse' with FACE."
+(defmacro pulsar-define-pulse-with-face (face)
+  "Produce function to `pulsar--pulse' with FACE.
+If FACE starts with the `pulsar-' prefix, remove it and keep only
+the remaining text.  The assumption is that something like
+`pulsar-red' will be convered to `red', thus deriving a function
+named `pulsar-pulse-line-red'.  Any other FACE is taken as-is."
   (declare (indent function))
-  `(defun ,name ()
-     ,(format "Like `pulsar-pulse-line' but uses the `%s' face.
+  (let* ((face-string (symbol-name face))
+         (face-name (if (string-prefix-p "pulsar-" face-string)
+                        (replace-regexp-in-string "pulsar-" "" face-string)
+                      face-string)))
+    `(defun ,(intern (format "pulsar-pulse-line-%s" face-name)) ()
+       ,(format "Like `pulsar-pulse-line' but uses the `%s' face.
 The idea with this is to run it in special hooks or contexts
 where you need a different color than what Pulsar normally
-uses (per `pulsar-face')" face)
-     (interactive)
-     (pulsar--pulse nil ',face)))
+uses (per the user option `pulsar-face')" face)
+       (interactive)
+       (pulsar--pulse nil ',face))))
 
-(pulsar-pulse-with-face pulsar-pulse-line-red pulsar-red)
-(pulsar-pulse-with-face pulsar-pulse-line-green pulsar-green)
-(pulsar-pulse-with-face pulsar-pulse-line-yellow pulsar-yellow)
-(pulsar-pulse-with-face pulsar-pulse-line-blue pulsar-blue)
-(pulsar-pulse-with-face pulsar-pulse-line-magenta pulsar-magenta)
-(pulsar-pulse-with-face pulsar-pulse-line-cyan pulsar-cyan)
+(pulsar-define-pulse-with-face pulsar-red)
+(pulsar-define-pulse-with-face pulsar-green)
+(pulsar-define-pulse-with-face pulsar-yellow)
+(pulsar-define-pulse-with-face pulsar-blue)
+(pulsar-define-pulse-with-face pulsar-magenta)
+(pulsar-define-pulse-with-face pulsar-cyan)
 
 ;;;;; Highlight region
 
