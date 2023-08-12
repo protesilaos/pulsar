@@ -6,6 +6,59 @@
 The newest release is at the top.  For further details, please consult
 the manual: <https://protesilaos.com/emacs/pulsar>.
 
+* Version 1.0.0 on 2023-08-12
+:PROPERTIES:
+:CUSTOM_ID: h:0d09da86-29be-461e-8ef6-1e93a07b756b
+:END:
+
+- The ~next-buffer~ and ~previous-buffer~ commands are added to the
+  default value of the user option ~pulsar-pulse-functions~.  They
+  will now trigger a pulse effect after they are called (if
+  ~pulsar-mode~ is enabled in the current buffer or
+  ~pulsar-global-mode~ is in use).
+
+- The command ~pulsar-recenter-middle~ is now an alias for
+  ~pulsar-recenter-center~, instead of being the original name.  Users
+  do not need to change anything on their end: this is just an
+  internal arrangement to use a name that corresponds to the one of
+  the underlying "recenter" mechanism.
+
+- The Lisp macro that was used to derive the Pulsar "recenter"
+  commands has been removed.  The commands are ~pulsar-recenter-top~
+  and ~pulsar-recenter-center~.  I originally thought the macro would
+  be useful in more places, but I ended up relying on it only twice.
+
+  Thanks to Ryan Kaskel for pointing out an intermediate typo/error I
+  made while redefining the macro and before I decided to remove it
+  altogether.  This was done as a comment on the GitHub mirror:
+  <https://github.com/protesilaos/pulsar/commit/c5086de779a0226d72eca4d5cba8c7689bc278b2#r123397272>.
+
+- The Lisp macro ~pulsar-pulse-with-face~ is renamed to
+  ~pulsar-define-pulse-with-face~.  Its definition is updated to
+  simplify how a Pulsar function is defined with a given face.
+  Examples of such functions are ~pulsar-pulse-line-red~,
+  ~pulsar-pulse-line-blue~.
+
+- Pulsar now retrieves the absolute beginning of the minibuffer
+  prompt.  This means that a pulse in the minibuffer will cover the
+  text of the prompt, as opposed to only affecting the input area.  As
+  such, the pulse is visible even if the minibuffer is empty
+  (e.g. what happens with the default completion setup when calling
+  =M-x=).
+
+- The manual provides instructions on how to set up Pulsar to produce
+  a pulse when the minibuffer is activated.  It cannot be done with
+  the ~pulsar-pulse-functions~, though the setup is not too involved.
+  In short:
+
+  #+begin_src emacs-lisp
+  (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line)
+
+  ;; OR something like this, replacing "blue" with one among red,
+  ;; green, yellow, magenta, cyan:
+  (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line-blue)
+  #+end_src
+
 * Version 0.5.0 on 2022-08-19
 :PROPERTIES:
 :CUSTOM_ID: h:20bf677d-bcef-4606-8cc2-ebd49bfc057b
