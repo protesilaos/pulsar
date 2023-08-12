@@ -252,10 +252,18 @@ pulse.  Only applies when `pulsar-pulse' is non-nil."
     (or (eobp) (eq (point) (point-max)))))
 
 (defun pulsar--start ()
-  "Return appropriate line start."
-  (if (and (pulsar--buffer-end-p) (eq (char-before) ?\n))
-      (line-beginning-position 0)
-    (line-beginning-position)))
+  "Return appropriate line start.
+When in the minibuffer, return the `point-min', which includes
+the text of the prompt.  This way, a pulse will be visible even
+if the minibuffer has no initial text (e.g. `M-x' with the
+default completion setup)."
+  (cond
+   ((minibufferp)
+    (point-min))
+   ((and (pulsar--buffer-end-p) (eq (char-before) ?\n))
+    (line-beginning-position 0))
+   (t
+    (line-beginning-position))))
 
 (defun pulsar--end ()
   "Return appropriate line end."
