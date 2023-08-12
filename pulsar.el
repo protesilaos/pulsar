@@ -109,6 +109,7 @@ Extension of `pulse.el'."
 This only takes effect when `pulsar-mode' (buffer-local) or
 `pulsar-global-mode' is enabled."
   :type '(repeat function)
+  :package-version '(pulsar . "1.0.0")
   :group 'pulsar)
 
 (make-obsolete 'pulsar-pulse-on-window-change nil "0.5.0")
@@ -128,6 +129,7 @@ background attribute."
                 (face :tag "Magenta style" pulsar-magenta)
                 (face :tag "Cyan style" pulsar-cyan)
                 (face :tag "Other face (must have a background)"))
+  :package-version '(pulsar . "0.2.0")
   :group 'pulsar)
 
 (defcustom pulsar-highlight-face 'pulsar-face
@@ -141,6 +143,7 @@ background attribute."
                         (face :tag "Magenta style" pulsar-magenta)
                         (face :tag "Cyan style" pulsar-cyan)
                         (face :tag "Other face (must have a background)")))
+  :package-version '(pulsar . "0.3.0")
   :group 'pulsar)
 
 (defcustom pulsar-pulse t
@@ -148,6 +151,7 @@ background attribute."
 Otherwise the highlight stays on the current line until another
 command is invoked."
   :type 'boolean
+  :package-version '(pulsar . "0.2.0")
   :group 'pulsar)
 
 (defcustom pulsar-delay 0.05
@@ -155,6 +159,7 @@ command is invoked."
 Together with `pulsar-iterations' control the overall duration of
 a pulse.  Only applies when `pulsar-pulse' is non-nil."
   :type 'number
+  :package-version '(pulsar . "0.1.0")
   :group 'pulsar)
 
 (defcustom pulsar-iterations pulse-iterations
@@ -162,6 +167,7 @@ a pulse.  Only applies when `pulsar-pulse' is non-nil."
 Together with `pulsar-delay' control the overall duration of a
 pulse.  Only applies when `pulsar-pulse' is non-nil."
   :type 'number
+  :package-version '(pulsar . "0.1.0")
   :group 'pulsar)
 
 ;;;; Faces
