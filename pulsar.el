@@ -442,7 +442,8 @@ This is a buffer-local mode.  Also check `pulsar-global-mode'."
   (recenter nil)
   (pulsar-pulse-line))
 
-(defalias 'pulsar-recenter-middle 'pulsar-recenter-center "1.0.0")
+(defalias 'pulsar-recenter-middle 'pulsar-recenter-center
+  "Alias for `pulsar-recenter-center'.")
 
 ;;;; Reveal contents of Org or Outline headings
 
