@@ -38,6 +38,7 @@ Current development target is {{{development-version}}}.
     + GitHub: <https://github.com/protesilaos/pulsar>
     + GitLab: <https://gitlab.com/protesilaos/pulsar>
 + Mailing list: <https://lists.sr.ht/~protesilaos/pulsar>
++ Backronym: Pulsar Unquestionably Luminates, Strictly Absent the Radiation.
 
 #+toc: headlines 8 insert TOC here, with eight headline levels
 
