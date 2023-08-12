@@ -259,6 +259,33 @@ Pulsar-level solution that "just works":
 (add-hook 'next-error-hook #'pulsar-pulse-line)
 #+end_src
 
+** Use pulsar in the minibuffer
+:PROPERTIES:
+:CUSTOM_ID: h:8b942448-6ed3-4cb7-8e31-796a8c5011a6
+:END:
+
+[ This works as intended with changes that are part of {{{development-version}}}. ]
+
+Due to how the minibuffer works, the user cannot rely on the user
+option ~pulse-pulse-functions~ to automatically pulse in that context.
+Instead, the user must add a function to the ~minibuffer-setup-hook~:
+it will trigger a pulse as soon as the minibuffer shows up:
+
+#+begin_src emacs-lisp
+(add-hook 'minibuffer-setup-hook #'pulsar-pulse-line)
+#+end_src
+
+The ~pulsar-pulse-line~ function will use the default Pulsar face, per
+the user option ~pulsar-face~.
+
+A convenience function can also be used ([[#h:6ca69953-1a89-4968-a46c-2fa5e57aca9b][Convenience functions]]).  The
+idea is to apply a different color than the one applied by default.
+For example:
+
+#+begin_src emacs-lisp
+(add-hook 'minibuffer-setup-hook #'pulsar-pulse-line-blue)
+#+end_src
+
 * Integration with other packages
 :PROPERTIES:
 :CUSTOM_ID: h:b884f2ac-82f3-48c0-bee5-6709d6647b1d
