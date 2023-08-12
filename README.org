@@ -20,7 +20,7 @@
 #+texinfo: @insertcopying
 
 This manual, written by Protesilaos Stavrou, describes the customization
-options for =pulsar= (or =pulsar.el=), and provides every other piece of
+options for ~pulsar~ (or =pulsar.el=), and provides every other piece of
 information pertinent to it.
 
 The documentation furnished herein corresponds to stable version
@@ -30,7 +30,7 @@ commit, is explicitly marked as such.
 
 Current development target is {{{development-version}}}.
 
-+ Package name (GNU ELPA): =pulsar=
++ Package name (GNU ELPA): ~pulsar~
 + Official manual: <https://protesilaos.com/emacs/pulsar>
 + Change log: <https://protesilaos.com/emacs/pulsar-changelog>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/pulsar>
@@ -158,7 +158,7 @@ or be incorporated in custom functions.
 :CUSTOM_ID: h:916cf31a-8f25-472e-9328-9c47522f1dd4
 :END:
 
-The package is available as =pulsar=.  Simply do:
+The package is available as ~pulsar~.  Simply do:
 
 : M-x package-refresh-contents
 : M-x package-install
