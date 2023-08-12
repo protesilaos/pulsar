@@ -7,6 +7,9 @@ The newest release is at the top.  For further details, please consult
 the manual: <https://protesilaos.com/emacs/pulsar>.
 
 * Version 0.5.0 on 2022-08-19
+:PROPERTIES:
+:CUSTOM_ID: h:20bf677d-bcef-4606-8cc2-ebd49bfc057b
+:END:
 
 + Added convenience functions/commands to pulse a line using one of the
   provided faces.  These can be used interactively or via Lisp (e.g. be
@@ -63,6 +66,9 @@ the manual: <https://protesilaos.com/emacs/pulsar>.
   manual.
 
 * Version 0.4.0 on 2022-07-19
+:PROPERTIES:
+:CUSTOM_ID: h:762631cc-f60c-42b1-977b-00fd71c1a37e
+:END:
 
 + Added the user option ~pulsar-pulse-on-window-change~.  This covers
   all commands or functions that affect the current window, so there is
@@ -88,6 +94,9 @@ the manual: <https://protesilaos.com/emacs/pulsar>.
   to the code.
 
 * Version 0.3.0 on 2022-04-08
+:PROPERTIES:
+:CUSTOM_ID: h:e0cd59e1-7a0b-47b5-b9fe-a20e1fa196f0
+:END:
 
 + Changed the source repository from GitLab to SourceHut:
   <https://git.sr.ht/~protesilaos/pulsar>.  Use the mailing list to
@@ -134,6 +143,9 @@ the manual: <https://protesilaos.com/emacs/pulsar>.
   GitLab mirror: <https://gitlab.com/protesilaos/pulsar/-/issues/12>.
 
 * Version 0.2.0 on 2022-03-16
+:PROPERTIES:
+:CUSTOM_ID: h:27d0bdb0-7099-41f3-8a08-b2e3d01aa36c
+:END:
 
 + Fixed an inconsistency that was present when Emacs was running in a
   server-client model where the highlight would never pulse but instead
@@ -168,6 +180,9 @@ the manual: <https://protesilaos.com/emacs/pulsar>.
 + Updated the manual to reflect those changes.
 
 * Version 0.1.0 on 2022-03-14
+:PROPERTIES:
+:CUSTOM_ID: h:92a23377-d4d9-43ea-a2d4-00a23ec37f57
+:END:
 
 Initial release of the package.  Please read the manual.
 
