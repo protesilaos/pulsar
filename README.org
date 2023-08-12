@@ -6,7 +6,7 @@
 #+startup:               content
 #+macro:                 stable-version 0.5.0
 #+macro:                 release-date 2022-08-19
-#+macro:                 development-version 0.6.0-dev
+#+macro:                 development-version 1.0.0-dev
 #+export_file_name:      pulsar.texi
 #+texinfo_filename:      pulsar.info
 #+texinfo_dir_category:  Emacs misc features
