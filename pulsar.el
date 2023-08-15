@@ -6,7 +6,7 @@
 ;; Maintainer: Pulsar Development <~protesilaos/pulsar@lists.sr.ht>
 ;; URL: https://git.sr.ht/~protesilaos/pulsar
 ;; Mailing-List: https://lists.sr.ht/~protesilaos/pulsar
-;; Version: 1.0.0
+;; Version: 1.0.1
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: convenience, pulse, highlight
 
@@ -265,7 +265,10 @@ if the minibuffer has no initial text (e.g. `M-x' with the
 default completion setup)."
   (cond
    ((minibufferp)
-    (point-min))
+    (save-excursion
+      (let ((inhibit-field-text-motion t))
+        (goto-char (minibuffer-prompt-end))
+        (line-beginning-position))))
    ((and (pulsar--buffer-end-p) (eq (char-before) ?\n))
     (line-beginning-position 0))
    (t
