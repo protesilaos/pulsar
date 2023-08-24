@@ -96,6 +96,7 @@ Extension of `pulse.el'."
     tab-new
     tab-close
     tab-next
+    handle-switch-frame
     org-next-visible-heading
     org-previous-visible-heading
     org-forward-heading-same-level
@@ -105,11 +106,11 @@ Extension of `pulse.el'."
     outline-next-visible-heading
     outline-previous-visible-heading
     outline-up-heading)
-  "Functions that `pulsar-pulse-line' after invocation.
+  "Functions that call `pulsar-pulse-line' after invocation.
 This only takes effect when `pulsar-mode' (buffer-local) or
 `pulsar-global-mode' is enabled."
   :type '(repeat function)
-  :package-version '(pulsar . "1.0.0")
+  :package-version '(pulsar . "1.1.0")
   :group 'pulsar)
 
 (make-obsolete 'pulsar-pulse-on-window-change nil "0.5.0")
