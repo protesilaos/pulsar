@@ -312,6 +312,21 @@ pulse effect."
   (pulsar--pulse))
 
 ;;;###autoload
+(defun pulsar-pulse-region ()
+  "Temporarily highlight the active region if any.  Do nothing otherwise.
+When `pulsar-pulse' is non-nil (the default) make the highlight
+pulse before fading away.  The pulse effect is controlled by
+`pulsar-delay' and `pulsar-iterations'.
+
+NB:  If multiple regions are active, only the first one is impacted."
+  (interactive)
+  (when (region-active-p)
+    (let* ((bounds (region-bounds))
+           (region-start (caar bounds))
+           (region-end (cdar bounds)))
+      (pulsar--pulse nil nil region-start region-end))))
+
+;;;###autoload
 (defun pulsar-highlight-line ()
   "Temporarily highlight the current line.
 Unlike `pulsar-pulse-line', never pulse the current line.  Keep
