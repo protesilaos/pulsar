@@ -98,6 +98,13 @@ will pulse before fading away.  Whereas the ~pulsar-highlight-line~
 command never pulses the line: the highlight stays in place as if
 ~pulsar-pulse~ is nil.
 
+#+findex: pulsar-pulse-region
+The command ~pulsar-pulse-region~ pulses the active region.  In case
+of multiple regions, it operates on the topmost one.  The effect of
+the pulse is controlled by the aforementioned user options, namely,
+~pulsar-delay~, ~pulsar-iterations~, ~pulsar-face~. [ The command
+~pulsar-pulse-region~ is part of {{{development-version}}}. ]
+
 #+findex: pulsar-highlight-dwim
 A do-what-I-mean command is also on offer: ~pulsar-highlight-dwim~.  It
 highlights the current line line like ~pulsar-highlight-line~.  If the
