@@ -84,6 +84,10 @@ Extension of `pulse.el'."
     scroll-up-command
     scroll-down-command
     goto-line
+    evil-goto-first-line
+    evil-goto-line
+    evil-scroll-up
+    evil-scroll-down
     next-buffer
     previous-buffer
     windmove-right
