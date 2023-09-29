@@ -72,45 +72,45 @@ Extension of `pulse.el'."
 ;;;; User options
 
 (defcustom pulsar-pulse-functions
-  '(recenter-top-bottom
-    move-to-window-line-top-bottom
-    reposition-window
+  '(backward-page
     bookmark-jump
-    other-window
-    delete-window
     delete-other-windows
-    forward-page
-    backward-page
-    scroll-up-command
-    scroll-down-command
-    goto-line
+    delete-window
     evil-goto-first-line
     evil-goto-line
-    evil-scroll-up
     evil-scroll-down
-    next-buffer
-    previous-buffer
-    windmove-right
-    windmove-left
-    windmove-up
-    windmove-down
-    windmove-swap-states-right
-    windmove-swap-states-left
-    windmove-swap-states-up
-    windmove-swap-states-down
-    tab-new
-    tab-close
-    tab-next
+    evil-scroll-up
+    forward-page
+    goto-line
     handle-switch-frame
+    move-to-window-line-top-bottom
+    next-buffer
+    org-backward-heading-same-level
+    org-forward-heading-same-level
     org-next-visible-heading
     org-previous-visible-heading
-    org-forward-heading-same-level
-    org-backward-heading-same-level
+    other-window
     outline-backward-same-level
     outline-forward-same-level
     outline-next-visible-heading
     outline-previous-visible-heading
-    outline-up-heading)
+    outline-up-heading
+    previous-buffer
+    recenter-top-bottom
+    reposition-window
+    scroll-down-command
+    scroll-up-command
+    tab-close
+    tab-new
+    tab-next
+    windmove-down
+    windmove-left
+    windmove-right
+    windmove-swap-states-down
+    windmove-swap-states-left
+    windmove-swap-states-right
+    windmove-swap-states-up
+    windmove-up)
   "Functions that call `pulsar-pulse-line' after invocation.
 This only takes effect when `pulsar-mode' (buffer-local) or
 `pulsar-global-mode' is enabled."
