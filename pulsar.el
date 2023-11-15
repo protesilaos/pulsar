@@ -79,14 +79,19 @@ Extension of `pulse.el'."
     evil-goto-first-line
     evil-goto-line
     evil-scroll-down
-    evil-scroll-up
-    evil-scroll-line-to-top
-    evil-scroll-line-to-center
     evil-scroll-line-to-bottom
+    evil-scroll-line-to-center
+    evil-scroll-line-to-top
+    evil-scroll-up
     forward-page
     goto-line
     handle-switch-frame
+    logos-backward-page-dwim
+    logos-forward-page-dwim
     move-to-window-line-top-bottom
+    narrow-to-defun
+    narrow-to-page
+    narrow-to-region
     next-buffer
     org-backward-heading-same-level
     org-forward-heading-same-level
@@ -106,6 +111,7 @@ Extension of `pulse.el'."
     tab-close
     tab-new
     tab-next
+    widen
     windmove-down
     windmove-left
     windmove-right
