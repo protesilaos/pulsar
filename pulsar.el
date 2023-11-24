@@ -82,6 +82,8 @@ Extension of `pulse.el'."
     evil-scroll-line-to-bottom
     evil-scroll-line-to-center
     evil-scroll-line-to-top
+    evil-scroll-page-down
+    evil-scroll-page-up
     evil-scroll-up
     forward-page
     goto-line
