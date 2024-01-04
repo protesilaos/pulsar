@@ -95,6 +95,7 @@ Extension of `pulse.el'."
     narrow-to-page
     narrow-to-region
     next-buffer
+    next-multiframe-window
     org-backward-heading-same-level
     org-forward-heading-same-level
     org-next-visible-heading
