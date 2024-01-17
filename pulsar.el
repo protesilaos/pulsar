@@ -3,9 +3,8 @@
 ;; Copyright (C) 2022-2024  Free Software Foundation, Inc.
 
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
-;; Maintainer: Pulsar Development <~protesilaos/pulsar@lists.sr.ht>
-;; URL: https://git.sr.ht/~protesilaos/pulsar
-;; Mailing-List: https://lists.sr.ht/~protesilaos/pulsar
+;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
+;; URL: https://github.com/protesilaos/pulsar
 ;; Version: 1.0.1
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: convenience, pulse, highlight
