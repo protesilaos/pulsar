@@ -89,6 +89,7 @@ Extension of `pulse.el'."
     handle-switch-frame
     logos-backward-page-dwim
     logos-forward-page-dwim
+    handle-select-window
     move-to-window-line-top-bottom
     narrow-to-defun
     narrow-to-page
