@@ -62,6 +62,7 @@
 ;;; Code:
 
 (require 'pulse)
+(require 'cl-lib)
 
 (defgroup pulsar ()
   "Pulse highlight line on demand or after running select functions.
@@ -128,6 +129,14 @@ This only takes effect when `pulsar-mode' (buffer-local) or
 `pulsar-global-mode' is enabled."
   :type '(repeat function)
   :package-version '(pulsar . "1.1.0")
+  :group 'pulsar)
+
+(defcustom pulsar-resolve-pulse-function-aliases nil
+  "When non-nil, resolve function aliases in pulsar-pulse-functions.
+This allows pulsar to respect, e.g., tab-new's \"parent,\" tab-bar-new-tab,
+and vice-versa, enabling pulsar to respect tab-bar-new-tab's alias tab-new."
+  :type 'boolean
+  :package-version '(pulsar . "1.0.2")
   :group 'pulsar)
 
 (make-obsolete 'pulsar-pulse-on-window-change nil "0.5.0")
@@ -443,7 +452,10 @@ For lines, do the same as `pulsar-highlight-line'."
 This is a buffer-local mode.  Also check `pulsar-global-mode'."
   :global nil
   (if pulsar-mode
-      (add-hook 'post-command-hook #'pulsar--post-command-pulse nil 'local)
+      (progn
+        (when pulsar-resolve-pulse-function-aliases
+          (pulsar--resolve-function-aliases))
+        (add-hook 'post-command-hook #'pulsar--post-command-pulse nil 'local))
     (remove-hook 'post-command-hook #'pulsar--post-command-pulse 'local)))
 
 (defun pulsar--on ()
@@ -463,6 +475,40 @@ This is a buffer-local mode.  Also check `pulsar-global-mode'."
     (pulsar-pulse-line)))
 
 (make-obsolete 'pulsar-setup nil "0.3.0")
+
+;; Lifted from Emacs 30 to allow pulsar to remain backward compatbile
+;; with Emacs earlier than Emacs 29.1. TODO: Deprecate this at some
+;; point to prefer Emacs core.
+(defun pulsar--function-alias-p (func &optional _noerror)
+  "Return nil if FUNC is not a function alias.
+If FUNC is a function alias, return the function alias chain."
+  (declare (advertised-calling-convention (func) "30.1")
+           (side-effect-free error-free))
+  (let ((chain nil))
+    (while (and (symbolp func)
+                (setq func (symbol-function func))
+                (symbolp func))
+      (push func chain))
+    (nreverse chain)))
+
+;; This is essentially the inverse of function-alias-p for a list of
+;; function symbols.
+(defun pulsar--find-fn-aliases (fns)
+  "Return a list of aliases for the FNS symbols."
+  (let ((aliases))
+    (mapatoms (lambda (sym)
+                (when (and
+                       (fboundp sym)
+                       (memq (symbol-function sym) fns))
+                  (push sym aliases))))
+    aliases))
+
+(defun pulsar--resolve-function-aliases ()
+  "Amend pulsar-pulse-functions to respect function aliases."
+  (setq pulsar-pulse-functions
+        (cl-union pulsar-pulse-functions
+            (cl-union (pulsar--find-fn-aliases pulsar-pulse-functions)
+                      (flatten-list (mapcar (lambda (x) (pulsar--function-alias-p x)) pulsar-pulse-functions))))))
 
 ;;;; Recentering commands
 
