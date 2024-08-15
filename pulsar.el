@@ -498,7 +498,7 @@ If FUNC is a function alias, return the function alias chain."
   (let ((aliases))
     (mapatoms (lambda (sym)
                 (when (and
-                       (fboundp sym)
+                       (commandp sym)
                        (memq (symbol-function sym) fns))
                   (push sym aliases))))
     aliases))
