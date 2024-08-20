@@ -33,7 +33,7 @@
 ;; `pulsar-global-mode' is enabled.
 ;;
 ;; By default, Pulsar does not try behave the same way for a
-;; function's aliases.  If those are no added explicitly to the
+;; function's aliases.  If those are not added explicitly to the
 ;; `pulsar-pulse-functions', they will not have a pulse effect.
 ;; However, the user option `pulsar-resolve-pulse-function-aliases'
 ;; can be set to a non-nil value to change this behaviour, meaning
