@@ -514,7 +514,7 @@ If FUNC is a function alias, return the function alias chain."
     aliases))
 
 (defun pulsar--resolve-function-aliases ()
-  "Amend pulsar-pulse-functions to respect function aliases."
+  "Amend `pulsar-pulse-functions' to respect function aliases."
   (setq pulsar-pulse-functions
         (cl-union pulsar-pulse-functions
             (cl-union (pulsar--find-fn-aliases pulsar-pulse-functions)
