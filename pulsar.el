@@ -123,6 +123,7 @@ Extension of `pulse.el'."
     tab-close
     tab-new
     tab-next
+    tab-previous
     widen
     windmove-down
     windmove-left
