@@ -335,7 +335,7 @@ Pulsar is meant to be a collective effort.  Every bit of help matters.
 
 + Contributions to the code or manual :: Aymeric Agon-Rambosson,
   Bahman Movaqar, Daniel Mendler, Ivan Popovych, JD Smith, Maxim
-  Dunaevsky, Ryan Kaskel.
+  Dunaevsky, Ryan Kaskel, shipmints.
 
 + Ideas and user feedback :: Duy Nguyen, Mark Barton, Petter Storvik,
   Rudolf Adamkovič, Toon Claes, and users djl, kb.
