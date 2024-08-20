@@ -32,6 +32,14 @@
 ;; takes place when either `pulsar-mode' (buffer-local) or
 ;; `pulsar-global-mode' is enabled.
 ;;
+;; By default, Pulsar does not try behave the same way for a
+;; function's aliases.  If those are no added explicitly to the
+;; `pulsar-pulse-functions', they will not have a pulse effect.
+;; However, the user option `pulsar-resolve-pulse-function-aliases'
+;; can be set to a non-nil value to change this behaviour, meaning
+;; that Pulsar will cover a function's aliases even if those are not
+;; explicitly added to the `pulsar-pulse-functions'.
+;;
 ;; The overall duration of the highlight is determined by a combination
 ;; of `pulsar-delay' and `pulsar-iterations'.  The latter determines the
 ;; number of blinks in a pulse, while the former sets their delay in
@@ -132,11 +140,12 @@ This only takes effect when `pulsar-mode' (buffer-local) or
   :group 'pulsar)
 
 (defcustom pulsar-resolve-pulse-function-aliases nil
-  "When non-nil, resolve function aliases in pulsar-pulse-functions.
-This allows pulsar to respect, e.g., tab-new's \"parent,\" tab-bar-new-tab,
-and vice-versa, enabling pulsar to respect tab-bar-new-tab's alias tab-new."
+  "When non-nil, resolve function aliases in `pulsar-pulse-functions'.
+This allows pulsar to respect, e.g., `tab-new' \"parent,\"
+`tab-bar-new-tab', and vice-versa, enabling Pulsar to respect
+`tab-bar-new-tab' alias `tab-new'."
   :type 'boolean
-  :package-version '(pulsar . "1.0.2")
+  :package-version '(pulsar . "1.1.0")
   :group 'pulsar)
 
 (make-obsolete 'pulsar-pulse-on-window-change nil "0.5.0")

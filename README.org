@@ -74,6 +74,16 @@ in the user option ~pulsar-pulse-functions~ and the effect takes place
 when either ~pulsar-mode~ (buffer-local) or ~pulsar-global-mode~ is
 enabled.
 
+#+vindex; pulsar-resolve-pulse-function-aliases
+By default, Pulsar does not try behave the same way for a function's
+aliases. If those are no added explicitly to the ~pulsar-pulse-functions~,
+they will not have a pulse effect. However, the user option
+~pulsar-resolve-pulse-function-aliases~ can be set to a non-nil value
+to change this behaviour, meaning that Pulsar will cover a function's
+aliases even if those are not explicitly added to the ~pulsar-pulse-functions~.
+[ The ~pulsar-resolve-pulse-function-aliases~ is part of
+  {{{development-version}}}. ]
+
 #+vindex: pulsar-delay
 #+vindex: pulsar-iterations
 #+vindex: pulsar-face
