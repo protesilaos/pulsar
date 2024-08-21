@@ -70,7 +70,6 @@
 ;;; Code:
 
 (require 'pulse)
-(require 'cl-lib)
 
 (defgroup pulsar ()
   "Pulse highlight line on demand or after running select functions.
