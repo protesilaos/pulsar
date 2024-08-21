@@ -70,7 +70,6 @@
 ;;; Code:
 
 (require 'pulse)
-(require 'cl-lib)
 
 (defgroup pulsar ()
   "Pulse highlight line on demand or after running select functions.
@@ -516,9 +515,9 @@ If FUNC is a function alias, return the function alias chain."
 (defun pulsar--resolve-function-aliases ()
   "Amend `pulsar-pulse-functions' to respect function aliases."
   (setq pulsar-pulse-functions
-        (cl-union pulsar-pulse-functions
-            (cl-union (pulsar--find-fn-aliases pulsar-pulse-functions)
-                      (flatten-list (mapcar (lambda (x) (pulsar--function-alias-p x)) pulsar-pulse-functions))))))
+        (seq-union pulsar-pulse-functions
+                   (seq-union (pulsar--find-fn-aliases pulsar-pulse-functions)
+                              (flatten-list (mapcar (lambda (x) (pulsar--function-alias-p x)) pulsar-pulse-functions))))))
 
 ;;;; Recentering commands
 
