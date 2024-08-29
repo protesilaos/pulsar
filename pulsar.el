@@ -348,18 +348,29 @@ pulse effect."
 
 ;;;###autoload
 (defun pulsar-pulse-region ()
-  "Temporarily highlight the active region if any.  Do nothing otherwise.
-When `pulsar-pulse' is non-nil (the default) make the highlight
-pulse before fading away.  The pulse effect is controlled by
-`pulsar-delay' and `pulsar-iterations'.
-
-NB:  If multiple regions are active, only the first one is impacted."
+  "Temporarily highlight the active region if any."
   (interactive)
   (when (region-active-p)
-    (let* ((bounds (region-bounds))
-           (region-start (caar bounds))
-           (region-end (cdar bounds)))
-      (pulsar--pulse nil nil region-start region-end))))
+    (let ((beg (region-beginning))
+          (end (region-end)))
+      ;; FIXME 2024-08-29: Finding the lines and columns therein
+      ;; does not work because consecutive pulses cancel each
+      ;; other out, leaving only the last one active.
+      ;;
+      ;; (let* ((columns (rectangle--pos-cols beg end))
+      ;;        (begcol (car columns))
+      ;;        (endcol (cdr columns)))
+      ;;    (lines (list
+      ;;            (line-number-at-pos beg)
+      ;;            (line-number-at-pos end))))
+      ;; (dolist (line lines)
+      ;;   (save-excursion
+      ;;     (goto-char (point-min))
+      ;;     (forward-line (1- line))
+      ;;     (setq beg (progn (move-to-column begcol) (point))
+      ;;           end (progn (move-to-column endcol) (point))))
+      ;;   (pulsar--pulse nil nil beg end)))
+      (pulsar--pulse nil nil beg end))))
 
 ;;;###autoload
 (defun pulsar-highlight-line ()
