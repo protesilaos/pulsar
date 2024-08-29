@@ -482,7 +482,8 @@ This is a buffer-local mode.  Also check `pulsar-global-mode'."
   "Enable `pulsar-mode'."
   (unless (minibufferp)
     (let (inhibit-quit)
-      (pulsar-mode 1))))
+      (unless pulsar-mode
+        (pulsar-mode 1)))))
 
 ;;;###autoload
 (define-globalized-minor-mode pulsar-global-mode pulsar-mode pulsar--on)
