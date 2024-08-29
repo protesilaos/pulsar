@@ -139,7 +139,7 @@ This only takes effect when `pulsar-mode' (buffer-local) or
   :package-version '(pulsar . "1.1.0")
   :group 'pulsar)
 
-(defcustom pulsar-resolve-pulse-function-aliases nil
+(defcustom pulsar-resolve-pulse-function-aliases t
   "When non-nil, resolve function aliases in `pulsar-pulse-functions'.
 This allows pulsar to respect, e.g., `tab-new' \"parent,\"
 `tab-bar-new-tab', and vice-versa, enabling Pulsar to respect
