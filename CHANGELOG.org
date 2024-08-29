@@ -2,9 +2,100 @@
 #+AUTHOR: Protesilaos Stavrou
 #+EMAIL: info@protesilaos.com
 #+OPTIONS: ':nil toc:nil num:nil author:nil email:nil
+#+STARTUP: content
 
 The newest release is at the top.  For further details, please consult
 the manual: <https://protesilaos.com/emacs/pulsar>.
+
+#+toc: headlines 1 insert TOC here, with one headline level
+
+* Version 1.1.0 on 2024-08-29
+:PROPERTIES:
+:CUSTOM_ID: h:93705ad7-b2ff-491f-a108-69f4949d715b
+:END:
+
+This version includes quality-of-life refinements to an already stable
+package.
+
+** Function aliases are recognised automatically
+:PROPERTIES:
+:CUSTOM_ID: h:9cf105d5-4b51-49a7-bccb-1d52ca650f5d
+:END:
+
+Pulsar will produce a highlight on the current line after one of the
+functions in ~pulsar-pulse-functions~ is used. This now works for
+aliases of those functions as well, even if they are not explicitly
+referenced in ~pulsar-pulse-functions~. Whereas before, only the
+explicitly named functions would produce the pulse effect.
+
+Thanks to shipmints for the contribution, which was originally done in
+in pull request 12 and then refined over a series of commits:
+<https://github.com/protesilaos/pulsar/pull/12>. The author has
+assigned copyright to the Free Software Foundation.
+
+Users who want to opt out of this behaviour, can set the user option
+~pulsar-resolve-pulse-function-aliases~ to a nil value.
+
+** The ~next-multiframe-window~ will produce a pulse by default
+:PROPERTIES:
+:CUSTOM_ID: h:4f3c1acf-2c2c-4100-9347-e71e5eca594b
+:END:
+
+This command is added to the ~pulsar-pulse-functions~. It is
+consistent with what we do with the ~other-window~ command.
+
+Thanks to Maxim Dunaevsky for the contribution. This was done in pull
+request 6: <https://github.com/protesilaos/pulsar/pull/6>. The change
+is small, meaning that Maxim does not need to assign copyright to the
+Free Software Foundation.
+
+** More common commands will pulse the current line
+:PROPERTIES:
+:CUSTOM_ID: h:c2749564-b18f-4569-9405-4230d4f2134b
+:END:
+
+I added the following to ~pulsar-pulse-functions~:
+
+1. ~evil-goto-first-line~
+2. ~evil-goto-line~
+3. ~evil-scroll-down~
+4. ~evil-scroll-line-to-bottom~
+5. ~evil-scroll-line-to-center~
+6. ~evil-scroll-line-to-top~
+7. ~evil-scroll-up~
+8. ~goto-line~
+9. ~handle-switch-frame~
+10. ~logos-backward-page-dwim~
+11. ~logos-forward-page-dwim~
+12. ~narrow-to-defun~
+13. ~narrow-to-page~
+14. ~narrow-to-region~
+15. ~widen~
+
+If you are using ~setq~, ~setopt~, the =:custom= keyword of
+~use-package~, or related, make sure to update the value accordingly.
+You do not need to do anything if you are doing it with ~add-to-list~.
+
+** Pulse a region with ~pulsar-pulse-region~
+:PROPERTIES:
+:CUSTOM_ID: h:a518d26a-c3f8-4470-8397-e783249dfe45
+:END:
+
+The command ~pulsar-pulse-region~ pulses the active region. Thanks to
+Bahman Movaqar for the contribution. This was done on the
+now-deprecated mailing list:
+<https://lists.sr.ht/~protesilaos/pulsar/169317951630.22395.14797122445974295748-0@git.sr.ht>
+
+The change is below the ~15 line limit and thus Bahman is not require
+to assign copyright to the Free Software Foundation.
+
+I still want to make this work with rectangular regions, which are not
+contiguous (in terms of character positions reading from left to
+right), but it is tricky. Maybe I will do it for the next version.
+
+Remember that the command ~pulsar-highlight-dwim~ will apply a
+temporary highlight to the active region or the current line. The
+highlight is removed as soon as another key is pressed.
 
 * Version 1.0.0 on 2023-08-12
 :PROPERTIES:
