@@ -148,6 +148,17 @@ This allows pulsar to respect, e.g., `tab-new' \"parent,\"
   :package-version '(pulsar . "1.1.0")
   :group 'pulsar)
 
+(defcustom pulsar-inhibit-hidden-buffers t
+  "When non-nil, `pulsar-mode' will not be enabled in hidden buffers.
+Hidden buffers are those with names that start with a space character.
+
+This handles cases such as:
+`eldoc' buffers in `special-mode'; e.g., \" *eldoc*\"
+or `diff-hl-mode` buffers; e.g., \" *diff-hl-diff*\"."
+  :type 'boolean
+  :package-version '(pulsar . "1.2.0")
+  :group 'pulsar)
+
 (make-obsolete 'pulsar-pulse-on-window-change nil "0.5.0")
 
 (defcustom pulsar-face 'pulsar-generic
@@ -480,10 +491,11 @@ This is a buffer-local mode.  Also check `pulsar-global-mode'."
 
 (defun pulsar--on ()
   "Enable `pulsar-mode'."
-  (unless (minibufferp)
+  (unless (or pulsar-mode
+              (minibufferp)
+              (and pulsar-inhibit-hidden-buffers (string-prefix-p " " (buffer-name))))
     (let (inhibit-quit)
-      (unless pulsar-mode
-        (pulsar-mode 1)))))
+      (pulsar-mode 1))))
 
 ;;;###autoload
 (define-globalized-minor-mode pulsar-global-mode pulsar-mode pulsar--on)
