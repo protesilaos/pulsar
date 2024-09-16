@@ -74,8 +74,8 @@ in the user option ~pulsar-pulse-functions~ and the effect takes place
 when either ~pulsar-mode~ (buffer-local) or ~pulsar-global-mode~ is
 enabled.
 
-#+vindex; pulsar-resolve-pulse-function-aliases
 By default, Pulsar does not try behave the same way for a function's
+#+vindex: pulsar-resolve-pulse-function-aliases
 aliases. If those are not added explicitly to the ~pulsar-pulse-functions~,
 they will not have a pulse effect. However, the user option
 ~pulsar-resolve-pulse-function-aliases~ can be set to a non-nil value
