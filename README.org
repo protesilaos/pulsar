@@ -96,6 +96,14 @@ To disable the pulse but keep the temporary highlight, set the user
 option ~pulsar-pulse~ to nil.  The current line will remain highlighted
 until another command is invoked.
 
+#+vindex: pulsar-inhibit-hidden-buffers
+The user option ~pulsar-inhibit-hidden-buffers~ controls whether
+Pulsar is active in hidden buffers. These are buffers that users
+normally do not interact with and are not displayed in the interface
+of the various buffer-switching commands. When this user option is
+nil, ~pulsar-mode~ will work in those buffers as well. [ The
+~pulsar-inhibit-hidden-buffers~ is part of {{{development-version}}}. ]
+
 #+findex: pulsar-pulse-line
 #+findex: pulsar-highlight-line
 To highlight the current line on demand, use the ~pulsar-pulse-line~
