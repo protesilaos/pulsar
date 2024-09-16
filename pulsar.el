@@ -32,13 +32,18 @@
 ;; takes place when either `pulsar-mode' (buffer-local) or
 ;; `pulsar-global-mode' is enabled.
 ;;
+;; Regions may also be temporarily highlighted after a region command
+;; is called. The affected functions are defined in the user option
+;; `pulsar-pulse-region-functions'.
+;;
 ;; By default, Pulsar does not try behave the same way for a
-;; function's aliases.  If those are not added explicitly to the
-;; `pulsar-pulse-functions', they will not have a pulse effect.
-;; However, the user option `pulsar-resolve-pulse-function-aliases'
-;; can be set to a non-nil value to change this behaviour, meaning
-;; that Pulsar will cover a function's aliases even if those are not
-;; explicitly added to the `pulsar-pulse-functions'.
+;; function's aliases. If those are not added explicitly to the
+;; `pulsar-pulse-functions' or `pulsar-pulse-region-functions', they
+;; will not have a pulse effect. However, the user option
+;; `pulsar-resolve-pulse-function-aliases' can be set to a non-nil
+;; value to change this behaviour, meaning that Pulsar will cover a
+;; function's aliases even if those are not explicitly added to the
+;; `pulsar-pulse-functions' or `pulsar-pulse-region-functions'.
 ;;
 ;; The overall duration of the highlight is determined by a combination
 ;; of `pulsar-delay' and `pulsar-iterations'.  The latter determines the
@@ -139,11 +144,25 @@ This only takes effect when `pulsar-mode' (buffer-local) or
   :package-version '(pulsar . "1.1.0")
   :group 'pulsar)
 
+(defcustom pulsar-pulse-region-functions
+  '(yank
+    kill-region
+    kill-ring-save
+    append-next-kill
+    undo)
+  "Functions that highlight the affected region after invocation.
+This only takes effect when `pulsar-mode' (buffer-local) or
+`pulsar-global-mode' is enabled."
+  :type '(repeat function)
+  :package-version '(pulsar . "1.3.0")
+  :group 'pulsar)
+
 (defcustom pulsar-resolve-pulse-function-aliases t
-  "When non-nil, resolve function aliases in `pulsar-pulse-functions'.
-This allows pulsar to respect, e.g., `tab-new' \"parent,\"
-`tab-bar-new-tab', and vice-versa, enabling Pulsar to respect
-`tab-bar-new-tab' alias `tab-new'."
+  "When non-nil, resolve function aliases in pulsar function lists.
+The affected lists are `pulsar-pulse-functions' and
+`pulsar-pulse-region-functions'. This allows pulsar to respect,
+e.g., `tab-new' \"parent,\" `tab-bar-new-tab', and vice-versa,
+enabling Pulsar to respect `tab-bar-new-tab' alias `tab-new'."
   :type 'boolean
   :package-version '(pulsar . "1.1.0")
   :group 'pulsar)
@@ -479,8 +498,10 @@ For lines, do the same as `pulsar-highlight-line'."
 ;;;; Mode setup
 
 (define-minor-mode pulsar-mode
-  "Set up pulsar for each function in `pulsar-pulse-functions'.
-This is a buffer-local mode.  Also check `pulsar-global-mode'."
+  "Set up pulsar for each function in pulsar functions lists.
+The effective lists are `pulsar-pulse-functions' and
+`pulsar-pulse-region-functions'. This is a buffer-local mode.
+Also check `pulsar-global-mode'."
   :global nil
   (if pulsar-mode
       (progn
@@ -501,15 +522,19 @@ This is a buffer-local mode.  Also check `pulsar-global-mode'."
 (define-globalized-minor-mode pulsar-global-mode pulsar-mode pulsar--on)
 
 (defun pulsar--post-command-pulse ()
-  "Run `pulsar-pulse-line' for `pulsar-pulse-functions'."
-  (when (and (or pulsar-mode pulsar-global-mode)
-             (or (memq this-command pulsar-pulse-functions)
-                 (memq real-this-command pulsar-pulse-functions)))
-    (pulsar-pulse-line)))
+  "Run `pulsar-pulse-line' or pulse the region for registered functions."
+  (when (or pulsar-mode pulsar-global-mode)
+    (cond
+     ((or (memq this-command pulsar-pulse-functions)
+          (memq real-this-command pulsar-pulse-functions))
+      (pulsar-pulse-line))
+     ((or (memq this-command pulsar-pulse-region-functions)
+          (memq real-this-command pulsar-pulse-region-functions))
+      (pulsar--pulse nil nil (mark) (point))))))
 
 (make-obsolete 'pulsar-setup nil "0.3.0")
 
-;; Lifted from Emacs 30 to allow pulsar to remain backward compatbile
+;; Lifted from Emacs 30 to allow pulsar to remain backward compatible
 ;; with Emacs earlier than Emacs 29.1. TODO: Deprecate this at some
 ;; point to prefer Emacs core.
 (defun pulsar--function-alias-p (func &optional _noerror)
@@ -537,9 +562,10 @@ If FUNC is a function alias, return the function alias chain."
     aliases))
 
 (defun pulsar-resolve-function-aliases ()
-  "Amend `pulsar-pulse-functions' to respect function aliases.
-This is called automatically when
-`pulsar-resolve-pulse-function-aliases' is non-nil.
+  "Amend registered functions to respect function aliases.
+Functions are registered in `pulsar-pulse-functions' and
+`pulsar-pulse-region-functions'. This is called automatically
+when `pulsar-resolve-pulse-function-aliases' is non-nil.
 
 You may also call this manually in your configuration after
 setting `pulsar-pulse-functions'. In that case, you would prefer
@@ -547,7 +573,11 @@ setting `pulsar-pulse-functions'. In that case, you would prefer
   (setq pulsar-pulse-functions
         (seq-union pulsar-pulse-functions
                    (seq-union (pulsar--find-fn-aliases pulsar-pulse-functions)
-                              (flatten-list (mapcar (lambda (x) (pulsar--function-alias-p x)) pulsar-pulse-functions))))))
+                              (flatten-list (mapcar (lambda (x) (pulsar--function-alias-p x)) pulsar-pulse-functions)))))
+  (setq pulsar-pulse-region-functions
+        (seq-union pulsar-pulse-region-functions
+                   (seq-union (pulsar--find-fn-aliases pulsar-pulse-region-functions)
+                              (flatten-list (mapcar (lambda (x) (pulsar--function-alias-p x)) pulsar-pulse-region-functions))))))
 
 ;;;; Recentering commands
 
@@ -587,4 +617,5 @@ Use this in combination with `pulsar-recenter-top' or
     (outline-show-entry))))
 
 (provide 'pulsar)
+
 ;;; pulsar.el ends here
