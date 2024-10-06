@@ -541,8 +541,8 @@ If FUNC is a function alias, return the function alias chain."
 This is called automatically when
 `pulsar-resolve-pulse-function-aliases' is non-nil.
 
-You may also call this manually in your configuration after
-setting `pulsar-pulse-functions'. In that case, you would prefer
+You may also call this manually in your configuration after setting
+`pulsar-pulse-functions'.  In that case, you would prefer
 `pulsar-resolve-pulse-function-aliases' to be nil."
   (setq pulsar-pulse-functions
         (seq-union pulsar-pulse-functions
