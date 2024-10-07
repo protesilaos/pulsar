@@ -178,7 +178,15 @@ or `diff-hl-mode` buffers; e.g., \" *diff-hl-diff*\"."
   :package-version '(pulsar . "1.2.0")
   :group 'pulsar)
 
-(make-obsolete 'pulsar-pulse-on-window-change nil "0.5.0")
+(defcustom pulsar-pulse-on-window-change t
+  "When non-nil enable pulsing on every window change.
+This covers all commands or functions that affect the current
+window.  Users who prefer to trigger a pulse only after select
+functions (e.g. only after `other-window') are advised to set
+this variable to nil and update the `pulsar-pulse-functions'
+accordingly."
+  :type 'boolean
+  :group 'pulsar)
 
 (defcustom pulsar-face 'pulsar-generic
   "Face of the regular pulse line effect (`pulsar-pulse-line').
@@ -507,8 +515,11 @@ Also check `pulsar-global-mode'."
       (progn
         (when pulsar-resolve-pulse-function-aliases
           (pulsar-resolve-function-aliases))
-        (add-hook 'post-command-hook #'pulsar--post-command-pulse nil 'local))
-    (remove-hook 'post-command-hook #'pulsar--post-command-pulse 'local)))
+        (add-hook 'post-command-hook #'pulsar--post-command-pulse nil 'local)
+        (when pulsar-pulse-on-window-change
+          (add-hook 'window-state-change-functions #'pulsar--pulse-on-window-change nil 'local)))
+    (remove-hook 'post-command-hook #'pulsar--post-command-pulse 'local)
+    (remove-hook 'window-state-change-functions #'pulsar--pulse-on-window-change nil 'local)))
 
 (defun pulsar--on ()
   "Enable `pulsar-mode'."
@@ -520,6 +531,12 @@ Also check `pulsar-global-mode'."
 
 ;;;###autoload
 (define-globalized-minor-mode pulsar-global-mode pulsar-mode pulsar--on)
+
+(defun pulsar--pulse-on-window-change (&rest _)
+  "Run `pulsar-pulse-line' on window change."
+  (when (and pulsar-pulse-on-window-change
+             (or pulsar-mode pulsar-global-mode))
+    (pulsar-pulse-line)))
 
 (defun pulsar--post-command-pulse ()
   "Run `pulsar-pulse-line' or pulse the region for registered functions."
