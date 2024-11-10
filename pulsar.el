@@ -541,7 +541,7 @@ Also check `pulsar-global-mode'."
         (when pulsar-pulse-on-window-change
           (add-hook 'window-state-change-functions #'pulsar--pulse-on-window-change nil 'local)))
     (remove-hook 'post-command-hook #'pulsar--post-command-pulse 'local)
-    (remove-hook 'window-state-change-functions #'pulsar--pulse-on-window-change nil 'local)))
+    (remove-hook 'window-state-change-functions #'pulsar--pulse-on-window-change 'local)))
 
 (defun pulsar--on ()
   "Enable `pulsar-mode'."
