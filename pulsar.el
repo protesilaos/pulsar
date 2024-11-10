@@ -66,6 +66,10 @@
 ;; the `pulsar-highlight-line' command.  By default, this variable is
 ;; the same as `pulsar-face'.
 ;;
+;; The user option `pulsar-region-face' controls the presentation of
+;; the `pulsar-pulse-region' command.  By default, this variable is
+;; the same as `pulsar-face'.
+;;
 ;; Pulsar depends on the built-in `pulse.el' library.
 ;;
 ;; Why the name "pulsar"?  It sounds like "pulse" and is a recognisable
@@ -218,6 +222,20 @@ background attribute."
                         (face :tag "Cyan style" pulsar-cyan)
                         (face :tag "Other face (must have a background)")))
   :package-version '(pulsar . "0.3.0")
+  :group 'pulsar)
+
+(defcustom pulsar-region-face 'pulsar-face
+  "Face used in `pulsar-pulse-region'."
+  :type '(choice (variable pulsar-face)
+                 (radio (face :tag "Generic pulse.el face" pulsar-generic)
+                        (face :tag "Red style" pulsar-red)
+                        (face :tag "Green style" pulsar-green)
+                        (face :tag "Yellow style" pulsar-yellow)
+                        (face :tag "Blue style" pulsar-blue)
+                        (face :tag "Magenta style" pulsar-magenta)
+                        (face :tag "Cyan style" pulsar-cyan)
+                        (face :tag "Other face (must have a background)")))
+  :package-version '(pulsar . "1.2.0")
   :group 'pulsar)
 
 (defcustom pulsar-pulse t
@@ -391,28 +409,28 @@ pulse effect."
   (if (region-active-p)
       (let ((beg (region-beginning))
             (end (region-end)))
-      ;; FIXME 2024-08-29: Finding the lines and columns therein
-      ;; does not work because consecutive pulses cancel each
-      ;; other out, leaving only the last one active.
-      ;;
-      ;; (let* ((columns (rectangle--pos-cols beg end))
-      ;;        (begcol (car columns))
-      ;;        (endcol (cdr columns)))
-      ;;    (lines (list
-      ;;            (line-number-at-pos beg)
-      ;;            (line-number-at-pos end))))
-      ;; (dolist (line lines)
-      ;;   (save-excursion
-      ;;     (goto-char (point-min))
-      ;;     (forward-line (1- line))
-      ;;     (setq beg (progn (move-to-column begcol) (point))
-      ;;           end (progn (move-to-column endcol) (point))))
-      ;;   (pulsar--pulse nil nil beg end)))
-        (pulsar--pulse nil nil beg end))
+        ;; FIXME 2024-08-29: Finding the lines and columns therein
+        ;; does not work because consecutive pulses cancel each
+        ;; other out, leaving only the last one active.
+        ;;
+        ;; (let* ((columns (rectangle--pos-cols beg end))
+        ;;        (begcol (car columns))
+        ;;        (endcol (cdr columns)))
+        ;;    (lines (list
+        ;;            (line-number-at-pos beg)
+        ;;            (line-number-at-pos end))))
+        ;; (dolist (line lines)
+        ;;   (save-excursion
+        ;;     (goto-char (point-min))
+        ;;     (forward-line (1- line))
+        ;;     (setq beg (progn (move-to-column begcol) (point))
+        ;;           end (progn (move-to-column endcol) (point))))
+        ;;   (pulsar--pulse nil nil beg end)))
+        (pulsar--pulse nil pulsar-region-face beg end))
     (when (mark)
       (let ((beg (mark))
             (end (point)))
-        (pulsar--pulse nil nil beg end)))))
+        (pulsar--pulse nil pulsar-region-face beg end)))))
 
 ;;;###autoload
 (defun pulsar-highlight-line ()
@@ -551,7 +569,7 @@ Also check `pulsar-global-mode'."
       (pulsar-pulse-line))
      ((or (memq this-command pulsar-pulse-region-functions)
           (memq real-this-command pulsar-pulse-region-functions))
-      (pulsar--pulse nil nil (mark) (point))))))
+      (pulsar-pulse-region)))))
 
 (make-obsolete 'pulsar-setup nil "0.3.0")
 
