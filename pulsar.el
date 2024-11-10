@@ -388,9 +388,9 @@ pulse effect."
 (defun pulsar-pulse-region ()
   "Temporarily highlight the active region if any."
   (interactive)
-  (when (region-active-p)
-    (let ((beg (region-beginning))
-          (end (region-end)))
+  (if (region-active-p)
+      (let ((beg (region-beginning))
+            (end (region-end)))
       ;; FIXME 2024-08-29: Finding the lines and columns therein
       ;; does not work because consecutive pulses cancel each
       ;; other out, leaving only the last one active.
@@ -408,7 +408,11 @@ pulse effect."
       ;;     (setq beg (progn (move-to-column begcol) (point))
       ;;           end (progn (move-to-column endcol) (point))))
       ;;   (pulsar--pulse nil nil beg end)))
-      (pulsar--pulse nil nil beg end))))
+        (pulsar--pulse nil nil beg end))
+    (when (mark)
+      (let ((beg (mark))
+            (end (point)))
+        (pulsar--pulse nil nil beg end)))))
 
 ;;;###autoload
 (defun pulsar-highlight-line ()
@@ -584,8 +588,8 @@ Functions are registered in `pulsar-pulse-functions' and
 `pulsar-pulse-region-functions'. This is called automatically
 when `pulsar-resolve-pulse-function-aliases' is non-nil.
 
-You may also call this manually in your configuration after
-setting `pulsar-pulse-functions'. In that case, you would prefer
+You may also call this manually in your configuration after setting
+`pulsar-pulse-functions'.  In that case, you would prefer
 `pulsar-resolve-pulse-function-aliases' to be nil."
   (setq pulsar-pulse-functions
         (seq-union pulsar-pulse-functions
