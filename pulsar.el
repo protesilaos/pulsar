@@ -33,13 +33,13 @@
 ;; `pulsar-global-mode' is enabled.
 ;;
 ;; Regions may also be temporarily highlighted after a region command
-;; is called. The affected functions are defined in the user option
+;; is called.  The affected functions are defined in the user option
 ;; `pulsar-pulse-region-functions'.
 ;;
 ;; By default, Pulsar does not try behave the same way for a
-;; function's aliases. If those are not added explicitly to the
+;; function's aliases.  If those are not added explicitly to the
 ;; `pulsar-pulse-functions' or `pulsar-pulse-region-functions', they
-;; will not have a pulse effect. However, the user option
+;; will not have a pulse effect.  However, the user option
 ;; `pulsar-resolve-pulse-function-aliases' can be set to a non-nil
 ;; value to change this behaviour, meaning that Pulsar will cover a
 ;; function's aliases even if those are not explicitly added to the
@@ -164,7 +164,7 @@ This only takes effect when `pulsar-mode' (buffer-local) or
 (defcustom pulsar-resolve-pulse-function-aliases t
   "When non-nil, resolve function aliases in pulsar function lists.
 The affected lists are `pulsar-pulse-functions' and
-`pulsar-pulse-region-functions'. This allows pulsar to respect,
+`pulsar-pulse-region-functions'.  This allows pulsar to respect,
 e.g., `tab-new' \"parent,\" `tab-bar-new-tab', and vice-versa,
 enabling Pulsar to respect `tab-bar-new-tab' alias `tab-new'."
   :type 'boolean
@@ -530,7 +530,7 @@ For lines, do the same as `pulsar-highlight-line'."
 (define-minor-mode pulsar-mode
   "Set up pulsar for each function in pulsar functions lists.
 The effective lists are `pulsar-pulse-functions' and
-`pulsar-pulse-region-functions'. This is a buffer-local mode.
+`pulsar-pulse-region-functions'.  This is a buffer-local mode.
 Also check `pulsar-global-mode'."
   :global nil
   (if pulsar-mode
@@ -603,7 +603,7 @@ If FUNC is a function alias, return the function alias chain."
 (defun pulsar-resolve-function-aliases ()
   "Amend registered functions to respect function aliases.
 Functions are registered in `pulsar-pulse-functions' and
-`pulsar-pulse-region-functions'. This is called automatically
+`pulsar-pulse-region-functions'.  This is called automatically
 when `pulsar-resolve-pulse-function-aliases' is non-nil.
 
 You may also call this manually in your configuration after setting
