@@ -87,6 +87,30 @@ Extension of `pulse.el'."
 
 ;;;; User options
 
+(defcustom pulsar-pulse t
+  "When non-nil enable pulsing.
+Otherwise the highlight stays on the current line until another
+command is invoked."
+  :type 'boolean
+  :package-version '(pulsar . "0.2.0")
+  :group 'pulsar)
+
+(defcustom pulsar-delay 0.05
+  "Delay between increments of a pulse.
+Together with `pulsar-iterations' control the overall duration of
+a pulse.  Only applies when `pulsar-pulse' is non-nil."
+  :type 'number
+  :package-version '(pulsar . "0.1.0")
+  :group 'pulsar)
+
+(defcustom pulsar-iterations pulse-iterations
+  "Number of iterations in a pulse highlight.
+Together with `pulsar-delay' control the overall duration of a
+pulse.  Only applies when `pulsar-pulse' is non-nil."
+  :type 'number
+  :package-version '(pulsar . "0.1.0")
+  :group 'pulsar)
+
 (defcustom pulsar-pulse-functions
   '(backward-page
     bookmark-jump
@@ -236,30 +260,6 @@ background attribute."
                         (face :tag "Cyan style" pulsar-cyan)
                         (face :tag "Other face (must have a background)")))
   :package-version '(pulsar . "1.2.0")
-  :group 'pulsar)
-
-(defcustom pulsar-pulse t
-  "When non-nil enable pulsing.
-Otherwise the highlight stays on the current line until another
-command is invoked."
-  :type 'boolean
-  :package-version '(pulsar . "0.2.0")
-  :group 'pulsar)
-
-(defcustom pulsar-delay 0.05
-  "Delay between increments of a pulse.
-Together with `pulsar-iterations' control the overall duration of
-a pulse.  Only applies when `pulsar-pulse' is non-nil."
-  :type 'number
-  :package-version '(pulsar . "0.1.0")
-  :group 'pulsar)
-
-(defcustom pulsar-iterations pulse-iterations
-  "Number of iterations in a pulse highlight.
-Together with `pulsar-delay' control the overall duration of a
-pulse.  Only applies when `pulsar-pulse' is non-nil."
-  :type 'number
-  :package-version '(pulsar . "0.1.0")
   :group 'pulsar)
 
 ;;;; Faces
