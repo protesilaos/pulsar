@@ -26,55 +26,13 @@
 
 ;;; Commentary:
 ;;
-;; This is a small package that temporarily highlights the current line
-;; after a given function is invoked.  The affected functions are
-;; defined in the user option `pulsar-pulse-functions' and the effect
-;; takes place when either `pulsar-mode' (buffer-local) or
-;; `pulsar-global-mode' is enabled.
+;; This is a small package that temporarily highlights the current
+;; line after a given function is invoked.  Consult the official
+;; manual for the technicalities.
 ;;
-;; Regions may also be temporarily highlighted after a region command
-;; is called.  The affected functions are defined in the user option
-;; `pulsar-pulse-region-functions'.
-;;
-;; By default, Pulsar does not try behave the same way for a
-;; function's aliases.  If those are not added explicitly to the
-;; `pulsar-pulse-functions' or `pulsar-pulse-region-functions', they
-;; will not have a pulse effect.  However, the user option
-;; `pulsar-resolve-pulse-function-aliases' can be set to a non-nil
-;; value to change this behaviour, meaning that Pulsar will cover a
-;; function's aliases even if those are not explicitly added to the
-;; `pulsar-pulse-functions' or `pulsar-pulse-region-functions'.
-;;
-;; The overall duration of the highlight is determined by a combination
-;; of `pulsar-delay' and `pulsar-iterations'.  The latter determines the
-;; number of blinks in a pulse, while the former sets their delay in
-;; seconds before they fade out.  The applicable face is specified in
-;; `pulsar-face'.
-;;
-;; To disable the pulse but keep the temporary highlight, set the user
-;; option `pulsar-pulse' to nil.  The current line will remain
-;; highlighted until another command is invoked.
-;;
-;; To highlight the current line on demand, use the `pulsar-pulse-line'
-;; command.  When `pulsar-pulse' is non-nil (the default), its highlight
-;; will pulse before fading away.  Whereas the `pulsar-highlight-line'
-;; command never pulses the line: the highlight stays in place as if
-;; `pulsar-pulse' is nil.
-;;
-;; To help users differentiate between the pulse and highlight effects,
-;; the user option `pulsar-highlight-face' controls the presentation of
-;; the `pulsar-highlight-line' command.  By default, this variable is
-;; the same as `pulsar-face'.
-;;
-;; The user option `pulsar-region-face' controls the presentation of
-;; the `pulsar-pulse-region' command.  By default, this variable is
-;; the same as `pulsar-face'.
-;;
-;; Pulsar depends on the built-in `pulse.el' library.
-;;
-;; Why the name "pulsar"?  It sounds like "pulse" and is a recognisable
-;; word.  Though if you need a backronym, consider "Pulsar Unquestionably
-;; Luminates, Strictly Absent the Radiation".
+;; Why the name "pulsar"?  It sounds like "pulse" and is a
+;; recognisable word.  Though if you need a backronym, consider
+;; "Pulsar Unquestionably Luminates, Strictly Absent the Radiation".
 
 ;;; Code:
 
