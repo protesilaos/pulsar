@@ -340,9 +340,9 @@ background attribute."
   (save-excursion
     (goto-char (line-beginning-position))
     (and (not (bobp))
-	     (or (beginning-of-line 1) t)
-	     (save-match-data
-	       (looking-at "^[\s\t]+")))))
+         (or (beginning-of-line 1) t)
+         (save-match-data
+           (looking-at "^[\s\t]+")))))
 
 (defun pulsar--buffer-end-p ()
   "Return non-nil if point is at the end of the buffer."
