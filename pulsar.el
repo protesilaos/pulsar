@@ -197,11 +197,10 @@ enabling Pulsar to respect `tab-bar-new-tab' alias `tab-new'."
 
 (defcustom pulsar-inhibit-hidden-buffers t
   "When non-nil, `pulsar-mode' will not be enabled in hidden buffers.
-Hidden buffers are those with names that start with a space character.
-
-This handles cases such as:
-`eldoc' buffers in `special-mode'; e.g., \" *eldoc*\"
-or `diff-hl-mode` buffers; e.g., \" *diff-hl-diff*\"."
+Hidden buffers are those whose name starts with a space character.  They
+are not meant to be touched by the user, so pulsing in them is not
+necessary.  This option is provided in case there is some scenario where
+pulsing makes sense."
   :type 'boolean
   :package-version '(pulsar . "1.2.0")
   :group 'pulsar)
