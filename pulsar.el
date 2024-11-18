@@ -557,6 +557,7 @@ Also check `pulsar-global-mode'."
 (defun pulsar--pulse-on-window-change (&rest _)
   "Run `pulsar-pulse-line' on window change."
   (when (and pulsar-pulse-on-window-change
+             (not (minibufferp))
              (or pulsar-mode pulsar-global-mode))
     (pulsar-pulse-line)))
 
