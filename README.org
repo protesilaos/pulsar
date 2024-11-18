@@ -82,6 +82,14 @@ they will not have a pulse effect. However, the user option
 to change this behaviour, meaning that Pulsar will cover a function's
 aliases even if those are not explicitly added to the ~pulsar-pulse-functions~.
 
+#+findex: pulsar-pulse-region-functions
+Pulsar can also produce an effect over a specific region. This is
+useful to, for example, highlight the area covered by text that is
+pasted in the buffer. The user option ~pulsar-pulse-region-functions~
+defines a list of functions that are region-aware in this regard. The
+default value covers copyring, pasting, and undoing/redoing. [ The
+~pulsar-pulse-region-functions~ is part of {{{development-version}}}. ]
+
 #+vindex: pulsar-delay
 #+vindex: pulsar-iterations
 #+vindex: pulsar-face
