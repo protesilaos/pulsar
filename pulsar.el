@@ -153,6 +153,15 @@ enabling Pulsar to respect `tab-bar-new-tab' alias `tab-new'."
   :package-version '(pulsar . "1.1.0")
   :group 'pulsar)
 
+(defcustom pulsar-pulse-region-mark-line-only nil
+  "When non-nil, `pulsar-pulse-region' pulses the current line.
+This is in effect when mark is active and on the line containing point.
+When nil, `pulsar-pulse-region' will pulse the entire region from mark
+to point."
+  :type 'boolean
+  :package-version '(pulsar . "1.2.0")
+  :group 'pulsar)
+
 (defcustom pulsar-inhibit-hidden-buffers t
   "When non-nil, `pulsar-mode' will not be enabled in hidden buffers.
 Hidden buffers are those whose name starts with a space character.  They
@@ -164,7 +173,7 @@ pulsing makes sense."
   :group 'pulsar)
 
 (defcustom pulsar-pulse-on-window-change t
-  "When non-nil enable pulsing on every window change.
+  "When non-nil, enable pulsing on every window change.
 This covers all commands or functions that affect the current
 window.  Users who prefer to trigger a pulse only after select
 functions (e.g. only after `other-window') are advised to set
@@ -385,9 +394,9 @@ pulse effect."
         ;;   (pulsar--pulse nil nil beg end)))
         (pulsar--pulse nil pulsar-region-face beg end))
     (when (mark)
-      (let ((beg (mark))
-            (end (point)))
-        (pulsar--pulse nil pulsar-region-face beg end)))))
+      (if pulsar-pulse-region-mark-line-only
+          (pulsar--pulse nil pulsar-region-face)
+        (pulsar--pulse nil pulsar-region-face (mark) (point))))))
 
 ;;;###autoload
 (defun pulsar-highlight-line ()
@@ -515,6 +524,11 @@ Also check `pulsar-global-mode'."
   "Run `pulsar-pulse-line' on window change."
   (when (and pulsar-pulse-on-window-change
              (not (minibufferp))
+             ;; Avoid double pulsing when both
+             ;; pulsar-pulse-on-window-change and
+             ;; pulsar-pulse-functions are in effect.
+             (not (memq this-command pulsar-pulse-functions))
+             (not (memq real-this-command pulsar-pulse-functions))
              (or pulsar-mode pulsar-global-mode))
     (pulsar-pulse-line)))
 
