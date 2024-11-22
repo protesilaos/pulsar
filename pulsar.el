@@ -394,7 +394,7 @@ pulse effect."
         ;;   (pulsar--pulse nil nil beg end)))
         (pulsar--pulse nil pulsar-region-face beg end))
     (when (mark)
-      (if pulsar-pulse-region-mark-line-only
+      (if (or (not (called-interactively-p 'interactive)) pulsar-pulse-region-mark-line-only)
           (pulsar--pulse nil pulsar-region-face)
         (pulsar--pulse nil pulsar-region-face (mark) (point))))))
 
@@ -522,9 +522,10 @@ Also check `pulsar-global-mode'."
 ;;;###autoload
 (define-globalized-minor-mode pulsar-global-mode pulsar-mode pulsar--on)
 
-(defun pulsar--pulse-on-window-change (&rest _)
-  "Run `pulsar-pulse-line' on window change."
+(defun pulsar--pulse-on-window-change (window)
+  "Run `pulsar-pulse-line' on WINDOW change."
   (when (and pulsar-pulse-on-window-change
+             (eq (frame-selected-window) window)
              (not (minibufferp))
              ;; Avoid double pulsing when both
              ;; pulsar-pulse-on-window-change and
