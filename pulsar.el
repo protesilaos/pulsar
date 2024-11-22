@@ -378,7 +378,7 @@ pulse effect."
 (defun pulsar-pulse-region ()
   "Temporarily highlight the active region if any."
   (interactive)
-  (when (region-active-p)
+  (when (use-region-p)
     (let ((beg (region-beginning))
           (end (region-end)))
       ;; FIXME 2024-08-29: Finding the lines and columns therein
@@ -568,7 +568,8 @@ Also check `pulsar-global-mode'."
      ;; When the command didn't edit the buffer, we flash the region if we have a region selected
      ((and pulsar-pulse-on-region
            (memq this-command pulsar-pulse-region-functions)
-           (region-active-p))
+           (memq real-this-command pulsar-pulse-region-functions)
+           (use-region-p))
       (pulsar-pulse-region)))))
 
 (make-obsolete 'pulsar-setup nil "0.3.0")
