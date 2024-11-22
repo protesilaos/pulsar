@@ -135,11 +135,25 @@ This only takes effect when `pulsar-mode' (buffer-local) or
     kill-region
     kill-ring-save
     append-next-kill
+    kill-line
+    kill-whole-line
+    kill-word backward-kill-word
+    kill-sentence backward-kill-sentence
+    kill-paragraph backward-kill-paragraph
+    kill-sexp backward-kill-sexp
+    kill-rectangle
+    yank-rectangle
+    open-rectangle
     undo)
   "Functions that highlight the affected region after invocation.
-This only takes effect when `pulsar-mode' (buffer-local) or
-`pulsar-global-mode' is enabled."
+This only takes effect when `pulsar-mode' is enabled."
   :type '(repeat function)
+  :package-version '(pulsar . "1.3.0")
+  :group 'pulsar)
+
+(defcustom pulsar-pulse-region nil
+  "When non-nil, highlight the affected region after invocation."
+  :type 'boolean
   :package-version '(pulsar . "1.3.0")
   :group 'pulsar)
 
@@ -151,15 +165,6 @@ e.g., `tab-new' \"parent,\" `tab-bar-new-tab', and vice-versa,
 enabling Pulsar to respect `tab-bar-new-tab' alias `tab-new'."
   :type 'boolean
   :package-version '(pulsar . "1.1.0")
-  :group 'pulsar)
-
-(defcustom pulsar-pulse-region-mark-line-only nil
-  "When non-nil, `pulsar-pulse-region' pulses the current line.
-This is in effect when mark is active and on the line containing point.
-When nil, `pulsar-pulse-region' will pulse the entire region from mark
-to point."
-  :type 'boolean
-  :package-version '(pulsar . "1.2.0")
   :group 'pulsar)
 
 (defcustom pulsar-inhibit-hidden-buffers t
@@ -215,7 +220,7 @@ background attribute."
   :group 'pulsar)
 
 (defcustom pulsar-region-face 'pulsar-face
-  "Face used in `pulsar-pulse-region'."
+  "Face used by the function `pulsar-pulse-region'."
   :type '(choice (variable pulsar-face)
                  (radio (face :tag "Generic pulse.el face" pulsar-generic)
                         (face :tag "Red style" pulsar-red)
@@ -347,6 +352,8 @@ With optional FACE, use it instead of `pulsar-face'.
 
 With optional START and END, highlight the region in-between
 instead of the current line."
+  (when (and (numberp start) (numberp end) (= start end)) ; pulse the whole line if start=end
+    (setq start nil end nil))
   (let* ((pulse-flag (if no-pulse nil pulsar-pulse))
          (pulse-delay pulsar-delay)
          (pulse-iterations pulsar-iterations)
@@ -372,31 +379,27 @@ pulse effect."
 (defun pulsar-pulse-region ()
   "Temporarily highlight the active region if any."
   (interactive)
-  (if (region-active-p)
-      (let ((beg (region-beginning))
-            (end (region-end)))
-        ;; FIXME 2024-08-29: Finding the lines and columns therein
-        ;; does not work because consecutive pulses cancel each
-        ;; other out, leaving only the last one active.
-        ;;
-        ;; (let* ((columns (rectangle--pos-cols beg end))
-        ;;        (begcol (car columns))
-        ;;        (endcol (cdr columns)))
-        ;;    (lines (list
-        ;;            (line-number-at-pos beg)
-        ;;            (line-number-at-pos end))))
-        ;; (dolist (line lines)
-        ;;   (save-excursion
-        ;;     (goto-char (point-min))
-        ;;     (forward-line (1- line))
-        ;;     (setq beg (progn (move-to-column begcol) (point))
-        ;;           end (progn (move-to-column endcol) (point))))
-        ;;   (pulsar--pulse nil nil beg end)))
-        (pulsar--pulse nil pulsar-region-face beg end))
-    (when (mark)
-      (if (or (not (called-interactively-p 'interactive)) pulsar-pulse-region-mark-line-only)
-          (pulsar--pulse nil pulsar-region-face)
-        (pulsar--pulse nil pulsar-region-face (mark) (point))))))
+  (when (region-active-p)
+    (let ((beg (region-beginning))
+          (end (region-end)))
+      ;; FIXME 2024-08-29: Finding the lines and columns therein
+      ;; does not work because consecutive pulses cancel each
+      ;; other out, leaving only the last one active.
+      ;;
+      ;; (let* ((columns (rectangle--pos-cols beg end))
+      ;;        (begcol (car columns))
+      ;;        (endcol (cdr columns)))
+      ;;    (lines (list
+      ;;            (line-number-at-pos beg)
+      ;;            (line-number-at-pos end))))
+      ;; (dolist (line lines)
+      ;;   (save-excursion
+      ;;     (goto-char (point-min))
+      ;;     (forward-line (1- line))
+      ;;     (setq beg (progn (move-to-column begcol) (point))
+      ;;           end (progn (move-to-column endcol) (point))))
+      ;;   (pulsar--pulse nil nil beg end)))
+      (pulsar--pulse nil pulsar-region-face beg end))))
 
 ;;;###autoload
 (defun pulsar-highlight-line ()
@@ -504,10 +507,13 @@ Also check `pulsar-global-mode'."
         (when pulsar-resolve-pulse-function-aliases
           (pulsar-resolve-function-aliases))
         (add-hook 'post-command-hook #'pulsar--post-command-pulse nil 'local)
+        (when pulsar-pulse-region
+          (add-hook 'after-change-functions #'pulsar--after-change-function nil 'local))
         (when pulsar-pulse-on-window-change
           (add-hook 'window-buffer-change-functions #'pulsar--pulse-on-window-change nil 'local)
           (add-hook 'window-selection-change-functions #'pulsar--pulse-on-window-change nil 'local)))
     (remove-hook 'post-command-hook #'pulsar--post-command-pulse 'local)
+    (remove-hook 'after-change-functions #'pulsar--after-change-function 'local)
     (remove-hook 'window-buffer-change-functions #'pulsar--pulse-on-window-change 'local)
     (remove-hook 'window-selection-change-functions #'pulsar--pulse-on-window-change 'local)))
 
@@ -524,26 +530,53 @@ Also check `pulsar-global-mode'."
 
 (defun pulsar--pulse-on-window-change (window)
   "Run `pulsar-pulse-line' on WINDOW change."
-  (when (and pulsar-pulse-on-window-change
+  (when (and pulsar-mode
+             pulsar-pulse-on-window-change
              (eq (frame-selected-window) window)
              (not (minibufferp))
              ;; Avoid double pulsing when both
              ;; pulsar-pulse-on-window-change and
              ;; pulsar-pulse-functions are in effect.
              (not (memq this-command pulsar-pulse-functions))
-             (not (memq real-this-command pulsar-pulse-functions))
-             (or pulsar-mode pulsar-global-mode))
+             (not (memq real-this-command pulsar-pulse-functions)))
     (pulsar-pulse-line)))
 
+(defvar-local pulsar--pulse-region-changes nil)
+
+(defun pulsar--after-change-function (beg end len)
+  "`after-change-functions' hook to accumulate buffer edits.
+Changes are defined by BEG, END, LEN."
+  (when (or (memq this-command pulsar-pulse-region-functions)
+            (memq real-this-command pulsar-pulse-region-functions))
+    ;; beg and end mark the range of changed text
+    ;; len is zero for insertions
+    ;; len is change extent for deletions and beg==end
+    (when (and (zerop len) (= beg end)) ; In case of a deletion
+      (when (> beg (buffer-size))
+        (setq beg (1- beg)))
+      (setq end (1+ beg)))
+    (push (cons (copy-marker beg) (copy-marker end)) pulsar--pulse-region-changes)))
+
 (defun pulsar--post-command-pulse ()
-  "Run `pulsar-pulse-line' or pulse the region for registered functions."
-  (when (or pulsar-mode pulsar-global-mode)
+  "Pulse current line, accumulated edits, or selected region."
+  (when pulsar-mode
     (cond
      ((or (memq this-command pulsar-pulse-functions)
           (memq real-this-command pulsar-pulse-functions))
       (pulsar-pulse-line))
-     ((or (memq this-command pulsar-pulse-region-functions)
-          (memq real-this-command pulsar-pulse-region-functions))
+     ;; Extract the outer limits of the affected region from
+     ;; accumulated changes. NOTE: Non-contiguous regions such as
+     ;; rectangles will pulse their contiguous bounds.
+     ((and pulsar-pulse-region
+           pulsar--pulse-region-changes)
+      (let ((beg (apply #'min (mapcar #'car pulsar--pulse-region-changes)))
+            (end (apply #'max (mapcar #'cdr pulsar--pulse-region-changes))))
+        (setq pulsar--pulse-region-changes nil)
+        (pulsar--pulse nil pulsar-region-face beg end)))
+     ;; Pulse the selected region for commands that did not cause
+     ;; buffer changes; e.g., kill-ring-save.
+     ((and pulsar-pulse-region
+           (memq this-command pulsar-pulse-region-functions))
       (pulsar-pulse-region)))))
 
 (make-obsolete 'pulsar-setup nil "0.3.0")
