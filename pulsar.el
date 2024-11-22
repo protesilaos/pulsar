@@ -135,6 +135,16 @@ This only takes effect when `pulsar-mode' (buffer-local) or
     kill-region
     kill-ring-save
     append-next-kill
+    kill-line
+    kill-whole-line
+    kill-word
+    backward-kill-word
+    kill-sentence
+    backward-kill-sentence
+    kill-paragraph
+    backward-kill-paragraph
+    kill-sexp
+    backward-kill-sexp
     undo)
   "Functions that highlight the affected region after invocation.
 This only takes effect when `pulsar-mode' is enabled."
