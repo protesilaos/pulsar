@@ -497,14 +497,12 @@ Also check `pulsar-global-mode'."
           (pulsar-resolve-function-aliases))
         (add-hook 'post-command-hook #'pulsar--post-command-pulse nil 'local)
         (when pulsar-pulse-on-region
-          (add-hook 'after-change-functions #'pulsar--after-change-pulse nil 'local)
-          (add-hook 'post-command-hook #'pulsar--post-command-pulse-changes nil 'local))
+          (add-hook 'after-change-functions #'pulsar--after-change-pulse nil 'local))
         (when pulsar-pulse-on-window-change
           (add-hook 'window-buffer-change-functions #'pulsar--pulse-on-window-change nil 'local)
           (add-hook 'window-selection-change-functions #'pulsar--pulse-on-window-change nil 'local)))
     (remove-hook 'after-change-functions #'pulsar--after-change-pulse 'local)
     (remove-hook 'post-command-hook #'pulsar--post-command-pulse 'local)
-    (remove-hook 'post-command-hook #'pulsar--post-command-pulse-changes 'local)
     (remove-hook 'window-buffer-change-functions #'pulsar--pulse-on-window-change 'local)
     (remove-hook 'window-selection-change-functions #'pulsar--pulse-on-window-change 'local)))
 
@@ -532,31 +530,7 @@ Also check `pulsar-global-mode'."
              pulsar-mode)
     (pulsar-pulse-line)))
 
-(defun pulsar--post-command-pulse ()
-  "Run `pulsar-pulse-line' or pulse the region for registered functions."
-  (when pulsar-mode
-    (cond
-     ((or (memq this-command pulsar-pulse-functions)
-          (memq real-this-command pulsar-pulse-functions))
-      (pulsar-pulse-line)))))
-
-(defun pulsar--post-command-pulse-changes ()
-  "Adcice for `post-command-hook', to pulse the affected region."
-  ;; Avoid double pulsing when the command is in `pulsar-pulse-functions'
-  (unless (or (memq this-command pulsar-pulse-functions)
-              (memq real-this-command pulsar-pulse-functions))
-    ;; When we have recorded changes, we extract the outer limits of the affected region
-    (if pulsar--changes
-        (let ((change-beg (apply #'min (mapcar #'car pulsar--changes)))
-              (change-end (apply #'max (mapcar #'cdr pulsar--changes))))
-          (setq pulsar--changes nil)
-          (pulsar--pulse nil pulsar-region-face change-beg change-end))
-      ;; When the command didn't edit the buffer, we flash the region if we have a region selected
-      (when (and (memq this-command pulsar-pulse-region-functions)
-                 (region-active-p))
-        (pulsar-pulse-region)))))
-
-(defvar-local pulsar--changes nil)
+(defvar-local pulsar--pulse-region-changes nil)
 
 (defun pulsar--after-change-pulse (beg end len)
   "Advice for `after-change-functions' to save the current's command edits."
@@ -566,7 +540,26 @@ Also check `pulsar-global-mode'."
       (when (> beg (buffer-size))
         (setq beg (1- beg)))
       (setq end (1+ beg)))
-    (push (cons (copy-marker beg) (copy-marker end)) pulsar--changes)))
+    (push (cons (copy-marker beg) (copy-marker end)) pulsar--pulse-region-changes)))
+
+(defun pulsar--post-command-pulse ()
+  "Pulse the line, the changed or the selected region after registered functions."
+  (when pulsar-mode
+    (cond
+     ((or (memq this-command pulsar-pulse-functions)
+          (memq real-this-command pulsar-pulse-functions))
+      (pulsar-pulse-line))
+     ;; When we have recorded changes, we extract the outer limits of the affected region
+     ((and pulsar-pulse-on-region pulsar--pulse-region-changes)
+      (let ((change-beg (apply #'min (mapcar #'car pulsar--pulse-region-changes)))
+            (change-end (apply #'max (mapcar #'cdr pulsar--pulse-region-changes))))
+        (setq pulsar--pulse-region-changes nil)
+        (pulsar--pulse nil pulsar-region-face change-beg change-end)))
+     ;; When the command didn't edit the buffer, we flash the region if we have a region selected
+     ((and pulsar-pulse-on-region
+           (memq this-command pulsar-pulse-region-functions)
+           (region-active-p))
+      (pulsar-pulse-region)))))
 
 (make-obsolete 'pulsar-setup nil "0.3.0")
 
