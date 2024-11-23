@@ -137,6 +137,7 @@ This only takes effect when `pulsar-mode' (buffer-local) or
     kill-ring-save
     append-next-kill
     kill-whole-line
+    kill-visual-line
     kill-word backward-kill-word
     kill-sentence backward-kill-sentence
     kill-paragraph backward-kill-paragraph
