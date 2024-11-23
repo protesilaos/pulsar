@@ -133,9 +133,9 @@ This only takes effect when `pulsar-mode' (buffer-local) or
 (defcustom pulsar-pulse-region-functions
   '(yank
     kill-region
+    kill-line
     kill-ring-save
     append-next-kill
-    kill-line
     kill-whole-line
     kill-word backward-kill-word
     kill-sentence backward-kill-sentence
@@ -148,13 +148,13 @@ This only takes effect when `pulsar-mode' (buffer-local) or
   "Functions that highlight the affected region after invocation.
 This only takes effect when `pulsar-mode' is enabled."
   :type '(repeat function)
-  :package-version '(pulsar . "1.3.0")
+  :package-version '(pulsar . "1.2.0")
   :group 'pulsar)
 
 (defcustom pulsar-pulse-region nil
   "When non-nil, highlight the affected region after invocation."
   :type 'boolean
-  :package-version '(pulsar . "1.3.0")
+  :package-version '(pulsar . "1.2.0")
   :group 'pulsar)
 
 (defcustom pulsar-resolve-pulse-function-aliases t
@@ -220,7 +220,35 @@ background attribute."
   :group 'pulsar)
 
 (defcustom pulsar-region-face 'pulsar-face
-  "Face used by the function `pulsar-pulse-region'."
+  "Face to indicate non-destructive region changes."
+  :type '(choice (variable pulsar-face)
+                 (radio (face :tag "Generic pulse.el face" pulsar-generic)
+                        (face :tag "Red style" pulsar-red)
+                        (face :tag "Green style" pulsar-green)
+                        (face :tag "Yellow style" pulsar-yellow)
+                        (face :tag "Blue style" pulsar-blue)
+                        (face :tag "Magenta style" pulsar-magenta)
+                        (face :tag "Cyan style" pulsar-cyan)
+                        (face :tag "Other face (must have a background)")))
+  :package-version '(pulsar . "1.2.0")
+  :group 'pulsar)
+
+(defcustom pulsar-region-change-face 'pulsar-face
+  "Face to indicate destructive region changes."
+  :type '(choice (variable pulsar-face)
+                 (radio (face :tag "Generic pulse.el face" pulsar-generic)
+                        (face :tag "Red style" pulsar-red)
+                        (face :tag "Green style" pulsar-green)
+                        (face :tag "Yellow style" pulsar-yellow)
+                        (face :tag "Blue style" pulsar-blue)
+                        (face :tag "Magenta style" pulsar-magenta)
+                        (face :tag "Cyan style" pulsar-cyan)
+                        (face :tag "Other face (must have a background)")))
+  :package-version '(pulsar . "1.2.0")
+  :group 'pulsar)
+
+(defcustom pulsar-window-change-face 'pulsar-face
+  "Face to indicate the current position on window changes."
   :type '(choice (variable pulsar-face)
                  (radio (face :tag "Generic pulse.el face" pulsar-generic)
                         (face :tag "Red style" pulsar-red)
@@ -490,7 +518,7 @@ For lines, do the same as `pulsar-highlight-line'."
   (cond
    ((bound-and-true-p rectangle-mark-mode)
     (pulsar--highlight-rectangle))
-   ((use-region-p)
+   ((region-active-p)
     (pulsar--pulse :no-pulse pulsar-highlight-face (region-beginning) (region-end)))
    (t
     (pulsar--pulse :no-pulse pulsar-highlight-face))))
@@ -540,10 +568,11 @@ Also check `pulsar-global-mode'."
              ;; pulsar-pulse-functions are in effect.
              (not (memq this-command pulsar-pulse-functions))
              (not (memq real-this-command pulsar-pulse-functions)))
-    (pulsar-pulse-line)))
+    (pulsar--pulse nil pulsar-window-change-face)))
 
 (defvar-local pulsar--pulse-region-changes nil)
 
+;; This feature is heavily inspired by @minad's `goggles' package.
 (defun pulsar--after-change-function (beg end len)
   "`after-change-functions' hook to accumulate buffer edits.
 Changes are defined by BEG, END, LEN."
@@ -573,11 +602,12 @@ Changes are defined by BEG, END, LEN."
       (let ((beg (apply #'min (mapcar #'car pulsar--pulse-region-changes)))
             (end (apply #'max (mapcar #'cdr pulsar--pulse-region-changes))))
         (setq pulsar--pulse-region-changes nil)
-        (pulsar--pulse nil pulsar-region-face beg end)))
+        (pulsar--pulse nil pulsar-region-change-face beg end)))
      ;; Pulse the selected region for commands that did not cause
      ;; buffer changes; e.g., kill-ring-save.
      ((and pulsar-pulse-region
-           (memq this-command pulsar-pulse-region-functions))
+           (or (memq this-command pulsar-pulse-region-functions)
+               (memq real-this-command pulsar-pulse-functions)))
       (pulsar-pulse-region)))))
 
 (make-obsolete 'pulsar-setup nil "0.3.0")
