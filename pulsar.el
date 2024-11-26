@@ -186,6 +186,7 @@ functions (e.g. only after `other-window') are advised to set
 this variable to nil and update the `pulsar-pulse-functions'
 accordingly."
   :type 'boolean
+  :package-version '(pulsar . "1.2.0")
   :group 'pulsar)
 
 (defconst pulsar--face-choice-widget
