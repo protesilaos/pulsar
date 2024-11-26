@@ -552,7 +552,7 @@ Also check `pulsar-global-mode'."
 
 (defvar-local pulsar--pulse-region-changes nil)
 
-;; This feature is heavily inspired by @minad's `goggles' package.
+;; This feature is heavily inspired by Daniel Mendler's `goggles' package.
 (defun pulsar--after-change-function (beg end len)
   "`after-change-functions' hook to accumulate buffer edits.
 Changes are defined by BEG, END, LEN."
