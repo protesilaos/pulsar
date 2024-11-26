@@ -621,6 +621,12 @@ of function symbols."
                   (push sym aliases))))
     aliases))
 
+(defun pulsar--find-union (functions)
+  "Find the union of FUNCTIONS and their aliases."
+  (seq-union functions
+             (seq-union (pulsar--find-fn-aliases functions)
+                        (flatten-list (mapcar #'pulsar--function-alias-p functions)))))
+
 (defun pulsar-resolve-function-aliases ()
   "Amend registered functions to respect function aliases.
 Functions are registered in `pulsar-pulse-functions' and
@@ -630,14 +636,8 @@ when `pulsar-resolve-pulse-function-aliases' is non-nil.
 You may also call this manually in your configuration after setting
 `pulsar-pulse-functions'.  In that case, you would prefer
 `pulsar-resolve-pulse-function-aliases' to be nil."
-  (setq pulsar-pulse-functions
-        (seq-union pulsar-pulse-functions
-                   (seq-union (pulsar--find-fn-aliases pulsar-pulse-functions)
-                              (flatten-list (mapcar (lambda (x) (pulsar--function-alias-p x)) pulsar-pulse-functions)))))
-  (setq pulsar-pulse-region-functions
-        (seq-union pulsar-pulse-region-functions
-                   (seq-union (pulsar--find-fn-aliases pulsar-pulse-region-functions)
-                              (flatten-list (mapcar (lambda (x) (pulsar--function-alias-p x)) pulsar-pulse-region-functions))))))
+  (setq pulsar-pulse-functions (pulsar--find-union pulsar-pulse-functions))
+  (setq pulsar-pulse-region-functions (pulsar--find-union pulsar-pulse-region-functions)))
 
 ;;;; Recentering commands
 
