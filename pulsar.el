@@ -178,7 +178,7 @@ pulsing makes sense."
   :package-version '(pulsar . "1.2.0")
   :group 'pulsar)
 
-(defcustom pulsar-pulse-on-window-change t
+(defcustom pulsar-pulse-on-window-change nil
   "When non-nil, enable pulsing on every window change.
 This covers all commands or functions that affect the current
 window.  Users who prefer to trigger a pulse only after select
