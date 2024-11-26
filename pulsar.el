@@ -188,6 +188,24 @@ accordingly."
   :type 'boolean
   :group 'pulsar)
 
+(defconst pulsar--face-choice-widget
+  '(radio :tag "Select another face"
+          (face :tag "Generic pulse.el face" pulsar-generic)
+          (face :tag "Red style" pulsar-red)
+          (face :tag "Green style" pulsar-green)
+          (face :tag "Yellow style" pulsar-yellow)
+          (face :tag "Blue style" pulsar-blue)
+          (face :tag "Magenta style" pulsar-magenta)
+          (face :tag "Cyan style" pulsar-cyan)
+          (face :tag "Other face (must have a background)"))
+  "Widget for `defcustom' type to select a face.")
+
+(defconst pulsar--face-with-default-and-choice-widget
+  `(choice :tag "Choose a face"
+           (variable :tag "Use the `pulsar-face'" pulsar-face)
+           ,pulsar--face-choice-widget)
+  "Like `pulsar--face-choice-widget' plus the `pulsar-face' option.")
+
 (defcustom pulsar-face 'pulsar-generic
   "Face of the regular pulse line effect (`pulsar-pulse-line').
 The default is `pulsar-generic' which reuses the standard face
@@ -195,56 +213,25 @@ from the underlying pulse library.  Users can select one among
 `pulsar-red', `pulsar-green', `pulsar-yellow', `pulsar-blue',
 `pulsar-magenta', `pulsar-cyan', or any other face that has a
 background attribute."
-  :type '(radio (face :tag "Generic pulse.el face" pulsar-generic)
-                (face :tag "Red style" pulsar-red)
-                (face :tag "Green style" pulsar-green)
-                (face :tag "Yellow style" pulsar-yellow)
-                (face :tag "Blue style" pulsar-blue)
-                (face :tag "Magenta style" pulsar-magenta)
-                (face :tag "Cyan style" pulsar-cyan)
-                (face :tag "Other face (must have a background)"))
+  :type pulsar--face-choice-widget
   :package-version '(pulsar . "0.2.0")
   :group 'pulsar)
 
 (defcustom pulsar-highlight-face 'pulsar-face
   "Face used in `pulsar-highlight-line'."
-  :type '(choice (variable pulsar-face)
-                 (radio (face :tag "Generic pulse.el face" pulsar-generic)
-                        (face :tag "Red style" pulsar-red)
-                        (face :tag "Green style" pulsar-green)
-                        (face :tag "Yellow style" pulsar-yellow)
-                        (face :tag "Blue style" pulsar-blue)
-                        (face :tag "Magenta style" pulsar-magenta)
-                        (face :tag "Cyan style" pulsar-cyan)
-                        (face :tag "Other face (must have a background)")))
+  :type pulsar--face-with-default-and-choice-widget
   :package-version '(pulsar . "0.3.0")
   :group 'pulsar)
 
 (defcustom pulsar-region-face 'pulsar-face
   "Face to indicate non-destructive region changes."
-  :type '(choice (variable pulsar-face)
-                 (radio (face :tag "Generic pulse.el face" pulsar-generic)
-                        (face :tag "Red style" pulsar-red)
-                        (face :tag "Green style" pulsar-green)
-                        (face :tag "Yellow style" pulsar-yellow)
-                        (face :tag "Blue style" pulsar-blue)
-                        (face :tag "Magenta style" pulsar-magenta)
-                        (face :tag "Cyan style" pulsar-cyan)
-                        (face :tag "Other face (must have a background)")))
+  :type pulsar--face-with-default-and-choice-widget
   :package-version '(pulsar . "1.2.0")
   :group 'pulsar)
 
 (defcustom pulsar-region-change-face 'pulsar-face
   "Face to indicate destructive region changes."
-  :type '(choice (variable pulsar-face)
-                 (radio (face :tag "Generic pulse.el face" pulsar-generic)
-                        (face :tag "Red style" pulsar-red)
-                        (face :tag "Green style" pulsar-green)
-                        (face :tag "Yellow style" pulsar-yellow)
-                        (face :tag "Blue style" pulsar-blue)
-                        (face :tag "Magenta style" pulsar-magenta)
-                        (face :tag "Cyan style" pulsar-cyan)
-                        (face :tag "Other face (must have a background)")))
+  :type pulsar--face-with-default-and-choice-widget
   :package-version '(pulsar . "1.2.0")
   :group 'pulsar)
 
