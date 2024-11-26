@@ -554,13 +554,14 @@ Also check `pulsar-global-mode'."
 
 ;; This feature is heavily inspired by Daniel Mendler's `goggles' package.
 (defun pulsar--after-change-function (beg end len)
-  "`after-change-functions' hook to accumulate buffer edits.
-Changes are defined by BEG, END, LEN."
+  "Provide `after-change-functions' hook to accumulate buffer edits.
+Changes are defined by BEG, END, LEN:
+
+- BEG and END mark the region of text.
+- LEN is zero for insertions.
+- LEN is the extent of deletions and BEG==END."
   (when (or (memq this-command pulsar-pulse-region-functions)
             (memq real-this-command pulsar-pulse-region-functions))
-    ;; beg and end mark the range of changed text
-    ;; len is zero for insertions
-    ;; len is change extent for deletions and beg==end
     (when (and (zerop len) (= beg end)) ; In case of a deletion
       (when (> beg (buffer-size))
         (setq beg (1- beg)))
