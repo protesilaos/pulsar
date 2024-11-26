@@ -237,15 +237,7 @@ background attribute."
 
 (defcustom pulsar-window-change-face 'pulsar-face
   "Face to indicate the current position on window changes."
-  :type '(choice (variable pulsar-face)
-                 (radio (face :tag "Generic pulse.el face" pulsar-generic)
-                        (face :tag "Red style" pulsar-red)
-                        (face :tag "Green style" pulsar-green)
-                        (face :tag "Yellow style" pulsar-yellow)
-                        (face :tag "Blue style" pulsar-blue)
-                        (face :tag "Magenta style" pulsar-magenta)
-                        (face :tag "Cyan style" pulsar-cyan)
-                        (face :tag "Other face (must have a background)")))
+  :type pulsar--face-with-default-and-choice-widget
   :package-version '(pulsar . "1.2.0")
   :group 'pulsar)
 
