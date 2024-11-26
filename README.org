@@ -362,9 +362,9 @@ Pulsar is meant to be a collective effort.  Every bit of help matters.
 
 + Author/maintainer :: Protesilaos Stavrou.
 
-+ Contributions to the code or manual :: Aymeric Agon-Rambosson,
-  Bahman Movaqar, Daniel Mendler, Ivan Popovych, JD Smith, Maxim
-  Dunaevsky, Ryan Kaskel, shipmints, ukiran03.
++ Contributions to the code or manual :: Abdelhak Bougouffa, Aymeric
+  Agon-Rambosson, Bahman Movaqar, Daniel Mendler, Ivan Popovych, JD
+  Smith, Maxim Dunaevsky, Ryan Kaskel, shipmints, ukiran03.
 
 + Ideas and user feedback :: Anwesh Gangula, Diego Alvarez, Duy
   Nguyen, Mark Barton, Petter Storvik, Ronny Randen, Rudolf Adamkovič,
