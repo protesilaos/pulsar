@@ -130,7 +130,7 @@ This only takes effect when `pulsar-mode' (buffer-local) or
   :package-version '(pulsar . "1.1.0")
   :group 'pulsar)
 
-(defcustom pulsar-pulse-region-functions
+(defvar pulsar-pulse-region-common-functions
   '(yank
     kill-region
     kill-line
@@ -146,15 +146,19 @@ This only takes effect when `pulsar-mode' (buffer-local) or
     yank-rectangle
     open-rectangle
     undo)
-  "Functions that highlight the affected region after invocation.
-This only takes effect when `pulsar-mode' is enabled."
-  :type '(repeat function)
-  :package-version '(pulsar . "1.2.0")
-  :group 'pulsar)
+  "Common functions that can be used for `pulsar-pulse-region-functions'.")
 
-(defcustom pulsar-pulse-region nil
-  "When non-nil, highlight the affected region after invocation."
-  :type 'boolean
+(defcustom pulsar-pulse-region-functions nil
+  "Functions that highlight the affected region after invocation.
+When the value is nil, no pulsing is in effect.  Otherwise, the value is
+a list of functions that operate on the region.  It can be, for example,
+`pulsar-pulse-region-common-functions'.
+
+This only takes effect when `pulsar-mode' (buffer-local) or
+`pulsar-global-mode' is enabled."
+  :type '(choice
+          (const :tag "Do not pulse the region" nil)
+          (repeat function))
   :package-version '(pulsar . "1.2.0")
   :group 'pulsar)
 
@@ -517,8 +521,7 @@ Also check `pulsar-global-mode'."
         (when pulsar-resolve-pulse-function-aliases
           (pulsar-resolve-function-aliases))
         (add-hook 'post-command-hook #'pulsar--post-command-pulse nil 'local)
-        (when pulsar-pulse-region
-          (add-hook 'after-change-functions #'pulsar--after-change-function nil 'local))
+        (add-hook 'after-change-functions #'pulsar--after-change-function nil 'local)
         (when pulsar-pulse-on-window-change
           (add-hook 'window-buffer-change-functions #'pulsar--pulse-on-window-change nil 'local)
           (add-hook 'window-selection-change-functions #'pulsar--pulse-on-window-change nil 'local)))
@@ -579,17 +582,15 @@ Changes are defined by BEG, END, LEN:
      ;; Extract the outer limits of the affected region from
      ;; accumulated changes. NOTE: Non-contiguous regions such as
      ;; rectangles will pulse their contiguous bounds.
-     ((and pulsar-pulse-region
-           pulsar--pulse-region-changes)
+     (pulsar--pulse-region-changes
       (let ((beg (apply #'min (mapcar #'car pulsar--pulse-region-changes)))
             (end (apply #'max (mapcar #'cdr pulsar--pulse-region-changes))))
         (setq pulsar--pulse-region-changes nil)
         (pulsar--pulse nil pulsar-region-change-face beg end)))
      ;; Pulse the selected region for commands that did not cause
      ;; buffer changes; e.g., kill-ring-save.
-     ((and pulsar-pulse-region
-           (or (memq this-command pulsar-pulse-region-functions)
-               (memq real-this-command pulsar-pulse-functions)))
+     ((or (memq this-command pulsar-pulse-region-functions)
+          (memq real-this-command pulsar-pulse-functions))
       (pulsar-pulse-region)))))
 
 (make-obsolete 'pulsar-setup nil "0.3.0")
