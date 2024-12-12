@@ -9,6 +9,97 @@ the manual: <https://protesilaos.com/emacs/pulsar>.
 
 #+toc: headlines 1 insert TOC here, with one headline level
 
+* Version 1.2.0 on 2024-12-12
+:PROPERTIES:
+:CUSTOM_ID: h:3060295b-f66d-4eb9-9606-440c5fb5e408
+:END:
+
+This version refines an already stable base. Users do not need to make
+any changes to their setup, unless they wish to try the new features.
+
+** Automatically pulse the affected region
+:PROPERTIES:
+:CUSTOM_ID: h:7c00c7e4-ccee-4559-a30e-9747f5f820c0
+:END:
+
+With the out-of-the-box settings, Pulsar temporarily highlights the
+current line after any of the ~pulsar-pulse-functions~ is invoked and
+~pulsar-mode~ (or ~pulsar-global-mode~) is enabled.
+
+The new user option ~pulsar-pulse-region-functions~ makes Pulsar
+temporarily highlight the affected region as well. For example, when
+pasting some text into the buffer, it will highlight the portion of
+text that was added.
+
+The default value of ~pulsar-pulse-region-functions~ is nil, meaning
+that no region pulsing is in effect (what we had before). Otherwise,
+it is a list of functions. A typical use-case is the following:
+
+#+begin_src emacs-lisp
+(setq pulsar-pulse-region-functions pulsar-pulse-region-common-functions)
+#+end_src
+
+This covers common commands, such as for copying and pasting a region
+of text (restart ~pulsar-mode~ or ~pulsar-global-mode~ if needed).
+
+Thanks to shipmints and Abdelhak Bougouffa for contributing the core
+of this functionality. It was done in pull request 25:
+<https://github.com/protesilaos/pulsar/pull/25>. Abdelhak's
+contribution is within the ~15 line limit, meaning that no copyright
+assignment to the Free Software Foundation is necessary, while
+shipmints has already done the paperwork.
+
+Relevant discussions took place in issues 10, 18, 21, and 22, as well
+as pull request 24:
+
+- <https://github.com/protesilaos/pulsar/issues/10>
+- <https://github.com/protesilaos/pulsar/issues/18>
+- <https://github.com/protesilaos/pulsar/issues/21>
+- <https://github.com/protesilaos/pulsar/issues/22>
+- <https://github.com/protesilaos/pulsar/pull/24>
+
+Thanks to Anwesh Gangula, Alex Kreisher, Diego Alvarez, and Ronny
+Randen for their participation.
+
+The region pulsing is inspired by Daniel Mendler's ~goggles~ package,
+which itself is a take on a common theme covered by many other such
+packages.
+
+** Style region highlights differently
+:PROPERTIES:
+:CUSTOM_ID: h:f0a6b22a-0534-4633-97fc-1cb072d93d59
+:END:
+
+The following user options control the face of the ~pulsar-pulse-region-functions~.
+
+- ~pulsar-region-face~ :: Face to pulse a region that has not changed.
+- ~pulsar-region-change-face~ :: Face to pulse a region that has changed (added or removed).
+
+Pulsar defines several faces to get a nice style. Here is an example:
+
+#+begin_src emacs-lisp
+(setq pulsar-region-face 'pulsar-green) ; unchanged regions are green
+(setq pulsar-region-change-face 'pulsar-red) ; changed regions are red
+#+end_src
+
+** Pulse on window state change
+:PROPERTIES:
+:CUSTOM_ID: h:90e443b2-448e-4938-8aa2-783ad84c87fc
+:END:
+
+An alternative to how Pulsar works out-of-the-box by reacting to the
+~pulsar-pulse-functions~ is to check for changes to the window layout.
+Users who wish to have this behaviour can set the new user option
+~pulsar-pulse-on-window-change~ to a non-nil value.
+
+As there may be overlap between the ~pulsar-pulse-functions~ and the
+~pulsar-pulse-on-window-change~, users are advised to pick only one.
+This is not a hard rule though: Pulsar will blithely highlight
+everything if configured accordingly.
+
+Thanks again to shipmints and Abdelhak Bougouffa for this
+contribution. It is part of the aforementioned pull request 25.
+
 * Version 1.1.0 on 2024-08-29
 :PROPERTIES:
 :CUSTOM_ID: h:93705ad7-b2ff-491f-a108-69f4949d715b
