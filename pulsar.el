@@ -228,19 +228,19 @@ background attribute."
   :package-version '(pulsar . "0.3.0")
   :group 'pulsar)
 
-(defcustom pulsar-region-face 'pulsar-face
-  "Face to indicate non-destructive region changes."
+(defcustom pulsar-region-face pulsar-face
+  "Face to pulse a region that has not changed."
   :type pulsar--face-with-default-and-choice-widget
   :package-version '(pulsar . "1.2.0")
   :group 'pulsar)
 
-(defcustom pulsar-region-change-face 'pulsar-face
-  "Face to indicate destructive region changes."
+(defcustom pulsar-region-change-face pulsar-face
+  "Face to pulse a region that has changed (added or removed)."
   :type pulsar--face-with-default-and-choice-widget
   :package-version '(pulsar . "1.2.0")
   :group 'pulsar)
 
-(defcustom pulsar-window-change-face 'pulsar-face
+(defcustom pulsar-window-change-face pulsar-face
   "Face to indicate the current position on window changes."
   :type pulsar--face-with-default-and-choice-widget
   :package-version '(pulsar . "1.2.0")
