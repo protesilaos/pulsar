@@ -74,6 +74,11 @@ pulse.  Only applies when `pulsar-pulse' is non-nil."
     bookmark-jump
     delete-other-windows
     delete-window
+    dired-maybe-insert-subdir
+    dired-up-directory
+    dired-goto-file
+    dired-next-dirline
+    dired-prev-dirline
     evil-goto-first-line
     evil-goto-line
     evil-scroll-down
