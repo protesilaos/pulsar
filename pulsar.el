@@ -91,6 +91,7 @@ pulse.  Only applies when `pulsar-pulse' is non-nil."
     forward-page
     goto-line
     handle-switch-frame
+    imenu
     logos-backward-page-dwim
     logos-forward-page-dwim
     handle-select-window
