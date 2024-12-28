@@ -100,7 +100,10 @@ pulse.  Only applies when `pulsar-pulse' is non-nil."
     narrow-to-page
     narrow-to-region
     next-buffer
+    next-error
+    next-error-recenter
     next-multiframe-window
+    occur-mode-goto-occurrence
     org-backward-heading-same-level
     org-forward-heading-same-level
     org-next-visible-heading
@@ -112,6 +115,7 @@ pulse.  Only applies when `pulsar-pulse' is non-nil."
     outline-previous-visible-heading
     outline-up-heading
     previous-buffer
+    previous-error
     recenter-top-bottom
     reposition-window
     scroll-down-command
