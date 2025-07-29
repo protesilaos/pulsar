@@ -141,22 +141,22 @@ This only takes effect when `pulsar-mode' (buffer-local) or
   :group 'pulsar)
 
 (defvar pulsar-pulse-region-common-functions
-  '(yank
+  '(append-next-kill
     delete-region
-    kill-region
     kill-line
-    kill-ring-save
-    append-next-kill
-    kill-whole-line
-    kill-visual-line
-    kill-word backward-kill-word
-    kill-sentence backward-kill-sentence
     kill-paragraph backward-kill-paragraph
-    kill-sexp backward-kill-sexp
     kill-rectangle
-    yank-rectangle
+    kill-region
+    kill-ring-save
+    kill-sentence backward-kill-sentence
+    kill-sexp backward-kill-sexp
+    kill-visual-line
+    kill-whole-line
+    kill-word backward-kill-word
     open-rectangle
-    undo)
+    undo
+    yank
+    yank-rectangle)
   "Common functions that can be used for `pulsar-pulse-region-functions'.")
 
 (defcustom pulsar-pulse-region-functions nil
