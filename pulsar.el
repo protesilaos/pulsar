@@ -142,6 +142,7 @@ This only takes effect when `pulsar-mode' (buffer-local) or
 
 (defvar pulsar-pulse-region-common-functions
   '(yank
+    delete-region
     kill-region
     kill-line
     kill-ring-save
