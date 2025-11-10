@@ -599,12 +599,12 @@ Also check `pulsar-global-mode'."
       (progn
         (when pulsar-resolve-pulse-function-aliases
           (pulsar-resolve-function-aliases))
-        (add-hook 'post-command-hook #'pulsar--post-command-pulse nil 'local)
+        (add-hook 'post-command-hook #'pulsar-post-command-pulse nil 'local)
         (add-hook 'after-change-functions #'pulsar--after-change-function nil 'local)
         (when pulsar-pulse-on-window-change
           (add-hook 'window-buffer-change-functions #'pulsar--pulse-on-window-change nil 'local)
           (add-hook 'window-selection-change-functions #'pulsar--pulse-on-window-change nil 'local)))
-    (remove-hook 'post-command-hook #'pulsar--post-command-pulse 'local)
+    (remove-hook 'post-command-hook #'pulsar-post-command-pulse 'local)
     (remove-hook 'after-change-functions #'pulsar--after-change-function 'local)
     (remove-hook 'window-buffer-change-functions #'pulsar--pulse-on-window-change 'local)
     (remove-hook 'window-selection-change-functions #'pulsar--pulse-on-window-change 'local)))
@@ -651,29 +651,28 @@ Changes are defined by BEG, END, LEN:
       (setq end (1+ beg)))
     (push (cons (copy-marker beg) (copy-marker end)) pulsar--pulse-region-changes)))
 
-(defun pulsar--post-command-pulse ()
+(defun pulsar-post-command-pulse ()
   "Pulse current line, accumulated edits, or selected region."
-  (when pulsar-mode
-    (cond
-     ((or (memq this-command pulsar-pulse-functions)
-          (memq real-this-command pulsar-pulse-functions)
-          ;; Pulse the selected region for commands that did not cause
-          ;; buffer changes; e.g., kill-ring-save.
-          (memq this-command pulsar-pulse-region-functions)
-          (memq real-this-command pulsar-pulse-functions))
-      (call-interactively 'pulsar-highlight-pulse))
-     ;; Extract the outer limits of the affected region from
-     ;; accumulated changes. NOTE: Non-contiguous regions such as
-     ;; rectangles will pulse their contiguous bounds.
-     (pulsar--pulse-region-changes
-      (let ((beg (apply #'min (mapcar #'car pulsar--pulse-region-changes)))
-            (end (apply #'max (mapcar #'cdr pulsar--pulse-region-changes))))
-        (setq pulsar--pulse-region-changes nil)
-        (pulsar--create-pulse
-         (if (eq beg end)
-             (pulsar--get-line-boundaries)
-           (cons beg end))
-         pulsar-region-change-face))))))
+  (cond
+   ((or (memq this-command pulsar-pulse-functions)
+        (memq real-this-command pulsar-pulse-functions)
+        ;; Pulse the selected region for commands that did not cause
+        ;; buffer changes; e.g., kill-ring-save.
+        (memq this-command pulsar-pulse-region-functions)
+        (memq real-this-command pulsar-pulse-functions))
+    (call-interactively 'pulsar-highlight-pulse))
+   ;; Extract the outer limits of the affected region from
+   ;; accumulated changes. NOTE: Non-contiguous regions such as
+   ;; rectangles will pulse their contiguous bounds.
+   (pulsar--pulse-region-changes
+    (let ((beg (apply #'min (mapcar #'car pulsar--pulse-region-changes)))
+          (end (apply #'max (mapcar #'cdr pulsar--pulse-region-changes))))
+      (setq pulsar--pulse-region-changes nil)
+      (pulsar--create-pulse
+       (if (eq beg end)
+           (pulsar--get-line-boundaries)
+         (cons beg end))
+       pulsar-region-change-face)))))
 
 (make-obsolete 'pulsar-setup nil "0.3.0")
 
