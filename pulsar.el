@@ -110,6 +110,7 @@ pulse.  Only applies when `pulsar-pulse' is non-nil."
     outline-up-heading
     previous-buffer
     previous-error
+    quit-window
     recenter-top-bottom
     reposition-window
     scroll-down-command
