@@ -369,29 +369,17 @@ default completion setup)."
       (line-beginning-position 1)
     (line-beginning-position 2)))
 
-(defun pulsar--pulse (&optional no-pulse face start end)
-  "Highlight the current line.
-With optional NO-PULSE keep the highlight until another command
-is invoked.  Otherwise use whatever `pulsar-pulse' entails.
 
-With optional FACE, use it instead of `pulsar-face'.
+(defun pulsar--create-pulse (locus face)
+  "Create a pulse spanning the LOCUS using FACE.
+LOCUS is a cons cell with two buffer positions."
+  (let ((pulse-delay pulsar-delay)
+        (pulse-iterations pulsar-iterations)
+        (overlay (make-overlay (car locus) (cdr locus))))
+    (overlay-put overlay 'pulse-delete t)
+    (overlay-put overlay 'window (frame-selected-window))
+    (pulse-momentary-highlight-overlay overlay face)))
 
-With optional START and END, highlight the region in-between
-instead of the current line."
-  (when (and (numberp start) (numberp end) (= start end)) ; pulse the whole line if start=end
-    (setq start nil end nil))
-  (let* ((pulse-flag (if no-pulse nil pulsar-pulse))
-         (pulse-delay pulsar-delay)
-         (pulse-iterations pulsar-iterations)
-         (f (if (facep face) face pulsar-face))
-         (o (make-overlay (or start (pulsar--start)) (or end (pulsar--end)))))
-    (overlay-put o 'pulse-delete t)
-    (overlay-put o 'window (frame-selected-window))
-    (pulse-momentary-highlight-overlay o f)))
-
-;; TODO 2025-11-10: Make `pulsar-pulse-line' and `pulsar-pulse-region'
-;; and related accept a LOCUS argument like I do now with
-;; `pulsar-highlight-permanently' and friends.
 
 ;;;###autoload
 (defun pulsar-pulse-line ()
