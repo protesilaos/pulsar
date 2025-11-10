@@ -385,10 +385,22 @@ LOCUS is a cons cell with two buffer positions."
     (overlay-put overlay 'window (frame-selected-window))
     (pulse-momentary-highlight-overlay overlay face)))
 
+(define-obsolete-function-alias
+  'pulsar-pulse-line
+  'pulsar-pulse-locus
+  "1.3.0")
+
+(define-obsolete-function-alias
+  'pulsar-pulse-region
+  'pulsar-pulse-locus
+  "1.3.0")
 
 ;;;###autoload
-(defun pulsar-pulse-line ()
-  "Temporarily highlight the current line.
+(defun pulsar-pulse-locus (locus)
+  "Pulse highlight the current LOCUS.
+When the region is active, LOCUS covers the region boundaries.
+Otherwise, LOCUS spans the current line.
+
 When `pulsar-pulse' is non-nil (the default) make the highlight
 pulse before fading away.  The pulse effect is controlled by
 `pulsar-delay' and `pulsar-iterations'.
@@ -396,35 +408,13 @@ pulse before fading away.  The pulse effect is controlled by
 Also see `pulsar-highlight-line-temporarily' for a highlight without the
 pulse effect.  Alternatives are `pulsar-highlight-permanently' and
 related."
-  (interactive)
-  (pulsar--pulse))
-
-;;;###autoload
-(defun pulsar-pulse-region ()
-  "Temporarily highlight the active region if any."
-  (interactive)
-  (if (region-active-p)
-      (let ((beg (region-beginning))
-            (end (region-end)))
-        ;; FIXME 2024-08-29: Finding the lines and columns therein
-        ;; does not work because consecutive pulses cancel each
-        ;; other out, leaving only the last one active.
-        ;;
-        ;; (let* ((columns (rectangle--pos-cols beg end))
-        ;;        (begcol (car columns))
-        ;;        (endcol (cdr columns)))
-        ;;    (lines (list
-        ;;            (line-number-at-pos beg)
-        ;;            (line-number-at-pos end))))
-        ;; (dolist (line lines)
-        ;;   (save-excursion
-        ;;     (goto-char (point-min))
-        ;;     (forward-line (1- line))
-        ;;     (setq beg (progn (move-to-column begcol) (point))
-        ;;           end (progn (move-to-column endcol) (point))))
-        ;;   (pulsar--pulse nil nil beg end)))
-        (pulsar--pulse nil pulsar-region-face beg end))
-    (pulsar--pulse nil pulsar-region-face)))
+  (interactive
+   (list
+    (if (region-active-p)
+        (cons (region-beginning) (region-end))
+      (pulsar--get-line-boundaries))))
+  (let ((pulse-flag pulsar-pulse))
+    (pulsar--create-pulse locus pulsar-face)))
 
 (define-obsolete-function-alias
   'pulsar-highlight-line
