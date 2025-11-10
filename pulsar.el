@@ -380,33 +380,31 @@ LOCUS is a cons cell with two buffer positions."
 
 (define-obsolete-function-alias
   'pulsar-pulse-line
-  'pulsar-pulse-locus
+  'pulsar-highlight-pulse
   "1.3.0")
 
 (define-obsolete-function-alias
   'pulsar-pulse-region
-  'pulsar-pulse-locus
+  'pulsar-highlight-pulse
   "1.3.0")
 
 ;;;###autoload
-(defun pulsar-pulse-locus (locus)
-  "Pulse highlight the current LOCUS.
+(defun pulsar-highlight-pulse (locus)
+  "Highlight the current LOCUS by pulsing it.
+To pulse is to add a colour and then gradually fade it away.  The pulse
+is subject to `pulsar-delay' and `pulsar-iterations'.
+
 When the region is active, LOCUS covers the region boundaries.
 Otherwise, LOCUS spans the current line.
 
-When `pulsar-pulse' is non-nil (the default) make the highlight
-pulse before fading away.  The pulse effect is controlled by
-`pulsar-delay' and `pulsar-iterations'.
-
-Also see `pulsar-highlight-line-temporarily' for a highlight without the
-pulse effect.  Alternatives are `pulsar-highlight-permanently' and
-related."
+For highlights without a pulse, see `pulsar-highlight-temporarily' and
+`pulsar-highlight-permanently'."
   (interactive
    (list
     (if (region-active-p)
         (cons (region-beginning) (region-end))
       (pulsar--get-line-boundaries))))
-  (let ((pulse-flag pulsar-pulse))
+  (let ((pulse-flag t))
     (pulsar--create-pulse locus pulsar-face)))
 
 (define-obsolete-function-alias
