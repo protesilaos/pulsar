@@ -27,8 +27,9 @@
 ;;; Commentary:
 ;;
 ;; This is a small package that temporarily highlights the current
-;; line after a given function is invoked.  Consult the official
-;; manual for the technicalities.
+;; line after certain functions are called.  It can also highlight a
+;; line or region on demand.  Different types of highlighting are
+;; supported.  Consult the official manual for the technicalities.
 ;;
 ;; Why the name "pulsar"?  It sounds like "pulse" and is a
 ;; recognisable word.  Though if you need a backronym, consider
