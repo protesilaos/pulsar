@@ -241,11 +241,10 @@ and `pulsar-highlight-permanently'."
   :package-version '(pulsar . "1.3.0")
   :group 'pulsar)
 
-(defcustom pulsar-region-face pulsar-face
-  "Face to pulse a region that has not changed."
-  :type pulsar--face-with-default-and-choice-widget
-  :package-version '(pulsar . "1.2.0")
-  :group 'pulsar)
+(define-obsolete-face-alias
+ 'pulsar-region-face
+ 'pulsar-face
+ "1.3.0")
 
 (defcustom pulsar-region-change-face pulsar-face
   "Face to pulse a region that has changed (added or removed)."
