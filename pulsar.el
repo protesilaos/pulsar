@@ -674,8 +674,6 @@ Changes are defined by BEG, END, LEN:
          (cons beg end))
        pulsar-region-change-face)))))
 
-(make-obsolete 'pulsar-setup nil "0.3.0")
-
 ;; TODO 2024-11-26: Deprecate this at some point to prefer Emacs core.
 (defun pulsar--function-alias-p (func &optional _noerror)
   "Return nil if FUNC is not a function alias.
