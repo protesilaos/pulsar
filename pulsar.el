@@ -729,13 +729,13 @@ You may also call this manually in your configuration after setting
   "Reposition point at the top of the window and pulse line."
   (interactive)
   (recenter 0)
-  (pulsar-pulse-line))
+  (call-interactively 'pulsar-highlight-pulse))
 
 (defun pulsar-recenter-center ()
   "Reposition point at the center of the window and pulse line."
   (interactive)
   (recenter nil)
-  (pulsar-pulse-line))
+  (call-interactively 'pulsar-highlight-pulse))
 
 (defalias 'pulsar-recenter-middle 'pulsar-recenter-center
   "Alias for `pulsar-recenter-center'.")
