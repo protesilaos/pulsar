@@ -26,10 +26,11 @@
 
 ;;; Commentary:
 ;;
-;; This is a small package that temporarily highlights the current
-;; line after certain functions are called.  It can also highlight a
-;; line or region on demand.  Different types of highlighting are
-;; supported.  Consult the official manual for the technicalities.
+;; This is a small Emacs package that automatically highlights the
+;; current line after certain functions are invoked.  It can also
+;; highlight a line or region on demand.  The idea is to make it
+;; easier to find where the point is, what was affected, and also to
+;; bring attention to something in a buffer.
 ;;
 ;; Why the name "pulsar"?  It sounds like "pulse" and is a
 ;; recognisable word.  Though if you need a backronym, consider
