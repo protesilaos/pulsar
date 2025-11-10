@@ -413,18 +413,20 @@ For highlights without a pulse, see `pulsar-highlight-temporarily' and
   "1.3.0")
 
 ;;;###autoload
-(defun pulsar-highlight-line-temporarily ()
-  "Temporarily highlight the current line.
-Unlike `pulsar-pulse-line', never pulse the current line.  Keep
-the highlight in place until another command is invoked.
+(defun pulsar-highlight-temporarily (locus)
+  "Temporarily highlight the current LOCUS.
+Unlike `pulsar-highlight-pulse', never pulse the current line.  Keep the
+highlight in place until another command is invoked.  This is what makes
+the highlight temporary.
 
-Use `pulsar-highlight-face' (it is the same as `pulsar-face' by
-default).
-
-For a permanent highlight use `pulsar-highlight-permanently' and
-related."
-  (interactive)
-  (pulsar--pulse :no-pulse pulsar-highlight-face))
+For a permanent highlight, see `pulsar-highlight-permanently'."
+  (interactive
+   (list
+    (if (region-active-p)
+        (cons (region-beginning) (region-end))
+      (pulsar--get-line-boundaries))))
+  (let ((pulse-flag nil))
+    (pulsar--create-pulse locus pulsar-highlight-face)))
 
 ;;;;; Convenience functions
 
