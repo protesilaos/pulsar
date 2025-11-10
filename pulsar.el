@@ -656,8 +656,12 @@ Changes are defined by BEG, END, LEN:
   (when pulsar-mode
     (cond
      ((or (memq this-command pulsar-pulse-functions)
+          (memq real-this-command pulsar-pulse-functions)
+          ;; Pulse the selected region for commands that did not cause
+          ;; buffer changes; e.g., kill-ring-save.
+          (memq this-command pulsar-pulse-region-functions)
           (memq real-this-command pulsar-pulse-functions))
-      (pulsar--create-pulse (pulsar--get-line-boundaries) pulsar-face))
+      (call-interactively 'pulsar-highlight-pulse))
      ;; Extract the outer limits of the affected region from
      ;; accumulated changes. NOTE: Non-contiguous regions such as
      ;; rectangles will pulse their contiguous bounds.
@@ -669,12 +673,7 @@ Changes are defined by BEG, END, LEN:
          (if (eq beg end)
              (pulsar--get-line-boundaries)
            (cons beg end))
-         pulsar-region-change-face)))
-     ;; Pulse the selected region for commands that did not cause
-     ;; buffer changes; e.g., kill-ring-save.
-     ((or (memq this-command pulsar-pulse-region-functions)
-          (memq real-this-command pulsar-pulse-functions))
-      (call-interactively 'pulsar-highlight-pulse)))))
+         pulsar-region-change-face))))))
 
 (make-obsolete 'pulsar-setup nil "0.3.0")
 
