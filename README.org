@@ -117,31 +117,49 @@ of the various buffer-switching commands. When this user option is
 nil, ~pulsar-mode~ will work in those buffers as well.
 
 #+findex: pulsar-pulse-line
-#+findex: pulsar-highlight-line
+#+findex: pulsar-highlight-line-temporarily
 To highlight the current line on demand, use the ~pulsar-pulse-line~
 command.  When ~pulsar-pulse~ is non-nil (the default), its highlight
-will pulse before fading away.  Whereas the ~pulsar-highlight-line~
-command never pulses the line: the highlight stays in place as if
-~pulsar-pulse~ is nil.
+will pulse before fading away.  Whereas the ~pulsar-highlight-line-temporarily~
+command never pulses the line: the highlight stays in place and is static (as if
+~pulsar-pulse~ is ~nil~) and is removed when the point moves.
 
 #+findex: pulsar-pulse-region
 The command ~pulsar-pulse-region~ pulses the active region. The effect
 of the pulse is controlled by the aforementioned user options, namely,
 ~pulsar-delay~, ~pulsar-iterations~, ~pulsar-face~.
 
-#+findex: pulsar-highlight-dwim
-A do-what-I-mean command is also on offer: ~pulsar-highlight-dwim~.  It
-highlights the current line line like ~pulsar-highlight-line~.  If the
-region is active, it applies its effect there.  The region may also be a
-rectangle (internally they differ from ordinary regions).
+#+findex: pulsar-highlight-temporarily-dwim
+For temporary static highlights, a do-what-I-mean command is also on
+offer: ~pulsar-highlight-temporarily-dwim~. It temporarily highlights
+the current line line like ~pulsar-highlight-line-temporarily~~. If
+the region is active, it applies its effect there. The region may also
+be a rectangle (internally they differ from ordinary regions).
+
+#+findex: pulsar-highlight-permanently
+The command ~pulsar-highlight-permanently~ adds a permanent static
+highlight to the current line. The effect stays in place even after
+the point moves. When the region is active, the highlight is applied
+from the beginning to the end of the region. Otherwise the highlight
+is applied to the current line. [ The command ~pulsar-highlight-permanently~ is part of {{{development-version}}}. ]
+
+#+findex: pulsar-highlight-permanently-remove
+The command ~pulsar-highlight-permanently-remove~ removes permanent
+static highlights from the active region or current line. This command
+operates on the entire buffer when it is called with a universal
+prefix argument (=C-u= by default). [ The command ~pulsar-highlight-permanently-remove~ is part of {{{development-version}}}. ]
+
+#+findex: pulsar-highlight-permanently-dwim
+The command ~pulsar-highlight-permanently-dwim~ adds a permanent
+static highlight if there is none or removes it if there is one. It
+operates on the currently active region or line at point. [ The command ~pulsar-highlight-permanently-dwim~ is part of {{{development-version}}}. ]
 
 #+vindex: pulsar-highlight-face
-To help users differentiate between the pulse and highlight effects, the
-user option ~pulsar-highlight-face~ controls the presentation of the
-~pulsar-highlight-line~ and ~pulsar-highlight-dwim~ commands.  By
-default, this variable is the same as ~pulsar-face~.
-
-Pulsar depends on the built-in ~pulse.el~ library.
+The user option ~pulsar-highlight-face~ controls which face is used
+for static highlight (temporary or permanent). By default, it is the
+same as the ~pulsar-face~, which is for pulse effects, but can be
+assigned to a different face to help differentiate pulses from static
+highlights.
 
 Why the name "pulsar"?  It sounds like "pulse" and is a recognisable
 word.  Though if you need a backronym, consider "Pulsar Unquestionably

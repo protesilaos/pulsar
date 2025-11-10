@@ -234,9 +234,11 @@ background attribute."
   :group 'pulsar)
 
 (defcustom pulsar-highlight-face 'pulsar-face
-  "Face used in `pulsar-highlight-line'."
+  "Face used by temporary or permanent static highlights.
+These are done by commands such as `pulsar-highlight-line-temporarily'
+and `pulsar-highlight-permanently'."
   :type pulsar--face-with-default-and-choice-widget
-  :package-version '(pulsar . "0.3.0")
+  :package-version '(pulsar . "1.3.0")
   :group 'pulsar)
 
 (defcustom pulsar-region-face pulsar-face
@@ -387,6 +389,10 @@ instead of the current line."
     (overlay-put o 'window (frame-selected-window))
     (pulse-momentary-highlight-overlay o f)))
 
+;; TODO 2025-11-10: Make `pulsar-pulse-line' and `pulsar-pulse-region'
+;; and related accept a LOCUS argument like I do now with
+;; `pulsar-highlight-permanently' and friends.
+
 ;;;###autoload
 (defun pulsar-pulse-line ()
   "Temporarily highlight the current line.
@@ -394,8 +400,9 @@ When `pulsar-pulse' is non-nil (the default) make the highlight
 pulse before fading away.  The pulse effect is controlled by
 `pulsar-delay' and `pulsar-iterations'.
 
-Also see `pulsar-highlight-line' for a highlight without the
-pulse effect."
+Also see `pulsar-highlight-line-temporarily' for a highlight without the
+pulse effect.  Alternatives are `pulsar-highlight-permanently' and
+related."
   (interactive)
   (pulsar--pulse))
 
@@ -426,14 +433,22 @@ pulse effect."
         (pulsar--pulse nil pulsar-region-face beg end))
     (pulsar--pulse nil pulsar-region-face)))
 
+(define-obsolete-function-alias
+  'pulsar-highlight-line
+  'pulsar-highlight-line-temporarily
+  "1.3.0")
+
 ;;;###autoload
-(defun pulsar-highlight-line ()
+(defun pulsar-highlight-line-temporarily ()
   "Temporarily highlight the current line.
 Unlike `pulsar-pulse-line', never pulse the current line.  Keep
 the highlight in place until another command is invoked.
 
 Use `pulsar-highlight-face' (it is the same as `pulsar-face' by
-default)."
+default).
+
+For a permanent highlight use `pulsar-highlight-permanently' and
+related."
   (interactive)
   (pulsar--pulse :no-pulse pulsar-highlight-face))
 
@@ -504,12 +519,17 @@ uses (per the user option `pulsar-face')" face)
   (add-hook 'post-command-hook #'pulsar--remove-rectangle-remap nil t)
   (add-hook 'deactivate-mark-hook #'pulsar--remove-face-remap nil t))
 
+(define-obsolete-function-alias
+  'pulsar-highlight-dwim
+  'pulsar-highlight-temporarily-dwim
+  "1.3.0")
+
 ;;;###autoload
-(defun pulsar-highlight-dwim ()
+(defun pulsar-highlight-temporarily-dwim ()
   "Temporarily highlight the current line or active region.
 The region may also be a rectangle.
 
-For lines, do the same as `pulsar-highlight-line'."
+For lines, do the same as `pulsar-highlight-line-temporarily'."
   (interactive)
   (cond
    ((bound-and-true-p rectangle-mark-mode)
@@ -518,6 +538,82 @@ For lines, do the same as `pulsar-highlight-line'."
     (pulsar--pulse :no-pulse pulsar-highlight-face (region-beginning) (region-end)))
    (t
     (pulsar--pulse :no-pulse pulsar-highlight-face))))
+
+;;;###autoload
+(defun pulsar-highlight-permanently (locus)
+  "Set a permanent highlight to the current LOCUS.
+When the region is active, LOCUS is a cons cell of positions
+corresponding to the region boundaries.  Otherwise it is a cons cell of
+positions corresponding to the beginning and end of the current line.
+
+Remove the highlight with `pulsar-highlight-permanently-remove' or
+toggle it with `pulsar-highlight-permanently'.
+
+For a temporary highlight use `pulsar-highlight-line-temporarily' and
+related."
+  (interactive
+   (list
+    (if (region-active-p)
+        (cons (region-beginning) (region-end))
+      (cons (line-beginning-position) (line-end-position)))))
+  (pcase-let* ((`(,beg . ,end) locus)
+               (overlay (make-overlay beg end)))
+    (overlay-put overlay 'face pulsar-highlight-face)
+    (overlay-put overlay 'pulsar-permanent t)))
+
+(defun pulsar--permanent-p (locus)
+  "Return overlays if LOCUS has overlays with `pulsar-permanent' property.
+LOCUS is a cons cell with two buffer positions."
+  (seq-filter
+   (lambda (overlay)
+     (overlay-get overlay 'pulsar-permanent))
+   (overlays-in (car locus) (cdr locus))))
+
+(defun pulsar-highlight-permanently-remove (locus)
+  "Remove the permanent highlight from the current LOCUS.
+If the region is active, operate on its boundaries.  If the highlight
+was a region-wide one (i.e. was created for the region boundaries rather
+than the line boundaries), then remove it even if the region is not
+active.
+
+With LOCUS as a prefix argument, remove all such highlights in the
+current buffer.  In this case, whether the region is active or not is
+irrelevant.
+
+When called from Lisp LOCUS is a cons cell with two buffer positions.
+
+Set a permanent highlight with `pulsar-highlight-permanently'."
+  (interactive
+   (list
+    (cond
+     (current-prefix-arg
+      (cons (point-min) (point-max)))
+     ((region-active-p)
+      (cons (region-beginning) (region-end)))
+     (t
+      (cons (line-beginning-position) (line-end-position))))))
+  (if-let* ((overlays (pulsar--permanent-p locus)))
+      (dolist (overlay overlays) (delete-overlay overlay))
+    (user-error "No Pulsar permanent highlights found")))
+
+;;;###autoload
+(defun pulsar-highlight-permanently-dwim (locus)
+  "Do-What-I-Mean with a permanent highlighting of the current LOCUS.
+When there is a highlight, remove it, else add it.
+
+If the region is active, LOCUS corresponds to its boundaries.  If there
+is no region, then LOCUS corresponds to the boundaries of the current
+line."
+  (interactive
+   (list
+    (cond
+     ((region-active-p)
+      (cons (region-beginning) (region-end)))
+     (t
+      (cons (line-beginning-position) (line-end-position))))))
+  (if-let* ((overlays (pulsar--permanent-p locus)))
+      (dolist (overlay overlays) (delete-overlay overlay))
+    (pulsar-highlight-permanently locus)))
 
 ;;;; Mode setup
 
