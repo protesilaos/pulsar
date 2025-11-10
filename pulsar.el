@@ -45,13 +45,7 @@ Extension of `pulse.el'."
 
 ;;;; User options
 
-(defcustom pulsar-pulse t
-  "When non-nil enable pulsing.
-Otherwise the highlight stays on the current line until another
-command is invoked."
-  :type 'boolean
-  :package-version '(pulsar . "0.2.0")
-  :group 'pulsar)
+(make-obsolete-variable 'pulsar-pulse nil "1.3.0")
 
 (defcustom pulsar-delay 0.05
   "Delay between increments of a pulse.
