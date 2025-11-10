@@ -369,6 +369,11 @@ default completion setup)."
       (line-beginning-position 1)
     (line-beginning-position 2)))
 
+(defun pulsar--get-line-boundaries ()
+  "Return cons cell of line beginning and end positions.
+If possible, make the end be 1+ its value, so that the highlight can be
+extended to the edge of the window."
+  (cons (pulsar--start) (pulsar--end)))
 
 (defun pulsar--create-pulse (locus face)
   "Create a pulse spanning the LOCUS using FACE.
@@ -543,7 +548,7 @@ related."
    (list
     (if (region-active-p)
         (cons (region-beginning) (region-end))
-      (cons (line-beginning-position) (line-end-position)))))
+      (pulsar--get-line-boundaries))))
   (pcase-let* ((`(,beg . ,end) locus)
                (overlay (make-overlay beg end)))
     (overlay-put overlay 'face pulsar-highlight-face)
@@ -579,7 +584,7 @@ Set a permanent highlight with `pulsar-highlight-permanently'."
      ((region-active-p)
       (cons (region-beginning) (region-end)))
      (t
-      (cons (line-beginning-position) (line-end-position))))))
+      (pulsar--get-line-boundaries)))))
   (if-let* ((overlays (pulsar--permanent-p locus)))
       (dolist (overlay overlays) (delete-overlay overlay))
     (user-error "No Pulsar permanent highlights found")))
@@ -598,7 +603,7 @@ line."
      ((region-active-p)
       (cons (region-beginning) (region-end)))
      (t
-      (cons (line-beginning-position) (line-end-position))))))
+      (pulsar--get-line-boundaries)))))
   (if-let* ((overlays (pulsar--permanent-p locus)))
       (dolist (overlay overlays) (delete-overlay overlay))
     (pulsar-highlight-permanently locus)))
