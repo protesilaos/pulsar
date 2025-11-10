@@ -670,7 +670,10 @@ Changes are defined by BEG, END, LEN:
      ;; buffer changes; e.g., kill-ring-save.
      ((or (memq this-command pulsar-pulse-region-functions)
           (memq real-this-command pulsar-pulse-functions))
-      (pulsar-pulse-region)))))
+      (let ((locus (if (region-active-p)
+                       (cons (region-beginning) (region-end))
+                     (pulsar--get-line-boundaries))))
+        (pulsar--create-pulse locus pulsar-face))))))
 
 (make-obsolete 'pulsar-setup nil "0.3.0")
 
