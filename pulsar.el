@@ -665,15 +665,16 @@ Changes are defined by BEG, END, LEN:
       (let ((beg (apply #'min (mapcar #'car pulsar--pulse-region-changes)))
             (end (apply #'max (mapcar #'cdr pulsar--pulse-region-changes))))
         (setq pulsar--pulse-region-changes nil)
-        (pulsar--create-pulse (cons beg end) pulsar-region-change-face)))
+        (pulsar--create-pulse
+         (if (eq beg end)
+             (pulsar--get-line-boundaries)
+           (cons beg end))
+         pulsar-region-change-face)))
      ;; Pulse the selected region for commands that did not cause
      ;; buffer changes; e.g., kill-ring-save.
      ((or (memq this-command pulsar-pulse-region-functions)
           (memq real-this-command pulsar-pulse-functions))
-      (let ((locus (if (region-active-p)
-                       (cons (region-beginning) (region-end))
-                     (pulsar--get-line-boundaries))))
-        (pulsar--create-pulse locus pulsar-face))))))
+      (call-interactively 'pulsar-highlight-pulse)))))
 
 (make-obsolete 'pulsar-setup nil "0.3.0")
 
