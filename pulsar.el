@@ -437,7 +437,7 @@ For a permanent highlight, see `pulsar-highlight-permanently'."
 
 ;;;###autoload
 (defmacro pulsar-define-pulse-with-face (face)
-  "Produce function to `pulsar--pulse' with FACE.
+  "Produce function to pulse the current line with FACE.
 If FACE starts with the `pulsar-' prefix, remove it and keep only
 the remaining text.  The assumption is that something like
 `pulsar-red' will be convered to `red', thus deriving a function
@@ -453,7 +453,7 @@ The idea with this is to run it in special hooks or contexts
 where you need a different color than what Pulsar normally
 uses (per the user option `pulsar-face')" face)
        (interactive)
-       (pulsar--pulse nil ',face))))
+       (pulsar--create-pulse (pulsar--get-line-boundaries) ',face))))
 
 (pulsar-define-pulse-with-face pulsar-red)
 (pulsar-define-pulse-with-face pulsar-green)
@@ -635,7 +635,7 @@ Also check `pulsar-global-mode'."
              ;; pulsar-pulse-functions are in effect.
              (not (memq this-command pulsar-pulse-functions))
              (not (memq real-this-command pulsar-pulse-functions)))
-    (pulsar--pulse nil pulsar-window-change-face)))
+    (pulsar--create-pulse (pulsar--get-line-boundaries) pulsar-window-change-face)))
 
 (defvar-local pulsar--pulse-region-changes nil)
 
@@ -661,7 +661,7 @@ Changes are defined by BEG, END, LEN:
     (cond
      ((or (memq this-command pulsar-pulse-functions)
           (memq real-this-command pulsar-pulse-functions))
-      (pulsar-pulse-line))
+      (pulsar--create-pulse (pulsar--get-line-boundaries) pulsar-face))
      ;; Extract the outer limits of the affected region from
      ;; accumulated changes. NOTE: Non-contiguous regions such as
      ;; rectangles will pulse their contiguous bounds.
@@ -669,7 +669,7 @@ Changes are defined by BEG, END, LEN:
       (let ((beg (apply #'min (mapcar #'car pulsar--pulse-region-changes)))
             (end (apply #'max (mapcar #'cdr pulsar--pulse-region-changes))))
         (setq pulsar--pulse-region-changes nil)
-        (pulsar--pulse nil pulsar-region-change-face beg end)))
+        (pulsar--create-pulse (cons beg end) pulsar-region-change-face)))
      ;; Pulse the selected region for commands that did not cause
      ;; buffer changes; e.g., kill-ring-save.
      ((or (memq this-command pulsar-pulse-region-functions)
