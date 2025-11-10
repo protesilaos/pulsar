@@ -507,13 +507,9 @@ The region may also be a rectangle.
 
 For lines, do the same as `pulsar-highlight-line-temporarily'."
   (interactive)
-  (cond
-   ((bound-and-true-p rectangle-mark-mode)
-    (pulsar--highlight-rectangle))
-   ((region-active-p)
-    (pulsar--pulse :no-pulse pulsar-highlight-face (region-beginning) (region-end)))
-   (t
-    (pulsar--pulse :no-pulse pulsar-highlight-face))))
+  (if (bound-and-true-p rectangle-mark-mode)
+      (pulsar--highlight-rectangle)
+    (call-interactively 'pulsar-highlight-temporarily)))
 
 ;;;###autoload
 (defun pulsar-highlight-permanently (locus)
