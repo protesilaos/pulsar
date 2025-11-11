@@ -232,7 +232,7 @@ background attribute."
 
 (defcustom pulsar-highlight-face 'pulsar-face
   "Face used by temporary or permanent static highlights.
-These are done by commands such as `pulsar-highlight-line-temporarily'
+These are done by commands such as `pulsar-highlight-temporarily'
 and `pulsar-highlight-permanently'."
   :type pulsar--face-with-default-and-choice-widget
   :package-version '(pulsar . "1.3.0")
@@ -413,25 +413,13 @@ For highlights without a pulse, see `pulsar-highlight-temporarily' and
 
 (define-obsolete-function-alias
   'pulsar-highlight-line
-  'pulsar-highlight-line-temporarily
+  'pulsar-highlight-temporarily
   "1.3.0")
 
-;;;###autoload
-(defun pulsar-highlight-temporarily (locus)
-  "Temporarily highlight the current LOCUS.
-Unlike `pulsar-highlight-pulse', never pulse the current line.  Keep the
-highlight in place until another command is invoked.  This is what makes
-the highlight temporary.
-
-For a permanent highlight, see `pulsar-highlight-permanently'."
-  (interactive
-   (list
-    (if (region-active-p)
-        (cons (region-beginning) (region-end))
-      (pulsar--get-line-boundaries))))
-  (let ((pulse-flag nil))
-    (pulsar--create-pulse locus pulsar-highlight-face)))
 (define-obsolete-function-alias
+  'pulsar-highlight-temporarily-dwim
+  'pulsar-highlight-temporarily
+  "1.3.0")
 
 (defvar-local pulsar--rectangle-face-cookie nil
   "Cookie of remapped rectangle region face.")
@@ -464,21 +452,23 @@ For a permanent highlight, see `pulsar-highlight-permanently'."
   (add-hook 'post-command-hook #'pulsar--remove-rectangle-remap nil t)
   (add-hook 'deactivate-mark-hook #'pulsar--remove-face-remap nil t))
 
-(define-obsolete-function-alias
-  'pulsar-highlight-dwim
-  'pulsar-highlight-temporarily-dwim
-  "1.3.0")
-
 ;;;###autoload
-(defun pulsar-highlight-temporarily-dwim ()
-  "Temporarily highlight the current line or active region.
-The region may also be a rectangle.
+(defun pulsar-highlight-temporarily (locus)
+  "Temporarily highlight the current LOCUS.
+Unlike `pulsar-highlight-pulse', never pulse the current line.  Keep the
+highlight in place until another command is invoked.  This is what makes
+the highlight temporary.
 
-For lines, do the same as `pulsar-highlight-line-temporarily'."
-  (interactive)
-  (if (bound-and-true-p rectangle-mark-mode)
-      (pulsar--highlight-rectangle)
-    (call-interactively 'pulsar-highlight-temporarily)))
+For a permanent highlight, see `pulsar-highlight-permanently'."
+  (interactive
+   (list
+    (if (region-active-p)
+        (cons (region-beginning) (region-end))
+      (pulsar--get-line-boundaries))))
+  (let ((pulse-flag nil))
+    (if (bound-and-true-p rectangle-mark-mode)
+        (pulsar--highlight-rectangle)
+      (pulsar--create-pulse locus pulsar-highlight-face))))
 
 ;;;###autoload
 (defun pulsar-highlight-permanently (locus)
@@ -490,7 +480,7 @@ positions corresponding to the beginning and end of the current line.
 Remove the highlight with `pulsar-highlight-permanently-remove' or
 toggle it with `pulsar-highlight-permanently'.
 
-For a temporary highlight use `pulsar-highlight-line-temporarily' and
+For a temporary highlight use `pulsar-highlight-temporarily' and
 related."
   (interactive
    (list
