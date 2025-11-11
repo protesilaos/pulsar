@@ -383,17 +383,19 @@ LOCUS is a cons cell with two buffer positions."
     (pulse-momentary-highlight-overlay overlay face)))
 
 (define-obsolete-function-alias
-  'pulsar-pulse-line
-  'pulsar-highlight-pulse
-  "1.3.0")
-
-(define-obsolete-function-alias
   'pulsar-pulse-region
   'pulsar-highlight-pulse
   "1.3.0")
 
 ;;;###autoload
-(defun pulsar-highlight-pulse (locus)
+(defun pulsar-pulse-line ()
+  "Create a pulse highlight for the current line.
+Also see `pulsar-highlight-pulse'."
+  (interactive)
+  (pulsar--create-pulse (pulsar--get-line-boundaries) pulsar-face))
+
+;;;###autoload
+(defun pulsar-highlight-pulse (&optional locus)
   "Highlight the current LOCUS by pulsing it.
 To pulse is to add a colour and then gradually fade it away.  The pulse
 is subject to `pulsar-delay' and `pulsar-iterations'.
