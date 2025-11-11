@@ -372,6 +372,16 @@ If possible, make the end be 1+ its value, so that the highlight can be
 extended to the edge of the window."
   (cons (pulsar--start) (pulsar--end)))
 
+(defun pulsar--get-region-boundaries ()
+  "Return cons cell with region boundaries."
+  (cons (region-beginning) (region-end)))
+
+(defun pulsar--get-line-or-region-boundaries ()
+  "Return cons cell of the active region boundaries or current line."
+  (if (region-active-p)
+      (pulsar--get-region-boundaries)
+    (pulsar--get-line-boundaries)))
+
 (defun pulsar--create-pulse (locus face)
   "Create a pulse spanning the LOCUS using FACE.
 LOCUS is a cons cell with two buffer positions."
@@ -405,11 +415,7 @@ Otherwise, LOCUS spans the current line.
 
 For highlights without a pulse, see `pulsar-highlight-temporarily' and
 `pulsar-highlight-permanently'."
-  (interactive
-   (list
-    (if (region-active-p)
-        (cons (region-beginning) (region-end))
-      (pulsar--get-line-boundaries))))
+  (interactive (list (pulsar--get-line-or-region-boundaries)))
   (let ((pulse-flag t))
     (pulsar--create-pulse locus pulsar-face)))
 
@@ -431,11 +437,7 @@ highlight in place until another command is invoked.  This is what makes
 the highlight temporary.
 
 For a permanent highlight, see `pulsar-highlight-permanently'."
-  (interactive
-   (list
-    (if (region-active-p)
-        (cons (region-beginning) (region-end))
-      (pulsar--get-line-boundaries))))
+  (interactive (list (pulsar--get-line-or-region-boundaries)))
   (let ((pulse-flag nil))
     (pulsar--create-pulse locus pulsar-highlight-face)))
 
@@ -451,11 +453,7 @@ toggle it with `pulsar-highlight-permanently'.
 
 For a temporary highlight use `pulsar-highlight-temporarily' and
 related."
-  (interactive
-   (list
-    (if (region-active-p)
-        (cons (region-beginning) (region-end))
-      (pulsar--get-line-boundaries))))
+  (interactive (list (pulsar--get-line-or-region-boundaries)))
   (pcase-let* ((`(,beg . ,end) locus)
                (overlay (make-overlay beg end)))
     (overlay-put overlay 'face pulsar-highlight-face)
@@ -633,8 +631,9 @@ Changes are defined by BEG, END, LEN:
        pulsar-region-change-face)))
    ;; Pulse the selected region for commands that did not cause
    ;; buffer changes; e.g., kill-ring-save.
-   ((memq this-command pulsar-pulse-region-functions)
-    (pulsar--create-pulse (pulsar--get-line-boundaries) pulsar-region-face))))
+   ((or (memq this-command pulsar-pulse-region-functions)
+        (memq real-this-command pulsar-pulse-region-functions))
+    (pulsar--create-pulse (pulsar--get-line-or-region-boundaries) pulsar-region-face))))
 
 ;; TODO 2024-11-26: Deprecate this at some point to prefer Emacs core.
 (defun pulsar--function-alias-p (func &optional _noerror)
