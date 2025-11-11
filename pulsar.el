@@ -137,7 +137,12 @@ This only takes effect when `pulsar-mode' (buffer-local) or
   :package-version '(pulsar . "1.1.0")
   :group 'pulsar)
 
-(defvar pulsar-pulse-region-common-functions
+(make-obsolete-variable
+ 'pulsar-pulse-region-common-functions
+ "the list of functions it defined is now the default for `pulsar-pulse-region-functions'"
+ "1.3.0")
+
+(defcustom pulsar-pulse-region-functions
   '(append-next-kill
     delete-region
     kill-line
@@ -154,9 +159,6 @@ This only takes effect when `pulsar-mode' (buffer-local) or
     undo
     yank
     yank-rectangle)
-  "Common functions that can be used for `pulsar-pulse-region-functions'.")
-
-(defcustom pulsar-pulse-region-functions nil
   "Functions that highlight the affected region after invocation.
 When the value is nil, no pulsing is in effect.  Otherwise, the value is
 a list of functions that operate on the region.  It can be, for example,
