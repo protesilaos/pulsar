@@ -431,42 +431,7 @@ For a permanent highlight, see `pulsar-highlight-permanently'."
       (pulsar--get-line-boundaries))))
   (let ((pulse-flag nil))
     (pulsar--create-pulse locus pulsar-highlight-face)))
-
-;;;;; Convenience functions
-
 (define-obsolete-function-alias
-  'pulsar-pulse-with-face
-  'pulsar-define-pulse-with-face
-  "1.0.0")
-
-;;;###autoload
-(defmacro pulsar-define-pulse-with-face (face)
-  "Produce function to pulse the current line with FACE.
-If FACE starts with the `pulsar-' prefix, remove it and keep only
-the remaining text.  The assumption is that something like
-`pulsar-red' will be convered to `red', thus deriving a function
-named `pulsar-pulse-line-red'.  Any other FACE is taken as-is."
-  (declare (indent function))
-  (let* ((face-string (symbol-name face))
-         (face-name (if (string-prefix-p "pulsar-" face-string)
-                        (replace-regexp-in-string "pulsar-" "" face-string)
-                      face-string)))
-    `(defun ,(intern (format "pulsar-pulse-line-%s" face-name)) ()
-       ,(format "Like `pulsar-pulse-line' but uses the `%s' face.
-The idea with this is to run it in special hooks or contexts
-where you need a different color than what Pulsar normally
-uses (per the user option `pulsar-face')" face)
-       (interactive)
-       (pulsar--create-pulse (pulsar--get-line-boundaries) ',face))))
-
-(pulsar-define-pulse-with-face pulsar-red)
-(pulsar-define-pulse-with-face pulsar-green)
-(pulsar-define-pulse-with-face pulsar-yellow)
-(pulsar-define-pulse-with-face pulsar-blue)
-(pulsar-define-pulse-with-face pulsar-magenta)
-(pulsar-define-pulse-with-face pulsar-cyan)
-
-;;;;; Highlight region
 
 (defvar-local pulsar--rectangle-face-cookie nil
   "Cookie of remapped rectangle region face.")
@@ -590,6 +555,40 @@ line."
   (if-let* ((overlays (pulsar--permanent-p locus)))
       (dolist (overlay overlays) (delete-overlay overlay))
     (pulsar-highlight-permanently locus)))
+
+;;;;; Convenience functions
+
+(define-obsolete-function-alias
+  'pulsar-pulse-with-face
+  'pulsar-define-pulse-with-face
+  "1.0.0")
+
+;;;###autoload
+(defmacro pulsar-define-pulse-with-face (face)
+  "Produce function to pulse the current line with FACE.
+If FACE starts with the `pulsar-' prefix, remove it and keep only
+the remaining text.  The assumption is that something like
+`pulsar-red' will be convered to `red', thus deriving a function
+named `pulsar-pulse-line-red'.  Any other FACE is taken as-is."
+  (declare (indent function))
+  (let* ((face-string (symbol-name face))
+         (face-name (if (string-prefix-p "pulsar-" face-string)
+                        (replace-regexp-in-string "pulsar-" "" face-string)
+                      face-string)))
+    `(defun ,(intern (format "pulsar-pulse-line-%s" face-name)) ()
+       ,(format "Like `pulsar-pulse-line' but uses the `%s' face.
+The idea with this is to run it in special hooks or contexts
+where you need a different color than what Pulsar normally
+uses (per the user option `pulsar-face')" face)
+       (interactive)
+       (pulsar--create-pulse (pulsar--get-line-boundaries) ',face))))
+
+(pulsar-define-pulse-with-face pulsar-red)
+(pulsar-define-pulse-with-face pulsar-green)
+(pulsar-define-pulse-with-face pulsar-yellow)
+(pulsar-define-pulse-with-face pulsar-blue)
+(pulsar-define-pulse-with-face pulsar-magenta)
+(pulsar-define-pulse-with-face pulsar-cyan)
 
 ;;;; Mode setup
 
