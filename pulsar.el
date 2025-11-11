@@ -238,10 +238,11 @@ and `pulsar-highlight-permanently'."
   :package-version '(pulsar . "1.3.0")
   :group 'pulsar)
 
-(define-obsolete-face-alias
- 'pulsar-region-face
- 'pulsar-face
- "1.3.0")
+(defcustom pulsar-region-face pulsar-face
+  "Face to pulse a region that has note changed."
+  :type pulsar--face-with-default-and-choice-widget
+  :package-version '(pulsar . "1.2.0")
+  :group 'pulsar)
 
 (defcustom pulsar-region-change-face pulsar-face
   "Face to pulse a region that has changed (added or removed)."
@@ -658,12 +659,8 @@ Changes are defined by BEG, END, LEN:
   "Pulse current line, accumulated edits, or selected region."
   (cond
    ((or (memq this-command pulsar-pulse-functions)
-        (memq real-this-command pulsar-pulse-functions)
-        ;; Pulse the selected region for commands that did not cause
-        ;; buffer changes; e.g., kill-ring-save.
-        (memq this-command pulsar-pulse-region-functions)
         (memq real-this-command pulsar-pulse-functions))
-    (call-interactively 'pulsar-highlight-pulse))
+    (pulsar--create-pulse (pulsar--get-line-boundaries) pulsar-face))
    ;; Extract the outer limits of the affected region from
    ;; accumulated changes. NOTE: Non-contiguous regions such as
    ;; rectangles will pulse their contiguous bounds.
@@ -673,9 +670,13 @@ Changes are defined by BEG, END, LEN:
       (setq pulsar--pulse-region-changes nil)
       (pulsar--create-pulse
        (if (eq beg end)
-           (pulsar--get-line-boundaries)
+           (cons beg (+ beg 1))
          (cons beg end))
-       pulsar-region-change-face)))))
+       pulsar-region-change-face)))
+   ;; Pulse the selected region for commands that did not cause
+   ;; buffer changes; e.g., kill-ring-save.
+   ((memq this-command pulsar-pulse-region-functions)
+    (pulsar--create-pulse (pulsar--get-line-boundaries) pulsar-region-face))))
 
 ;; TODO 2024-11-26: Deprecate this at some point to prefer Emacs core.
 (defun pulsar--function-alias-p (func &optional _noerror)
