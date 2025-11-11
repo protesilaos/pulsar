@@ -423,37 +423,6 @@ For highlights without a pulse, see `pulsar-highlight-temporarily' and
   'pulsar-highlight-temporarily
   "1.3.0")
 
-(defvar-local pulsar--rectangle-face-cookie nil
-  "Cookie of remapped rectangle region face.")
-
-(autoload 'face-remap-remove-relative "face-remap.el")
-
-(defun pulsar--remove-face-remap ()
-  "Remove `pulsar--rectangle-face-cookie'."
-  (when pulsar--rectangle-face-cookie
-    (face-remap-remove-relative pulsar--rectangle-face-cookie)))
-
-(defvar rectangle-mark-mode)
-
-;; When we highlight a region, it gets the `region' face.  The
-;; `pulsar-highlight-dwim' overlays it with `pulsar-highlight-face'
-;; using a standard pulse.el mechanism.  If the user tries to expand the
-;; region further, it gets its original face.  This function ensures
-;; that the rectangle behaves the same way (pulse.el does not handle
-;; rectangular regions).
-(defun pulsar--remove-rectangle-remap ()
-  "Remove face remap from rectangle region when appropriate."
-  (when (and (bound-and-true-p rectangle-mark-mode)
-             (not (eq this-command 'pulsar-highlight-dwim)))
-    (pulsar--remove-face-remap)))
-
-(defun pulsar--highlight-rectangle ()
-  "Remap `region' face and set `pulsar--remove-face-remap'."
-  (setq pulsar--rectangle-face-cookie
-        (face-remap-add-relative 'region pulsar-highlight-face))
-  (add-hook 'post-command-hook #'pulsar--remove-rectangle-remap nil t)
-  (add-hook 'deactivate-mark-hook #'pulsar--remove-face-remap nil t))
-
 ;;;###autoload
 (defun pulsar-highlight-temporarily (locus)
   "Temporarily highlight the current LOCUS.
@@ -468,9 +437,7 @@ For a permanent highlight, see `pulsar-highlight-permanently'."
         (cons (region-beginning) (region-end))
       (pulsar--get-line-boundaries))))
   (let ((pulse-flag nil))
-    (if (bound-and-true-p rectangle-mark-mode)
-        (pulsar--highlight-rectangle)
-      (pulsar--create-pulse locus pulsar-highlight-face))))
+    (pulsar--create-pulse locus pulsar-highlight-face)))
 
 ;;;###autoload
 (defun pulsar-highlight-permanently (locus)
