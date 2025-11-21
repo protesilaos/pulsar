@@ -416,8 +416,9 @@ Pulsar is meant to be a collective effort.  Every bit of help matters.
   Smith, Maxim Dunaevsky, Ryan Kaskel, shipmints, ukiran03.
 
 + Ideas and user feedback :: Anwesh Gangula, Diego Alvarez, Duy
-  Nguyen, Matthias Meulien, Mark Barton, Petter Storvik, Ronny Randen,
-  Rudolf Adamkovič, Toon Claes, and users djl, kb.
+  Nguyen, Koloszár Gergely, Matthias Meulien, Mark Barton, Petter
+  Storvik, Ronny Randen, Rudolf Adamkovič, Toon Claes, and users djl,
+  kb.
 
 * GNU Free Documentation License
 :PROPERTIES:

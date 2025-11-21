@@ -388,6 +388,7 @@ extended to the edge of the window."
   "Create a pulse spanning the LOCUS using FACE.
 LOCUS is a cons cell with two buffer positions."
   (let ((pulse-delay pulsar-delay)
+        (pulse-flag t)
         (pulse-iterations pulsar-iterations)
         (overlay (make-overlay (car locus) (cdr locus))))
     (overlay-put overlay 'pulse-delete t)
