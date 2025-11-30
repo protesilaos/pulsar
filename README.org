@@ -4,9 +4,9 @@
 #+language: en
 #+options: ':t toc:nil author:t email:t num:t
 #+startup: content
-#+macro: stable-version 1.2.0
-#+macro: release-date 2024-12-12
-#+macro: development-version 1.3.0-dev
+#+macro: stable-version 1.3.0
+#+macro: release-date 2025-11-30
+#+macro: development-version 1.4.0-dev
 #+export_file_name: pulsar.texi
 #+texinfo_filename: pulsar.info
 #+texinfo_dir_category: Emacs misc features
@@ -229,10 +229,6 @@ value), ~pulsar-red~, ~pulsar-green~, ~pulsar-yellow~, ~pulsar-blue~,
 :CUSTOM_ID: h:ae9d40d5-5f32-4bfe-ad75-ac6311b5b11f
 :END:
 
-[ Revised as part of {{{development-version}}}. The
-  ~pulsar-highlight-temporarily~ supersedes ~pulsar-highlight-line~
-  and ~pulsar-highlight-dwim~. ]
-
 #+findex: pulsar-highlight-pulse
 The command ~pulsar-highlight-pulse~ will produce a pulse effect on
 demand. This is independent of ~pulsar-mode~ and all the conditions
@@ -255,8 +251,6 @@ highlights ([[#h:90cc699b-7f4a-414d-ab4e-1ab553992a14][Style of a pulse effect]]
 :PROPERTIES:
 :CUSTOM_ID: h:690dac43-338b-4320-a1fb-db6b919016be
 :END:
-
-[ All the permanent highlights are part of {{{development-version}}}. ]
 
 #+findex: pulsar-highlight-permanently
 The command ~pulsar-highlight-permanently~ adds a permanent static

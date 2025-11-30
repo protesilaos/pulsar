@@ -9,6 +9,75 @@ the manual: <https://protesilaos.com/emacs/pulsar>.
 
 #+toc: headlines 1 insert TOC here, with one headline level
 
+* Version 1.3.0 on 2025-11-30
+:PROPERTIES:
+:CUSTOM_ID: h:169c5a1c-0158-4033-889d-48c909479eb9
+:END:
+
+This version introduces a new feature and makes small refinements to
+an already reliable base.
+
+** Permanent static highlight for a line or region
+:PROPERTIES:
+:CUSTOM_ID: h:14422569-c872-4691-9e26-11d0f5bd9429
+:END:
+
+In the most common use-case, Pulsar produces a highlight that fades in
+and out of view after a certain amount of time. The idea with such a
+"pulse effect" is to quickly get a sense of where the cursor is when
+some change occurs (e.g. switching to another window).
+
+The permanent static highlights differ from pulse effects in two ways:
+(i) they do not have a fade-in and fade-out phase and (ii) are not
+removed automatically. These highlights stick around either until the
+user removes them or their underlying text is deleted. They are meant
+to be used as intentional highlights, such as to draw attention to a
+certain statement while doing a presentation.
+
+The command ~pulsar-highlight-permanently~ adds a permanent static
+highlight to the current line. When the region is active, the
+highlight is applied from the beginning to the end of the region.
+
+The command ~pulsar-highlight-permanently-remove~ removes permanent
+static highlights from the active region or current line. This command
+operates on the entire buffer when it is called with a universal
+prefix argument (=C-u= by default).
+
+The command ~pulsar-highlight-permanently-dwim~ adds a permanent
+static highlight if there is none or removes it if there is one. It
+operates on the currently active region or line at point.
+
+Permanent static highlights are rendered with the face specified in
+the user option ~pulsar-highlight-face~.
+
+** New name for temporary static highlights
+:PROPERTIES:
+:CUSTOM_ID: h:338546f4-1ff2-48b2-ae96-45ae82dfada1
+:END:
+
+The commands ~pulsar-highlight-dwim~ and ~pulsar-highlight-line~ are
+obsolete aliases for ~pulsar-highlight-temporarily~.
+
+Temporary static highlights do not have a fade-in and fade-out phase.
+They are automatically removed as soon as an action occurs. They are
+an alternative to the aforementioned permanent static highlights.
+
+The command ~pulsar-highlight-temporarily~ will operate on the active
+region or the current line.
+
+** Miscellaneous
+:PROPERTIES:
+:CUSTOM_ID: h:e8e12980-6432-47a5-8afd-9a24f04de076
+:END:
+
+- Thanks to Koloszár Gergely for reporting an intermediate bug where
+  the pulse effect actually did not pulse under certain conditions.
+  This was done in issue 31: <https://github.com/protesilaos/pulsar/issues/31>.
+
+- Parts of the code are rewritten in the interest of clarity.
+
+- The entire manual is redone to better organise the documentation.
+
 * Version 1.2.0 on 2024-12-12
 :PROPERTIES:
 :CUSTOM_ID: h:3060295b-f66d-4eb9-9606-440c5fb5e408
