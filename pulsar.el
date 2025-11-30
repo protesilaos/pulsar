@@ -428,7 +428,7 @@ For highlights without a pulse, see `pulsar-highlight-temporarily' and
   "1.3.0")
 
 (define-obsolete-function-alias
-  'pulsar-highlight-temporarily-dwim
+  'pulsar-highlight-dwim
   'pulsar-highlight-temporarily
   "1.3.0")
 
