@@ -387,10 +387,7 @@ extended to the edge of the window."
 (defun pulsar--create-pulse (locus face)
   "Create a pulse spanning the LOCUS using FACE.
 LOCUS is a cons cell with two buffer positions."
-  (let ((pulse-delay pulsar-delay)
-        (pulse-flag t)
-        (pulse-iterations pulsar-iterations)
-        (overlay (make-overlay (car locus) (cdr locus))))
+  (let ((overlay (make-overlay (car locus) (cdr locus))))
     (overlay-put overlay 'pulse-delete t)
     (overlay-put overlay 'window (frame-selected-window))
     (pulse-momentary-highlight-overlay overlay face)))
@@ -405,7 +402,10 @@ LOCUS is a cons cell with two buffer positions."
   "Create a pulse highlight for the current line.
 Also see `pulsar-highlight-pulse'."
   (interactive)
-  (pulsar--create-pulse (pulsar--get-line-boundaries) pulsar-face))
+  (let ((pulse-delay pulsar-delay)
+        (pulse-flag t)
+        (pulse-iterations pulsar-iterations))
+    (pulsar--create-pulse (pulsar--get-line-boundaries) pulsar-face)))
 
 ;;;###autoload
 (defun pulsar-highlight-pulse (&optional locus)
@@ -419,7 +419,9 @@ Otherwise, LOCUS spans the current line.
 For highlights without a pulse, see `pulsar-highlight-temporarily' and
 `pulsar-highlight-permanently'."
   (interactive (list (pulsar--get-line-or-region-boundaries)))
-  (let ((pulse-flag t))
+  (let ((pulse-flag t)
+        (pulse-delay pulsar-delay)
+        (pulse-iterations pulsar-iterations))
     (pulsar--create-pulse locus pulsar-face)))
 
 (define-obsolete-function-alias
@@ -441,7 +443,9 @@ the highlight temporary.
 
 For a permanent highlight, see `pulsar-highlight-permanently'."
   (interactive (list (pulsar--get-line-or-region-boundaries)))
-  (let ((pulse-flag nil))
+  (let ((pulse-flag nil)
+        (pulse-delay nil)
+        (pulse-iterations nil))
     (pulsar--create-pulse locus pulsar-highlight-face)))
 
 ;;;###autoload
