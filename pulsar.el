@@ -66,7 +66,8 @@ pulse.  Only applies when `pulsar-pulse' is non-nil."
   :group 'pulsar)
 
 (defcustom pulsar-pulse-functions
-  '(backward-page
+  '(ace-window
+    backward-page
     bookmark-jump
     delete-other-windows
     delete-window
