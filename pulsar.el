@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://github.com/protesilaos/pulsar
-;; Version: 1.3.0
+;; Version: 1.3.1
 ;; Package-Requires: ((emacs "28.1"))
 ;; Keywords: convenience, pulse, highlight
 
@@ -162,8 +162,7 @@ This only takes effect when `pulsar-mode' (buffer-local) or
     yank-rectangle)
   "Functions that highlight the affected region after invocation.
 When the value is nil, no pulsing is in effect.  Otherwise, the value is
-a list of functions that operate on the region.  It can be, for example,
-`pulsar-pulse-region-common-functions'.
+a list of functions that operate on the region.
 
 This only takes effect when `pulsar-mode' (buffer-local) or
 `pulsar-global-mode' is enabled."
