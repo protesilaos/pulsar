@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://github.com/protesilaos/pulsar
-;; Version: 1.3.1
+;; Version: 1.3.2
 ;; Package-Requires: ((emacs "28.1"))
 ;; Keywords: convenience, pulse, highlight
 
@@ -387,7 +387,10 @@ extended to the edge of the window."
 (defun pulsar--create-pulse (locus face)
   "Create a pulse spanning the LOCUS using FACE.
 LOCUS is a cons cell with two buffer positions."
-  (let ((overlay (make-overlay (car locus) (cdr locus))))
+  (let ((pulse-flag t)
+        (pulse-delay pulsar-delay)
+        (pulse-iterations pulsar-iterations)
+        (overlay (make-overlay (car locus) (cdr locus))))
     (overlay-put overlay 'pulse-delete t)
     (overlay-put overlay 'window (frame-selected-window))
     (pulse-momentary-highlight-overlay overlay face)))
@@ -402,10 +405,7 @@ LOCUS is a cons cell with two buffer positions."
   "Create a pulse highlight for the current line.
 Also see `pulsar-highlight-pulse'."
   (interactive)
-  (let ((pulse-delay pulsar-delay)
-        (pulse-flag t)
-        (pulse-iterations pulsar-iterations))
-    (pulsar--create-pulse (pulsar--get-line-boundaries) pulsar-face)))
+  (pulsar--create-pulse (pulsar--get-line-boundaries) pulsar-face))
 
 ;;;###autoload
 (defun pulsar-highlight-pulse (&optional locus)
@@ -445,8 +445,11 @@ For a permanent highlight, see `pulsar-highlight-permanently'."
   (interactive (list (pulsar--get-line-or-region-boundaries)))
   (let ((pulse-flag nil)
         (pulse-delay nil)
-        (pulse-iterations nil))
-    (pulsar--create-pulse locus pulsar-highlight-face)))
+        (pulse-iterations nil)
+        (overlay (make-overlay (car locus) (cdr locus))))
+    (overlay-put overlay 'pulse-delete t)
+    (overlay-put overlay 'window (frame-selected-window))
+    (pulse-momentary-highlight-overlay overlay pulsar-highlight-face)))
 
 ;;;###autoload
 (defun pulsar-highlight-permanently (locus)
@@ -640,7 +643,10 @@ Changes are defined by BEG, END, LEN:
    ;; buffer changes; e.g., kill-ring-save.
    ((or (memq this-command pulsar-pulse-region-functions)
         (memq real-this-command pulsar-pulse-region-functions))
-    (pulsar--create-pulse (pulsar--get-line-or-region-boundaries) pulsar-region-face))))
+    (let ((pulse-delay pulsar-delay)
+          (pulse-flag t)
+          (pulse-iterations pulsar-iterations))
+      (pulsar--create-pulse (pulsar--get-line-or-region-boundaries) pulsar-region-face)))))
 
 ;; TODO 2024-11-26: Deprecate this at some point to prefer Emacs core.
 (defun pulsar--function-alias-p (func &optional _noerror)
