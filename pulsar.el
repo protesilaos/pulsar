@@ -419,10 +419,7 @@ Otherwise, LOCUS spans the current line.
 For highlights without a pulse, see `pulsar-highlight-temporarily' and
 `pulsar-highlight-permanently'."
   (interactive (list (pulsar--get-line-or-region-boundaries)))
-  (let ((pulse-flag t)
-        (pulse-delay pulsar-delay)
-        (pulse-iterations pulsar-iterations))
-    (pulsar--create-pulse locus pulsar-face)))
+  (pulsar--create-pulse locus pulsar-face))
 
 (define-obsolete-function-alias
   'pulsar-highlight-line
@@ -643,10 +640,7 @@ Changes are defined by BEG, END, LEN:
    ;; buffer changes; e.g., kill-ring-save.
    ((or (memq this-command pulsar-pulse-region-functions)
         (memq real-this-command pulsar-pulse-region-functions))
-    (let ((pulse-delay pulsar-delay)
-          (pulse-flag t)
-          (pulse-iterations pulsar-iterations))
-      (pulsar--create-pulse (pulsar--get-line-or-region-boundaries) pulsar-region-face)))))
+    (pulsar--create-pulse (pulsar--get-line-or-region-boundaries) pulsar-region-face))))
 
 ;; TODO 2024-11-26: Deprecate this at some point to prefer Emacs core.
 (defun pulsar--function-alias-p (func &optional _noerror)
