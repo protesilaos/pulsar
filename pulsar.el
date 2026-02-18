@@ -85,6 +85,7 @@ pulse.  Only applies when `pulsar-pulse' is non-nil."
     evil-scroll-page-down
     evil-scroll-page-up
     evil-scroll-up
+    evil-window-next
     forward-page
     goto-line
     handle-switch-frame
