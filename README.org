@@ -412,7 +412,8 @@ Pulsar is meant to be a collective effort.  Every bit of help matters.
 + Ideas and user feedback :: Anwesh Gangula, Diego Alvarez, Duy
   Nguyen, Koloszár Gergely, Matthias Meulien, Mark Barton, Mehrad
   Mahmoudian, Nikolaos Bezirgiannis, Petter Storvik, Ronny Randen,
-  Rudolf Adamkovič, Toon Claes, and users djl, hammerandtongs, kb.
+  Rudolf Adamkovič, Sébastien Delafond, Toon Claes, and users djl,
+  hammerandtongs, kb.
 
 * GNU Free Documentation License
 :PROPERTIES:
