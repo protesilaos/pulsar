@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://github.com/protesilaos/pulsar
-;; Version: 1.3.3
+;; Version: 1.3.4
 ;; Package-Requires: ((emacs "28.1"))
 ;; Keywords: convenience, pulse, highlight
 
@@ -234,7 +234,7 @@ background attribute."
   :package-version '(pulsar . "0.2.0")
   :group 'pulsar)
 
-(defcustom pulsar-highlight-face 'pulsar-face
+(defcustom pulsar-highlight-face pulsar-face
   "Face used by temporary or permanent static highlights.
 These are done by commands such as `pulsar-highlight-temporarily'
 and `pulsar-highlight-permanently'."
