@@ -77,6 +77,10 @@ pulse.  Only applies when `pulsar-pulse' is non-nil."
     dired-goto-file
     dired-next-dirline
     dired-prev-dirline
+    evil-delete
+    evil-delete-char
+    evil-delete-line
+    evil-delete-marks
     evil-goto-first-line
     evil-goto-line
     evil-scroll-down
@@ -86,7 +90,18 @@ pulse.  Only applies when `pulsar-pulse' is non-nil."
     evil-scroll-page-down
     evil-scroll-page-up
     evil-scroll-up
+    evil-undo
+    evil-window-bottom
+    evil-window-delete
+    evil-window-down
+    evil-window-left
+    evil-window-new
     evil-window-next
+    evil-window-right
+    evil-window-split
+    evil-window-top
+    evil-window-up
+    evil-window-vsplit
     forward-page
     goto-line
     handle-switch-frame
@@ -148,6 +163,9 @@ This only takes effect when `pulsar-mode' (buffer-local) or
 (defcustom pulsar-pulse-region-functions
   '(append-next-kill
     delete-region
+    evil-delete
+    evil-yank
+    evil-yank-line
     kill-line
     kill-paragraph backward-kill-paragraph
     kill-rectangle
