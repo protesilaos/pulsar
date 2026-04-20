@@ -163,6 +163,9 @@ This only takes effect when `pulsar-mode' (buffer-local) or
 (defcustom pulsar-pulse-region-functions
   '(append-next-kill
     delete-region
+    evil-delete
+    evil-yank
+    evil-yank-line
     kill-line
     kill-paragraph backward-kill-paragraph
     kill-rectangle
