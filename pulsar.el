@@ -83,6 +83,8 @@ pulse.  Only applies when `pulsar-pulse' is non-nil."
     evil-delete-marks
     evil-goto-first-line
     evil-goto-line
+    evil-paste-after
+    evil-paste-before
     evil-scroll-down
     evil-scroll-line-to-bottom
     evil-scroll-line-to-center
