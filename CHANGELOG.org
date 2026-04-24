@@ -1,5 +1,5 @@
 #+TITLE: Change log of pulsar.el
-#+AUTHOR: Protesilaos Stavrou
+#+AUTHOR: Protesilaos
 #+EMAIL: info@protesilaos.com
 #+OPTIONS: ':nil toc:nil num:nil author:nil email:nil
 #+STARTUP: content
