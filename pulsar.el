@@ -352,12 +352,13 @@ and `pulsar-highlight-permanently'."
 
 (defun pulsar--indentation-only-line-p ()
   "Return non-nil if current line has only indentation."
-  (save-excursion
-    (goto-char (line-beginning-position))
-    (and (not (bobp))
-         (or (beginning-of-line 1) t)
-         (save-match-data
-           (looking-at "^[\s\t]+")))))
+  (let ((inhibit-field-text-motion t))
+    (save-excursion
+      (goto-char (line-beginning-position))
+      (and (not (bobp))
+           (or (beginning-of-line 1) t)
+           (save-match-data
+             (looking-at "^[\s\t]+"))))))
 
 (defun pulsar--buffer-end-p ()
   "Return non-nil if point is at the end of the buffer."
@@ -370,22 +371,23 @@ When in the minibuffer, return the `point-min', which includes
 the text of the prompt.  This way, a pulse will be visible even
 if the minibuffer has no initial text (e.g. `M-x' with the
 default completion setup)."
-  (cond
-   ((minibufferp)
-    (save-excursion
-      (let ((inhibit-field-text-motion t))
+  (let ((inhibit-field-text-motion t))
+    (cond
+     ((minibufferp)
+      (save-excursion
         (goto-char (minibuffer-prompt-end))
-        (line-beginning-position))))
-   ((and (pulsar--buffer-end-p) (eq (char-before) ?\n))
-    (line-beginning-position 0))
-   (t
-    (line-beginning-position))))
+        (line-beginning-position)))
+     ((and (pulsar--buffer-end-p) (eq (char-before) ?\n))
+      (line-beginning-position 0))
+     (t
+      (line-beginning-position)))))
 
 (defun pulsar--end ()
   "Return appropriate line end."
-  (if (and (pulsar--buffer-end-p) (eq (char-before) ?\n))
-      (line-beginning-position 1)
-    (line-beginning-position 2)))
+  (let ((inhibit-field-text-motion t))
+    (if (and (pulsar--buffer-end-p) (eq (char-before) ?\n))
+        (line-beginning-position 1)
+      (line-beginning-position 2))))
 
 (defun pulsar--get-line-boundaries ()
   "Return cons cell of line beginning and end positions.
