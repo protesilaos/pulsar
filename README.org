@@ -304,8 +304,10 @@ They can do the same in more cases.
   non-~nil~ value.
 
 #+vindex: pulsar-region-face
-The user option ~pulsar-region-face~ sets the face that is used for
-region-related pulses. By default, it is the same as the ~pulsar-face~
+#+vindex: pulsar-window-change-face
+The user options and ~pulsar-region-face~ and ~pulsar-window-change-face~
+set the faces that are used for region-related and window-related changes
+pulses respectively. By default, they are same as the ~pulsar-face~
 ([[#h:90cc699b-7f4a-414d-ab4e-1ab553992a14][Style of a pulse effect]]).
 
 * Resolve function aliases
