@@ -268,7 +268,7 @@ prefix argument (=C-u= by default).
 #+findex: pulsar-highlight-permanently-remove-all
 The command ~pulsar-highlight-permanently-remove-all~ removes all
 permanent highlights from the current buffer. It is the same calling
-the above command with a prefix argument. [ Ths command is part of
+the above command with a prefix argument. [ This command is part of
 {{{development-version}}}. ]
 
 #+findex: pulsar-highlight-permanently-dwim
@@ -294,18 +294,20 @@ They can do the same in more cases.
   specific region. This is useful to, for example, highlight the area
   covered by text that is pasted in the buffer. The user option
   ~pulsar-pulse-region-functions~ defines a list of functions that are
-  region-aware in this regard. The default value covers copyring,
+  region-aware in this regard. The default value covers copying,
   pasting, and undoing/redoing.
 #+vindex: pulsar-pulse-on-window-change
 - Window-related changes :: The pulse effect can be created whenever
   there is a change to the window layout. This includes the selection,
-  addition, deletion, orr resize of windows in a frame. Users can opt
+  addition, deletion, or resize of windows in a frame. Users can opt
   in to this feature by setting ~pulsar-pulse-on-window-change~ to a
   non-~nil~ value.
 
 #+vindex: pulsar-region-face
-The user option ~pulsar-region-face~ sets the face that is used for
-region-related pulses. By default, it is the same as the ~pulsar-face~
+#+vindex: pulsar-window-change-face
+The user options and ~pulsar-region-face~ and ~pulsar-window-change-face~
+set the faces that are used for region-related and window-related changes
+pulses respectively. By default, they are same as the ~pulsar-face~
 ([[#h:90cc699b-7f4a-414d-ab4e-1ab553992a14][Style of a pulse effect]]).
 
 * Resolve function aliases
